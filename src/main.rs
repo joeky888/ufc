@@ -157,7 +157,7 @@ fn main() {
     }
 
     // Remove empty strings
-    // main_string.retain(|color_string| color_string.text != "");
+    main_string.retain(|color_string| color_string.text != "");
     println!("{:?}", main_string);
 
     let app = App::new("ufc")
