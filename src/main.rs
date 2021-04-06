@@ -14,7 +14,7 @@ fn build_app() -> App<'static, 'static> {
         .global_setting(AppSettings::ColoredHelp)
         .global_setting(AppSettings::DisableHelpFlags)
         .global_setting(AppSettings::VersionlessSubcommands)
-        .global_setting(AppSettings::DisableHelpSubcommand)
+        // .global_setting(AppSettings::DisableHelpSubcommand)
         .subcommands(vec![
             Alias::new(),
             Completion::new(),
@@ -31,25 +31,22 @@ fn main() {
             match args.subcommand_name() {
                 Some("bash") => {
                     build_app().gen_completions_to("ufc", Shell::Bash, &mut io::stdout());
-                } // clone was used
+                }
                 Some("zsh") => {
                     build_app().gen_completions_to("ufc", Shell::Zsh, &mut io::stdout());
-                } // commit was used
+                }
                 Some("fish") => {
                     build_app().gen_completions_to("ufc", Shell::Fish, &mut io::stdout());
-                } // push was used
+                }
                 Some("powershell") => {
                     build_app().gen_completions_to("ufc", Shell::PowerShell, &mut io::stdout());
-                } // commit was used
+                }
                 Some("elvish") => {
                     build_app().gen_completions_to("ufc", Shell::Elvish, &mut io::stdout());
-                } // commit was used
-                None => {
-                    println!("Please specify a completion: \ne.g: ufc completion bash")
                 }
                 _ => {
                     println!("Unsupported completion")
-                } //
+                }
             }
         }
         ("alias", Some(_args)) => Alias::gen(),
