@@ -1,4 +1,4 @@
-use clap::{App, ArgMatches};
+use clap::{App, AppSettings, ArgMatches};
 mod images;
 mod ps;
 use images::Images;
@@ -9,6 +9,8 @@ pub struct Docker {}
 impl Docker {
     pub fn new() -> App<'static, 'static> {
         App::new("docker")
+            .setting(AppSettings::NeedsSubcommandHelp)
+            .setting(AppSettings::SubcommandRequiredElseHelp)
             .subcommands(vec![Ps::new(), Images::new()])
             .about("docker")
     }

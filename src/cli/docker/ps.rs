@@ -10,6 +10,7 @@ impl Ps {
             .arg(
                 Arg::with_name("all")
                     .short("a")
+                    .required(false)
                     .help("Show all containers (default shows just running)"),
             )
             .about("docker ps")
