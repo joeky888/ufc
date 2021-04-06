@@ -32,6 +32,7 @@ pub enum Colours {
     Magenta,
     Yellow,
     White,
+    BoldDefault,
     BoldBlack,
     BoldBlue,
     BoldGreen,
@@ -72,16 +73,11 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
             let main_string = colored_output(&mut main_string, &palettes);
 
             for str in main_string.iter() {
-                // let mut buf = bufwtr.buffer();
-
-                buffer
-                    .set_color(&get_color(str.color))
-                    .unwrap();
-                // println!("Color={:?}", &get_color(str.color));
+                buffer.set_color(&get_color(str.color)).unwrap();
                 write!(&mut buffer, "{}", str.text).unwrap();
-                buffer
-                    .set_color(&get_color(&Colours::Default))
-                    .unwrap();
+
+                // Reset color
+                buffer.set_color(&get_color(&Colours::Default)).unwrap();
             }
 
             buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
@@ -102,7 +98,7 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     let child_clone = Arc::clone(&child);
     ctrlc::set_handler(move || {
         // log::debug!("ctrlc received!");
-        print!("ctrlc received!");
+        // print!("ctrlc received!");
         // Ignore kill() error, because the program exits anyway
         match child_clone.write().unwrap().kill() {
             Err(_) => (),
@@ -112,13 +108,10 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     .unwrap();
 
     let status = child.write().unwrap().wait().unwrap();
-    let mut exit_code = 0;
-    match status.code() {
-        Some(code) => exit_code = code,
-        None => {
-            exit_code = 0;
-        }
-    }
+    let exit_code= match status.code() {
+        Some(code) =>  code,
+        None =>  0,
+    };
 
     // For some reason, we have to wait a longer here to make sure the sub program exits
     // And to correctly capture the last word of the sub program
@@ -148,6 +141,7 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::BoldYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
         Colours::BoldWhite => col.set_bold(true).set_fg(Some(Color::White)),
         Colours::Default => col.set_fg(None),
+        Colours::BoldDefault => col.set_bold(true).set_fg(None),
     };
     col
 }
@@ -196,14 +190,24 @@ fn colored_output<'a>(
                         if i == 0 {
                             continue; // Ignore because it is a full match and is already done.
                         }
+                        match captures.get(i) {
+                            Some(_) => (),
+                            None => continue,
+                        }
+                        if i == 1 {
+                            colored_strings.pop();
+                        }
+                        // println!("captures={:?}", captures);
                         let before_start = new_start;
                         let before_end = captures.get(i).unwrap().start();
                         let start = captures.get(i).unwrap().start();
                         let end = captures.get(i).unwrap().end();
                         let after_start = captures.get(i).unwrap().end();
                         let after_end = new_end;
+                        // println!("str={}", str);
+                        // println!("before_start={},before_end={},start={},end={},after_start={},after_end={}",before_start,before_end,start,end,after_start,after_end);
 
-                        colored_strings.pop(); // Remove the last one because we have to split it into 2 elements
+                        // colored_strings.pop();
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[before_start..before_end]).unwrap(),
                             color: palette.colours[0],
@@ -223,6 +227,7 @@ fn colored_output<'a>(
                         }
                         new_start = after_start;
                         new_end = after_end;
+                        // println!("colored_strings={:?}", colored_strings);
                     }
 
                     // Non-matched end
