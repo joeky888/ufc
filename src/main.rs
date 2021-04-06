@@ -6,8 +6,6 @@ use cli::{docker::Docker, ping::Ping};
 
 
 fn main() {
-
-
     let app = App::new("ufc")
         .version("v0.0.1")
         .about("Ultimate Fantastic CLI")
@@ -18,8 +16,6 @@ fn main() {
         .global_setting(AppSettings::DisableHelpFlags)
         .global_setting(AppSettings::VersionlessSubcommands)
         .global_setting(AppSettings::DisableHelpSubcommand)
-        .global_setting(AppSettings::AllowExternalSubcommands)
-        .global_setting(AppSettings::TrailingValues)
         .subcommands(vec![Docker::new(), Ping::new()])
         .get_matches();
 
@@ -27,6 +23,6 @@ fn main() {
         Some(("docker", args)) => Docker::parse(args),
         Some(("ping", args)) => Ping::parse(args),
         None => println!("No subcommand was used"),
-        _ => {}
+        _ => println!("Unsupported command"),
     }
 }

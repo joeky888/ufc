@@ -2,7 +2,7 @@
 // use crate::cli::cli::Colours;
 // use crate::cli::cli::Palette;
 use crate::cli::cli::{exec, Colours, Palette};
-use clap::{App, Arg, ArgMatches};
+use clap::{App, AppSettings, Arg, ArgMatches};
 use regex::Regex;
 
 pub struct Ping {}
@@ -13,6 +13,8 @@ impl Ping {
             .args(&[
                 Arg::new("count").short('c').about("Stop after sending count ECHO_REQUEST packets. With deadline option, ping waits for count ECHO_REPLY packets, until the timeout expires."),
             ])
+            .global_setting(AppSettings::AllowExternalSubcommands)
+            .global_setting(AppSettings::TrailingValues)
             .about("ping")
     }
 
@@ -60,7 +62,8 @@ impl Ping {
             },
             // Errors
             Palette {
-                regexp: Regex::new(r"(Destination Host Unreachable|100(\.0)?% packet loss)").unwrap(),
+                regexp: Regex::new(r"(Destination Host Unreachable|100(\.0)?% packet loss)")
+                    .unwrap(),
                 colours: vec![&Colours::Red],
             },
             // unknown host
@@ -76,12 +79,24 @@ impl Ping {
             // last line min/avg/max/mdev
             Palette {
                 regexp: Regex::new(r"rtt (min)/(avg)/(max)/(mdev)").unwrap(),
-                colours: vec![&Colours::Default, &Colours::BoldYellow, &Colours::BoldBlue, &Colours::BoldRed, &Colours::BoldMagenta],
+                colours: vec![
+                    &Colours::Default,
+                    &Colours::BoldYellow,
+                    &Colours::BoldBlue,
+                    &Colours::BoldRed,
+                    &Colours::BoldMagenta,
+                ],
             },
             // last line values
             Palette {
                 regexp: Regex::new(r"=\s([0-9\.]+)/([0-9\.]+)/([0-9\.]+)/([0-9\.]+)").unwrap(),
-                colours: vec![&Colours::Default, &Colours::BoldYellow, &Colours::BoldBlue, &Colours::BoldRed, &Colours::BoldMagenta],
+                colours: vec![
+                    &Colours::Default,
+                    &Colours::BoldYellow,
+                    &Colours::BoldBlue,
+                    &Colours::BoldRed,
+                    &Colours::BoldMagenta,
+                ],
             },
             // these are good for nping
             Palette {

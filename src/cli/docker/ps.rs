@@ -1,5 +1,6 @@
-use crate::cli::cli::{Palette, exec};
+use crate::cli::cli::{Colours, Palette, exec};
 use clap::{App, ArgMatches};
+use regex::Regex;
 
 pub struct Ps {}
 
@@ -14,6 +15,11 @@ impl Ps {
 
     fn palette() -> Vec<Palette<'static>> {
         vec![
+            // HEADERS
+            Palette {
+                regexp: Regex::new(r"(?:\s|^)(CONTAINER ID|IMAGE|COMMAND|CREATED|STATUS|PORTS|NAMES)(?:\s|$)").unwrap(),
+                colours: vec![&Colours::Default, &Colours::UnderlineDefault],
+            },
         ]
     }
 }

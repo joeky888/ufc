@@ -2,12 +2,12 @@ use std::{
     env,
     io::{BufRead, BufReader, Write},
     process::{self, Command, Stdio},
+    str::FromStr,
     sync::{Arc, RwLock},
     thread,
 };
 
 use regex::Regex;
-use std::str::FromStr;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
 #[derive(Debug)]
@@ -41,6 +41,24 @@ pub enum Colours {
     BoldMagenta,
     BoldYellow,
     BoldWhite,
+    UnderlineDefault,
+    UnderlineBlack,
+    UnderlineBlue,
+    UnderlineGreen,
+    UnderlineRed,
+    UnderlineCyan,
+    UnderlineMagenta,
+    UnderlineYellow,
+    UnderlineWhite,
+    UnderlineBoldDefault,
+    UnderlineBoldBlack,
+    UnderlineBoldBlue,
+    UnderlineBoldGreen,
+    UnderlineBoldRed,
+    UnderlineBoldCyan,
+    UnderlineBoldMagenta,
+    UnderlineBoldYellow,
+    UnderlineBoldWhite,
 }
 
 pub fn exec(palettes: Vec<Palette<'static>>) {
@@ -80,10 +98,10 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
                 buffer.set_color(&get_color(&Colours::Default)).unwrap();
             }
 
+            write!(&mut buffer, "\n").unwrap();
             buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
             // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
             bufwtr.print(&buffer_writer).unwrap();
-            println!("");
         });
     });
 
@@ -97,8 +115,6 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     // Clone the process to the ctrlc thread (to be killed)
     let child_clone = Arc::clone(&child);
     ctrlc::set_handler(move || {
-        // log::debug!("ctrlc received!");
-        // print!("ctrlc received!");
         // Ignore kill() error, because the program exits anyway
         match child_clone.write().unwrap().kill() {
             Err(_) => (),
@@ -108,9 +124,9 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     .unwrap();
 
     let status = child.write().unwrap().wait().unwrap();
-    let exit_code= match status.code() {
-        Some(code) =>  code,
-        None =>  0,
+    let exit_code = match status.code() {
+        Some(code) => code,
+        None => 0,
     };
 
     // For some reason, we have to wait a longer here to make sure the sub program exits
@@ -124,6 +140,8 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
 fn get_color(color: &Colours) -> ColorSpec {
     let mut col = ColorSpec::new();
     match color {
+        Colours::Default => col.set_fg(None),
+        Colours::BoldDefault => col.set_bold(true).set_fg(None),
         Colours::Black => col.set_fg(Some(Color::Black)),
         Colours::Blue => col.set_fg(Some(Color::Blue)),
         Colours::Green => col.set_fg(Some(Color::Green)),
@@ -140,8 +158,48 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::BoldMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
         Colours::BoldYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
         Colours::BoldWhite => col.set_bold(true).set_fg(Some(Color::White)),
-        Colours::Default => col.set_fg(None),
-        Colours::BoldDefault => col.set_bold(true).set_fg(None),
+        Colours::UnderlineDefault => col.set_underline(true).set_fg(None),
+        Colours::UnderlineBoldDefault => col.set_underline(true).set_bold(true).set_fg(None),
+        Colours::UnderlineBlack => col.set_underline(true).set_fg(Some(Color::Black)),
+        Colours::UnderlineBlue => col.set_underline(true).set_fg(Some(Color::Blue)),
+        Colours::UnderlineGreen => col.set_underline(true).set_fg(Some(Color::Green)),
+        Colours::UnderlineRed => col.set_underline(true).set_fg(Some(Color::Red)),
+        Colours::UnderlineCyan => col.set_underline(true).set_fg(Some(Color::Cyan)),
+        Colours::UnderlineMagenta => col.set_underline(true).set_fg(Some(Color::Magenta)),
+        Colours::UnderlineYellow => col.set_underline(true).set_fg(Some(Color::Yellow)),
+        Colours::UnderlineWhite => col.set_underline(true).set_fg(Some(Color::White)),
+        Colours::UnderlineBoldBlack => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Black)),
+        Colours::UnderlineBoldBlue => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Blue)),
+        Colours::UnderlineBoldGreen => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Green)),
+        Colours::UnderlineBoldRed => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Red)),
+        Colours::UnderlineBoldCyan => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Cyan)),
+        Colours::UnderlineBoldMagenta => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Magenta)),
+        Colours::UnderlineBoldYellow => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::Yellow)),
+        Colours::UnderlineBoldWhite => col
+            .set_underline(true)
+            .set_bold(true)
+            .set_fg(Some(Color::White)),
     };
     col
 }
@@ -151,19 +209,24 @@ fn colored_output<'a>(
     palettes: &'a Vec<Palette>,
 ) -> &'a Vec<ColorString<'a>> {
     for palette in palettes.iter() {
-        for i in 0..main_string.len() {
-            if !main_string[i].color.eq(&Colours::Default) {
+        let mut index = 0;
+        // Instead of using a for loop, the size of main_string will grow so we have to use while loop
+        // https://stackoverflow.com/questions/47338839
+        while index < main_string.len() {
+            if !main_string[index].color.eq(&Colours::Default) {
+                index += 1;
                 continue; // Ignore those already been colored
             }
+            // println!("i={} main_string.len()={}", index, main_string.len());
 
             match palette
                 .regexp
-                .captures(main_string[i].text.clone().as_str())
+                .captures(main_string[index].text.clone().as_str())
             {
                 Some(captures) => {
-                    // println!("!!!!i={} {:?}!!!", i, captures);
+                    // println!("!!!!i={} {:?}!!!", index, captures);
 
-                    let str = main_string[i].text.as_str();
+                    let str = main_string[index].text.as_str();
                     // println!("!!!!{:?}!!!", str);
                     let mut colored_strings: Vec<ColorString> = vec![];
 
@@ -207,7 +270,6 @@ fn colored_output<'a>(
                         // println!("str={}", str);
                         // println!("before_start={},before_end={},start={},end={},after_start={},after_end={}",before_start,before_end,start,end,after_start,after_end);
 
-                        // colored_strings.pop();
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[before_start..before_end]).unwrap(),
                             color: palette.colours[0],
@@ -239,12 +301,13 @@ fn colored_output<'a>(
 
                     // println!("colored_strings={:?}", colored_strings);
 
-                    main_string[i].text = String::new();
-                    main_string.remove(i);
-                    main_string.splice((i)..(i), colored_strings);
+                    main_string[index].text = String::new();
+                    main_string.remove(index);
+                    main_string.splice((index)..(index), colored_strings);
                 }
                 None => {}
             };
+            index += 1;
         }
     }
 
