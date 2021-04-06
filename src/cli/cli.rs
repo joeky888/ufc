@@ -225,10 +225,10 @@ fn colored_output<'a>(
                 .captures(main_string[index].text.clone().as_str())
             {
                 Some(captures) => {
-                    println!("!!!!i={} {:?}!!!", index, captures);
+                    // println!("!!!!i={} {:?}!!!", index, captures);
 
                     let str = main_string[index].text.as_str();
-                    println!("str={:?}!!!", str);
+                    // println!("str={:?}!!!", str);
                     let mut colored_strings: Vec<ColorString> = vec![];
 
                     // Non-matched start
@@ -254,14 +254,17 @@ fn colored_output<'a>(
                         if i == 0 {
                             continue; // Ignore because it is a full match and is already done.
                         }
-                        match captures.get(i) {
-                            Some(_) => (),
-                            None => continue,
-                        }
+
                         if i == 1 {
                             colored_strings.pop();
                         }
                         // println!("captures={:?}", captures);
+                        match captures.get(i) {
+                            Some(_) => (),
+                            None => {
+                                continue;
+                            }
+                        }
                         let before_start = new_start;
                         let before_end = captures.get(i).unwrap().start();
                         let start = captures.get(i).unwrap().start();
@@ -288,9 +291,10 @@ fn colored_output<'a>(
                                 color: palette.colours[0],
                             });
                         }
+
+                        // println!("colored_strings={:?}", colored_strings);
                         new_start = after_start;
                         new_end = after_end;
-                        // println!("colored_strings={:?}", colored_strings);
                     }
 
                     // Non-matched end
@@ -300,7 +304,7 @@ fn colored_output<'a>(
                         color: &Colours::Default,
                     });
 
-                    println!("colored_strings={:?}", colored_strings);
+                    // println!("colored_strings={:?}", colored_strings);
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
