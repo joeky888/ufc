@@ -2,8 +2,8 @@ use clap::{App, AppSettings};
 mod cli;
 use cli::{docker::Docker, ping::Ping};
 
-use std::str::FromStr;
 use regex::Regex;
+use std::str::FromStr;
 
 #[derive(Debug)]
 struct ColorString<'a> {
@@ -37,7 +37,6 @@ enum Colours {
     BoldWhite,
 }
 fn main() {
-
     let mut main_string = vec![ColorString {
         text: "64 bytes from 8.8.8.8: icmp_seq=1 ttl=116 time=4.05 ms".to_string(),
         color: &Colours::Default,
@@ -77,12 +76,13 @@ fn main() {
                 .captures(main_string[i].text.clone().as_str())
             {
                 Some(captures) => {
-                    // println!("!!!!i={} {:?}!!!", i, captures);
+                    println!("!!!!i={} {:?}!!!", i, captures);
 
                     let str = main_string[i].text.as_str();
                     // println!("!!!!{:?}!!!", str);
                     let mut colored_strings: Vec<ColorString> = vec![];
 
+                    // Non-matched start
                     let start = 0;
                     let end = captures.get(0).unwrap().start();
                     colored_strings.push(ColorString {
@@ -90,53 +90,66 @@ fn main() {
                         color: &Colours::Default,
                     });
 
-                    if captures.len() == 1 {
-                        // Full match
-                        let start = captures.get(0).unwrap().start();
-                        let end = captures.get(0).unwrap().end();
-                        colored_strings.push(ColorString {
-                            text: String::from_str(&str[start..end]).unwrap(),
-                            color: palette.colours[0],
-                        });
-                    } else {
-                        // Group match
-                        let start = captures.get(0).unwrap().start();
-                        let end = captures.get(1).unwrap().start();
-                        colored_strings.push(ColorString {
-                            text: String::from_str(&str[start..end]).unwrap(),
-                            color: palette.colours[0],
-                        });
-                        for (i, _capture) in captures.iter().enumerate() {
-                            if i == 0 {
-                                continue;
-                            }
-                            let start = captures.get(i).unwrap().start();
-                            let end = captures.get(i).unwrap().end();
-                            println!("start={}, end={}", start, end);
+                    // captures[0] -> Full match
+                    let start = captures.get(0).unwrap().start();
+                    let end = captures.get(0).unwrap().end();
+                    colored_strings.push(ColorString {
+                        text: String::from_str(&str[start..end]).unwrap(),
+                        color: palette.colours[0],
+                    });
 
+                    // captures[1..] -> Group match
+                    let mut new_start = captures.get(0).unwrap().start();
+                    let mut new_end = captures.get(0).unwrap().end();
+                    for (i, _capture) in captures.iter().enumerate() {
+                        if i == 0 {
+                            continue; // Ignore because it is a full match and is already done.
+                        }
+                        let before_start = new_start;
+                        let before_end = captures.get(i).unwrap().start();
+                        let start = captures.get(i).unwrap().start();
+                        let end = captures.get(i).unwrap().end();
+                        let after_start = captures.get(i).unwrap().end();
+                        let after_end = new_end;
+
+                        colored_strings.pop(); // Remove the last one because we have to split it into 2 elements
+                        colored_strings.push(ColorString {
+                            text: String::from_str(&str[before_start..before_end]).unwrap(),
+                            color: palette.colours[0],
+                        });
+                        colored_strings.push(ColorString {
+                            text: String::from_str(&str[start..end]).unwrap(),
+                            color: palette.colours[i],
+                        });
+                        // colored_strings.push(ColorString {
+                        //     text: String::from_str(&str[after_start..after_end]).unwrap(),
+                        //     color: palette.colours[0],
+                        // });
+
+                        if i == captures.len() - 1 {
+                            // Push the last one (The rest of the string) back when the for loop ends
+                            // Because the for loop ends here, so we don't need to split the rest of the string anymore
                             colored_strings.push(ColorString {
-                                text: String::from_str(&str[start..end]).unwrap(),
-                                color: palette.colours[i],
+                                text: String::from_str(&str[after_start..after_end]).unwrap(),
+                                color: palette.colours[0],
                             });
                         }
-
-                        let start = captures.get(captures.len() - 1).unwrap().end();
-                        let end = captures.get(0).unwrap().end();
-                        colored_strings.push(ColorString {
-                            text: String::from_str(&str[start..end]).unwrap(),
-                            color: palette.colours[0],
-                        });
+                        new_start = after_start;
+                        new_end = after_end;
                     }
 
+                    // Non-matched end
                     let start = captures.get(0).unwrap().end();
-                    // let end = captures.get(0).unwrap().start();
                     colored_strings.push(ColorString {
                         text: String::from_str(&str[start..]).unwrap(),
                         color: &Colours::Default,
                     });
 
+                    // println!("colored_strings={:?}", colored_strings);
+
                     main_string[i].text = String::new();
-                    main_string.splice((i + 1)..(i + 1), colored_strings);
+                    main_string.remove(i);
+                    main_string.splice((i)..(i), colored_strings);
                 }
                 None => {}
             };
@@ -144,7 +157,7 @@ fn main() {
     }
 
     // Remove empty strings
-    main_string.retain(|color_string| color_string.text != "");
+    // main_string.retain(|color_string| color_string.text != "");
     println!("{:?}", main_string);
 
     let app = App::new("ufc")
