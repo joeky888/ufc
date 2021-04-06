@@ -213,21 +213,22 @@ fn colored_output<'a>(
         // Instead of using a for loop, the size of main_string will grow so we have to use while loop
         // https://stackoverflow.com/questions/47338839
         while index < main_string.len() {
+            // println!("i={} main_string.len()={}", index, main_string.len());
+
             if !main_string[index].color.eq(&Colours::Default) {
                 index += 1;
                 continue; // Ignore those already been colored
             }
-            // println!("i={} main_string.len()={}", index, main_string.len());
 
             match palette
                 .regexp
                 .captures(main_string[index].text.clone().as_str())
             {
                 Some(captures) => {
-                    // println!("!!!!i={} {:?}!!!", index, captures);
+                    println!("!!!!i={} {:?}!!!", index, captures);
 
                     let str = main_string[index].text.as_str();
-                    // println!("!!!!{:?}!!!", str);
+                    println!("str={:?}!!!", str);
                     let mut colored_strings: Vec<ColorString> = vec![];
 
                     // Non-matched start
@@ -299,11 +300,12 @@ fn colored_output<'a>(
                         color: &Colours::Default,
                     });
 
-                    // println!("colored_strings={:?}", colored_strings);
+                    println!("colored_strings={:?}", colored_strings);
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
                     main_string.splice((index)..(index), colored_strings);
+                    index += 1;
                 }
                 None => {}
             };
