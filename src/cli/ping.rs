@@ -5,10 +5,10 @@ use regex::Regex;
 pub struct Ping {}
 
 impl Ping {
-    pub fn new() -> App<'static> {
+    pub fn new() -> App<'static, 'static> {
         App::new("ping")
             .args(&[
-                Arg::new("count").short('c').about("Stop after sending count ECHO_REQUEST packets. With deadline option, ping waits for count ECHO_REPLY packets, until the timeout expires."),
+                Arg::with_name("count").short("c").help("Stop after sending count ECHO_REQUEST packets. With deadline option, ping waits for count ECHO_REPLY packets, until the timeout expires."),
             ])
             .global_setting(AppSettings::AllowExternalSubcommands)
             .global_setting(AppSettings::TrailingValues)

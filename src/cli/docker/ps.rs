@@ -5,12 +5,12 @@ use regex::Regex;
 pub struct Ps {}
 
 impl Ps {
-    pub fn new() -> App<'static> {
+    pub fn new() -> App<'static, 'static> {
         App::new("ps")
             .arg(
-                Arg::new("all")
-                    .short('a')
-                    .about("Show all containers (default shows just running)"),
+                Arg::with_name("all")
+                    .short("a")
+                    .help("Show all containers (default shows just running)"),
             )
             .about("docker ps")
     }

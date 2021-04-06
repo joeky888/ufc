@@ -7,7 +7,7 @@ use ps::Ps;
 pub struct Docker {}
 
 impl Docker {
-    pub fn new() -> App<'static> {
+    pub fn new() -> App<'static, 'static> {
         App::new("docker")
             .subcommands(vec![Ps::new(), Images::new()])
             .about("docker")
@@ -17,10 +17,9 @@ impl Docker {
         // print!("{:?}", app);
         // args.subcommand()
         match app.subcommand() {
-            Some(("ps", args)) => Ps::parse(args),
-            Some(("images", args)) => Images::parse(args),
-            None => println!("No subcommand was used"),
-            _ => {}
+            ("ps", Some(args)) => Ps::parse(args),
+            ("images", Some(args)) => Images::parse(args),
+            _ => println!("Unsupported command"),
         }
     }
 }

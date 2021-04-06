@@ -17,10 +17,14 @@ fn main() {
         .get_matches();
 
     match app.subcommand() {
-        // Some(("completion", _args)) => cli::cli::completion(&app),
-        Some(("docker", args)) => Docker::parse(args),
-        Some(("ping", args)) => Ping::parse(args),
-        None => println!("No subcommand was used"),
+        ("completion", Some(args)) => Docker::parse(args),
+        ("docker", Some(args)) => Docker::parse(args),
+        ("ping", Some(args)) => Ping::parse(args),
         _ => println!("Unsupported command"),
+        // Some(("completion", _args)) => cli::cli::completion(&app),
+        // Some(("docker", args)) => Docker::parse(args),
+        // Some(("ping", args)) => Ping::parse(args),
+        // None => println!("No subcommand was used"),
+        // _ => println!("Unsupported command"),
     }
 }
