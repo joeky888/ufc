@@ -21,6 +21,7 @@ pub struct Palette<'a> {
     pub colours: Vec<&'a Colours>,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, PartialEq)]
 pub enum Colours {
     Default,
@@ -32,15 +33,17 @@ pub enum Colours {
     Magenta,
     Yellow,
     White,
-    BoldDefault,
-    BoldBlack,
-    BoldBlue,
-    BoldGreen,
-    BoldRed,
-    BoldCyan,
-    BoldMagenta,
-    BoldYellow,
-    BoldWhite,
+    // BOld
+    BDefault,
+    BBlack,
+    BBlue,
+    BGreen,
+    BRed,
+    BCyan,
+    BMagenta,
+    BYellow,
+    BWhite,
+    // Backgroud Color
     OnBlack,
     OnBlue,
     OnGreen,
@@ -49,25 +52,31 @@ pub enum Colours {
     OnMagenta,
     OnYellow,
     OnWhite,
-    UnderlineDefault,
-    UnderlineBlack,
-    UnderlineBlue,
-    UnderlineGreen,
-    UnderlineRed,
-    UnderlineCyan,
-    UnderlineMagenta,
-    UnderlineYellow,
-    UnderlineWhite,
-    UnderlineBoldDefault,
-    UnderlineBoldBlack,
-    UnderlineBoldBlue,
-    UnderlineBoldGreen,
-    UnderlineBoldRed,
-    UnderlineBoldCyan,
-    UnderlineBoldMagenta,
-    UnderlineBoldYellow,
-    UnderlineBoldWhite,
+    // Undoerline
+    UDefault,
+    UBlack,
+    UBlue,
+    UGreen,
+    URed,
+    UCyan,
+    UMagenta,
+    UYellow,
+    UWhite,
+    // Underline Bold
+    UBDefault,
+    UBBlack,
+    UBBlue,
+    UBGreen,
+    UBRed,
+    UBCyan,
+    UBMagenta,
+    UBYellow,
+    UBWhite,
 }
+
+// pub fn completion<'a>(app: &'a App) {
+
+// }
 
 pub fn exec(palettes: Vec<Palette<'static>>) {
     let args: Vec<String> = env::args().collect();
@@ -149,7 +158,7 @@ fn get_color(color: &Colours) -> ColorSpec {
     let mut col = ColorSpec::new();
     match color {
         Colours::Default => col.set_fg(None),
-        Colours::BoldDefault => col.set_bold(true).set_fg(None),
+        Colours::BDefault => col.set_bold(true).set_fg(None),
         Colours::Black => col.set_fg(Some(Color::Black)),
         Colours::Blue => col.set_fg(Some(Color::Blue)),
         Colours::Green => col.set_fg(Some(Color::Green)),
@@ -158,56 +167,56 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::Magenta => col.set_fg(Some(Color::Magenta)),
         Colours::Yellow => col.set_fg(Some(Color::Yellow)),
         Colours::White => col.set_fg(Some(Color::White)),
-        Colours::BoldBlack => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
-        Colours::BoldGreen => col.set_bold(true).set_fg(Some(Color::Green)),
-        Colours::BoldRed => col.set_bold(true).set_fg(Some(Color::Red)),
-        Colours::BoldCyan => col.set_bold(true).set_fg(Some(Color::Cyan)),
-        Colours::BoldMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
-        Colours::BoldYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
-        Colours::BoldWhite => col.set_bold(true).set_fg(Some(Color::White)),
-        Colours::UnderlineDefault => col.set_underline(true).set_fg(None),
-        Colours::UnderlineBoldDefault => col.set_underline(true).set_bold(true).set_fg(None),
-        Colours::UnderlineBlack => col.set_underline(true).set_fg(Some(Color::Black)),
-        Colours::UnderlineBlue => col.set_underline(true).set_fg(Some(Color::Blue)),
-        Colours::UnderlineGreen => col.set_underline(true).set_fg(Some(Color::Green)),
-        Colours::UnderlineRed => col.set_underline(true).set_fg(Some(Color::Red)),
-        Colours::UnderlineCyan => col.set_underline(true).set_fg(Some(Color::Cyan)),
-        Colours::UnderlineMagenta => col.set_underline(true).set_fg(Some(Color::Magenta)),
-        Colours::UnderlineYellow => col.set_underline(true).set_fg(Some(Color::Yellow)),
-        Colours::UnderlineWhite => col.set_underline(true).set_fg(Some(Color::White)),
-        Colours::UnderlineBoldBlack => col
+        Colours::BBlack => col.set_bold(true).set_fg(Some(Color::Black)),
+        Colours::BBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
+        Colours::BGreen => col.set_bold(true).set_fg(Some(Color::Green)),
+        Colours::BRed => col.set_bold(true).set_fg(Some(Color::Red)),
+        Colours::BCyan => col.set_bold(true).set_fg(Some(Color::Cyan)),
+        Colours::BMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
+        Colours::BYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
+        Colours::BWhite => col.set_bold(true).set_fg(Some(Color::White)),
+        Colours::UDefault => col.set_underline(true).set_fg(None),
+        Colours::UBlack => col.set_underline(true).set_fg(Some(Color::Black)),
+        Colours::UBlue => col.set_underline(true).set_fg(Some(Color::Blue)),
+        Colours::UGreen => col.set_underline(true).set_fg(Some(Color::Green)),
+        Colours::URed => col.set_underline(true).set_fg(Some(Color::Red)),
+        Colours::UCyan => col.set_underline(true).set_fg(Some(Color::Cyan)),
+        Colours::UMagenta => col.set_underline(true).set_fg(Some(Color::Magenta)),
+        Colours::UYellow => col.set_underline(true).set_fg(Some(Color::Yellow)),
+        Colours::UWhite => col.set_underline(true).set_fg(Some(Color::White)),
+        Colours::UBBlack => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Black)),
-        Colours::UnderlineBoldBlue => col
+        Colours::UBBlue => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Blue)),
-        Colours::UnderlineBoldGreen => col
+        Colours::UBGreen => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Green)),
-        Colours::UnderlineBoldRed => col
+        Colours::UBRed => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Red)),
-        Colours::UnderlineBoldCyan => col
+        Colours::UBCyan => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Cyan)),
-        Colours::UnderlineBoldMagenta => col
+        Colours::UBMagenta => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Magenta)),
-        Colours::UnderlineBoldYellow => col
+        Colours::UBYellow => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Yellow)),
-        Colours::UnderlineBoldWhite => col
+        Colours::UBWhite => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::White)),
+        Colours::UBDefault => col.set_underline(true).set_bold(true).set_fg(None),
         Colours::OnBlack => col.set_bg(Some(Color::Black)),
         Colours::OnBlue => col.set_bg(Some(Color::Blue)),
         Colours::OnGreen => col.set_bg(Some(Color::Green)),

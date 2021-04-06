@@ -2,9 +2,6 @@ use clap::{App, AppSettings};
 mod cli;
 use cli::{docker::Docker, ping::Ping};
 
-
-
-
 fn main() {
     let app = App::new("ufc")
         .version("v0.0.1")
@@ -20,6 +17,7 @@ fn main() {
         .get_matches();
 
     match app.subcommand() {
+        // Some(("completion", _args)) => cli::cli::completion(&app),
         Some(("docker", args)) => Docker::parse(args),
         Some(("ping", args)) => Ping::parse(args),
         None => println!("No subcommand was used"),

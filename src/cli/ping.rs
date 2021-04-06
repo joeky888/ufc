@@ -1,6 +1,3 @@
-// use crate::cli::cli::exec;
-// use crate::cli::cli::Colours;
-// use crate::cli::cli::Palette;
 use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, AppSettings, Arg, ArgMatches};
 use regex::Regex;
@@ -28,7 +25,7 @@ impl Ping {
             // IP
             Palette {
                 regexp: Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}").unwrap(),
-                colours: vec![&Colours::BoldBlue],
+                colours: vec![&Colours::BBlue],
             },
             // ipv6 number
             Palette {
@@ -69,22 +66,22 @@ impl Ping {
             // unknown host
             Palette {
                 regexp: Regex::new(r".+unknown\shost\s(.+)").unwrap(),
-                colours: vec![&Colours::Red, &Colours::BoldRed],
+                colours: vec![&Colours::Red, &Colours::BRed],
             },
             // statistics header
             Palette {
                 regexp: Regex::new(r"--- (\S+) ping statistics ---").unwrap(),
-                colours: vec![&Colours::BoldDefault, &Colours::BoldBlue],
+                colours: vec![&Colours::BDefault, &Colours::BBlue],
             },
             // last line min/avg/max/mdev
             Palette {
                 regexp: Regex::new(r"rtt (min)/(avg)/(max)/(mdev)").unwrap(),
                 colours: vec![
                     &Colours::Default,
-                    &Colours::BoldYellow,
-                    &Colours::BoldBlue,
-                    &Colours::BoldRed,
-                    &Colours::BoldMagenta,
+                    &Colours::BYellow,
+                    &Colours::BBlue,
+                    &Colours::BRed,
+                    &Colours::BMagenta,
                 ],
             },
             // last line values
@@ -92,10 +89,10 @@ impl Ping {
                 regexp: Regex::new(r"=\s([0-9\.]+)/([0-9\.]+)/([0-9\.]+)/([0-9\.]+)").unwrap(),
                 colours: vec![
                     &Colours::Default,
-                    &Colours::BoldYellow,
-                    &Colours::BoldBlue,
-                    &Colours::BoldRed,
-                    &Colours::BoldMagenta,
+                    &Colours::BYellow,
+                    &Colours::BBlue,
+                    &Colours::BRed,
+                    &Colours::BMagenta,
                 ],
             },
             // these are good for nping
@@ -111,7 +108,7 @@ impl Ping {
             // time
             Palette {
                 regexp: Regex::new(r"([0-9\.]+)?\s?ms").unwrap(),
-                colours: vec![&Colours::Green, &Colours::BoldGreen],
+                colours: vec![&Colours::Green, &Colours::BGreen],
             },
         ]
     }
