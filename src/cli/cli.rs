@@ -41,6 +41,14 @@ pub enum Colours {
     BoldMagenta,
     BoldYellow,
     BoldWhite,
+    OnBlack,
+    OnBlue,
+    OnGreen,
+    OnRed,
+    OnCyan,
+    OnMagenta,
+    OnYellow,
+    OnWhite,
     UnderlineDefault,
     UnderlineBlack,
     UnderlineBlue,
@@ -200,6 +208,14 @@ fn get_color(color: &Colours) -> ColorSpec {
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::White)),
+        Colours::OnBlack => col.set_bg(Some(Color::Black)),
+        Colours::OnBlue => col.set_bg(Some(Color::Blue)),
+        Colours::OnGreen => col.set_bg(Some(Color::Green)),
+        Colours::OnRed => col.set_bg(Some(Color::Red)),
+        Colours::OnCyan => col.set_bg(Some(Color::Cyan)),
+        Colours::OnMagenta => col.set_bg(Some(Color::Magenta)),
+        Colours::OnYellow => col.set_bg(Some(Color::Yellow)),
+        Colours::OnWhite => col.set_bg(Some(Color::White)),
     };
     col
 }
