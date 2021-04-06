@@ -1,11 +1,4 @@
-use std::{
-    env,
-    io::{BufRead, BufReader, Write},
-    process::{self, Command, Stdio},
-    str::FromStr,
-    sync::{Arc, RwLock},
-    thread,
-};
+use std::{env, io::{BufRead, BufReader, Write}, process::{self, Command, Stdio}, str::FromStr, sync::{Arc, RwLock}, thread};
 
 use regex::Regex;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
@@ -73,10 +66,6 @@ pub enum Colours {
     UBYellow,
     UBWhite,
 }
-
-// pub fn completion<'a>(app: &'a App) {
-
-// }
 
 pub fn exec(palettes: Vec<Palette<'static>>) {
     let args: Vec<String> = env::args().collect();
