@@ -1,4 +1,4 @@
-use crate::cli::cli::exec;
+use crate::cli::cli::{Palette, exec};
 use clap::{App, ArgMatches};
 
 pub struct Ps {}
@@ -9,6 +9,11 @@ impl Ps {
     }
 
     pub fn parse(_args: &ArgMatches) {
-        exec();
+        exec(Ps::palette());
+    }
+
+    fn palette() -> Vec<Palette<'static>> {
+        vec![
+        ]
     }
 }

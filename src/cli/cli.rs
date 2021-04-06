@@ -7,9 +7,23 @@ use std::{
 };
 
 use regex::Regex;
+use std::str::FromStr;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
+#[derive(Debug)]
+struct ColorString<'a> {
+    text: String,
+    color: &'a Colours,
+}
+
+pub struct Palette<'a> {
+    pub regexp: Regex,
+    pub colours: Vec<&'a Colours>,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum Colours {
+    Default,
     Black,
     Blue,
     Green,
@@ -28,12 +42,7 @@ pub enum Colours {
     BoldWhite,
 }
 
-pub struct Palette {
-    regexp: Regex,
-    colours: Vec<Colours>,
-}
-
-pub fn exec() {
+pub fn exec(palettes: Vec<Palette<'static>>) {
     let args: Vec<String> = env::args().collect();
 
     let child = Arc::new(RwLock::new(
@@ -48,66 +57,37 @@ pub fn exec() {
     let stdout = BufReader::new(child.write().unwrap().stdout.take().unwrap());
     let stderr = BufReader::new(child.write().unwrap().stderr.take().unwrap());
 
-    // let re = Regex::new(r"[a-z]+(?:([0-9]+)|([A-Z]+))").unwrap();
-    let palettes = vec![
-        // IP
-        Palette {
-            regexp: Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}").unwrap(),
-            colours: vec![Colours::Blue],
-        },
-        // icmp_seq=
-        Palette {
-            regexp: Regex::new(r"icmp_seq=(\d+)").unwrap(),
-            colours: vec![Colours::Red],
-        },
-    ];
-
     // Start to capture stdout
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let bufwtr = BufferWriter::stdout(ColorChoice::Always);
             let mut buffer_writer = bufwtr.buffer();
-            let ln = line.unwrap();
-            let index: usize = 0;
-            let mut buf = bufwtr.buffer();
-            for palette in palettes.iter() {
-                match palette.regexp.captures(ln.as_str()) {
-                    Some(caps) => {
-                        // println!("!!!!{:?}!!!", caps.get(1).unwrap().start());
-                        for (i, cap) in caps.iter().enumerate() {
-                            match cap {
-                                Some(c) => {
-                                    // buf.set_color(&get_color(&palette.colours[i])).unwrap();
-                                    println!("!!!!!{:?}!!!!!", c);
-                                    println!("!!!!!{:?}!!!!!", c.start());
-                                    println!("!!!!!{:?}!!!!!", c.end());
-                                    let sub_str: String =
-                                        ln.chars().skip(index).take(c.start() - index).collect();
-                                    // println!("!!!!!{:?}!!!!!", sub_str);
-                                    // sub_str.as_str()
-                                    write!(&mut buf, "{}", sub_str).unwrap();
-                                }
-                                None => continue,
-                            }
-                        }
-                    }
-                    None => continue,
-                }
+            let ln = &line.unwrap();
+            let mut buffer = bufwtr.buffer();
+
+            let mut main_string = vec![ColorString {
+                text: ln.clone(),
+                color: &Colours::Default,
+            }];
+            let main_string = colored_output(&mut main_string, &palettes);
+
+            for str in main_string.iter() {
+                // let mut buf = bufwtr.buffer();
+
+                buffer
+                    .set_color(&get_color(str.color))
+                    .unwrap();
+                // println!("Color={:?}", &get_color(str.color));
+                write!(&mut buffer, "{}", str.text).unwrap();
+                buffer
+                    .set_color(&get_color(&Colours::Default))
+                    .unwrap();
             }
 
-            // buffer1
-            //     .set_color(ColorSpec::new().set_fg(Some(Color::Green)))
-            //     .unwrap();
-            // buffer2
-            //     .set_color(ColorSpec::new().set_fg(Some(Color::Cyan)))
-            //     .unwrap();
-            // write!(&mut buffer1, "green text!").unwrap();
-            // write!(&mut buffer2, "blue text!").unwrap();
-
-            buffer_writer.write(&buf.as_slice().to_vec()).unwrap();
+            buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
             // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
             bufwtr.print(&buffer_writer).unwrap();
-            println!("{}", ln)
+            println!("");
         });
     });
 
@@ -160,13 +140,111 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::Yellow => col.set_fg(Some(Color::Yellow)),
         Colours::White => col.set_fg(Some(Color::White)),
         Colours::BoldBlack => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldBlue => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldGreen => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldRed => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldCyan => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldMagenta => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldYellow => col.set_bold(true).set_fg(Some(Color::Black)),
-        Colours::BoldWhite => col.set_bold(true).set_fg(Some(Color::Black)),
+        Colours::BoldBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
+        Colours::BoldGreen => col.set_bold(true).set_fg(Some(Color::Green)),
+        Colours::BoldRed => col.set_bold(true).set_fg(Some(Color::Red)),
+        Colours::BoldCyan => col.set_bold(true).set_fg(Some(Color::Cyan)),
+        Colours::BoldMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
+        Colours::BoldYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
+        Colours::BoldWhite => col.set_bold(true).set_fg(Some(Color::White)),
+        Colours::Default => col.set_fg(None),
     };
     col
+}
+
+fn colored_output<'a>(
+    main_string: &'a mut Vec<ColorString<'a>>,
+    palettes: &'a Vec<Palette>,
+) -> &'a Vec<ColorString<'a>> {
+    for palette in palettes.iter() {
+        for i in 0..main_string.len() {
+            if !main_string[i].color.eq(&Colours::Default) {
+                continue; // Ignore those already been colored
+            }
+
+            match palette
+                .regexp
+                .captures(main_string[i].text.clone().as_str())
+            {
+                Some(captures) => {
+                    // println!("!!!!i={} {:?}!!!", i, captures);
+
+                    let str = main_string[i].text.as_str();
+                    // println!("!!!!{:?}!!!", str);
+                    let mut colored_strings: Vec<ColorString> = vec![];
+
+                    // Non-matched start
+                    let start = 0;
+                    let end = captures.get(0).unwrap().start();
+                    colored_strings.push(ColorString {
+                        text: String::from_str(&str[start..end]).unwrap(),
+                        color: &Colours::Default,
+                    });
+
+                    // captures[0] -> Full match
+                    let start = captures.get(0).unwrap().start();
+                    let end = captures.get(0).unwrap().end();
+                    colored_strings.push(ColorString {
+                        text: String::from_str(&str[start..end]).unwrap(),
+                        color: palette.colours[0],
+                    });
+
+                    // captures[1..] -> Group match
+                    let mut new_start = captures.get(0).unwrap().start();
+                    let mut new_end = captures.get(0).unwrap().end();
+                    for (i, _capture) in captures.iter().enumerate() {
+                        if i == 0 {
+                            continue; // Ignore because it is a full match and is already done.
+                        }
+                        let before_start = new_start;
+                        let before_end = captures.get(i).unwrap().start();
+                        let start = captures.get(i).unwrap().start();
+                        let end = captures.get(i).unwrap().end();
+                        let after_start = captures.get(i).unwrap().end();
+                        let after_end = new_end;
+
+                        colored_strings.pop(); // Remove the last one because we have to split it into 2 elements
+                        colored_strings.push(ColorString {
+                            text: String::from_str(&str[before_start..before_end]).unwrap(),
+                            color: palette.colours[0],
+                        });
+                        colored_strings.push(ColorString {
+                            text: String::from_str(&str[start..end]).unwrap(),
+                            color: palette.colours[i],
+                        });
+
+                        if i == captures.len() - 1 {
+                            // Push the last one (The rest of the string) back when the for loop ends
+                            // Because the for loop ends here, so we don't need to split the rest of the string anymore
+                            colored_strings.push(ColorString {
+                                text: String::from_str(&str[after_start..after_end]).unwrap(),
+                                color: palette.colours[0],
+                            });
+                        }
+                        new_start = after_start;
+                        new_end = after_end;
+                    }
+
+                    // Non-matched end
+                    let start = captures.get(0).unwrap().end();
+                    colored_strings.push(ColorString {
+                        text: String::from_str(&str[start..]).unwrap(),
+                        color: &Colours::Default,
+                    });
+
+                    // println!("colored_strings={:?}", colored_strings);
+
+                    main_string[i].text = String::new();
+                    main_string.remove(i);
+                    main_string.splice((i)..(i), colored_strings);
+                }
+                None => {}
+            };
+        }
+    }
+
+    // Remove empty strings
+    main_string.retain(|color_string| color_string.text != "");
+    // println!("{:?}", main_string);
+    main_string
 }
