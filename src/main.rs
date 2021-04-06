@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{completion::Completion, docker::Docker, ping::Ping};
+use cli::{alias::Alias, completion::Completion, docker::Docker, ping::Ping};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -15,7 +15,12 @@ fn build_app() -> App<'static, 'static> {
         .global_setting(AppSettings::DisableHelpFlags)
         .global_setting(AppSettings::VersionlessSubcommands)
         .global_setting(AppSettings::DisableHelpSubcommand)
-        .subcommands(vec![Completion::new(), Docker::new(), Ping::new()])
+        .subcommands(vec![
+            Alias::new(),
+            Completion::new(),
+            Docker::new(),
+            Ping::new(),
+        ])
 }
 
 fn main() {
@@ -47,6 +52,7 @@ fn main() {
                 } //
             }
         }
+        ("alias", Some(_args)) => Alias::gen(),
         ("docker", Some(args)) => Docker::parse(args),
         ("ping", Some(args)) => Ping::parse(args),
         _ => println!("Unsupported command"),
