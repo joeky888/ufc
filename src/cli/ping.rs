@@ -1,5 +1,5 @@
 use crate::cli::cli::{exec, Colours, Palette};
-use clap::{App, Arg, ArgMatches};
+use clap::{App, AppSettings, Arg, ArgMatches};
 use regex::Regex;
 
 pub struct Ping {}
@@ -11,6 +11,7 @@ impl Ping {
                 Arg::with_name("url").help("URL destination").required(true),
                 Arg::with_name("count").short("c").takes_value(true).help("Stop after sending count ECHO_REQUEST packets. With deadline option, ping waits for count ECHO_REPLY packets, until the timeout expires."),
             ])
+            .setting(AppSettings::ArgRequiredElseHelp)
             .about("ping")
     }
 
