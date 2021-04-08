@@ -1,4 +1,11 @@
-use std::{env, io::{BufRead, BufReader, Write}, process::{self, Command, Stdio}, str::FromStr, sync::{Arc, RwLock}, thread};
+use std::{
+    env,
+    io::{BufRead, BufReader, Write},
+    process::{self, Command, Stdio},
+    str::FromStr,
+    sync::{Arc, RwLock},
+    thread,
+};
 
 use regex::Regex;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
@@ -36,6 +43,16 @@ pub enum Colours {
     BMagenta,
     BYellow,
     BWhite,
+    // Dark
+    DDefault,
+    DBlack,
+    DBlue,
+    DGreen,
+    DRed,
+    DCyan,
+    DMagenta,
+    DYellow,
+    DWhite,
     // Backgroud Color
     OnBlack,
     OnBlue,
@@ -156,7 +173,7 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::Magenta => col.set_fg(Some(Color::Magenta)),
         Colours::Yellow => col.set_fg(Some(Color::Yellow)),
         Colours::White => col.set_fg(Some(Color::White)),
-        Colours::BBlack => col.set_bold(true).set_fg(Some(Color::Black)),
+        Colours::BBlack => col.set_bold(true).set_fg(Some(Color::Ansi256(8))),
         Colours::BBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
         Colours::BGreen => col.set_bold(true).set_fg(Some(Color::Green)),
         Colours::BRed => col.set_bold(true).set_fg(Some(Color::Red)),
@@ -214,6 +231,15 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::OnMagenta => col.set_bg(Some(Color::Magenta)),
         Colours::OnYellow => col.set_bg(Some(Color::Yellow)),
         Colours::OnWhite => col.set_bg(Some(Color::White)),
+        Colours::DDefault => col.set_dimmed(true).set_fg(None),
+        Colours::DBlack => col.set_dimmed(true).set_fg(Some(Color::Black)),
+        Colours::DBlue => col.set_dimmed(true).set_fg(Some(Color::Blue)),
+        Colours::DGreen => col.set_dimmed(true).set_fg(Some(Color::Green)),
+        Colours::DRed => col.set_dimmed(true).set_fg(Some(Color::Red)),
+        Colours::DCyan => col.set_dimmed(true).set_fg(Some(Color::Cyan)),
+        Colours::DMagenta => col.set_dimmed(true).set_fg(Some(Color::Magenta)),
+        Colours::DYellow => col.set_dimmed(true).set_fg(Some(Color::Yellow)),
+        Colours::DWhite => col.set_dimmed(true).set_fg(Some(Color::White)),
     };
     col
 }
@@ -254,16 +280,14 @@ fn colored_output<'a>(
                     });
 
                     // captures[0] -> Full match
-                    let start = captures.get(0).unwrap().start();
-                    let end = captures.get(0).unwrap().end();
+                    let mut new_start = captures.get(0).unwrap().start();
+                    let mut new_end = captures.get(0).unwrap().end();
                     colored_strings.push(ColorString {
-                        text: String::from_str(&str[start..end]).unwrap(),
+                        text: String::from_str(&str[new_start..new_end]).unwrap(),
                         color: palette.colours[0],
                     });
 
                     // captures[1..] -> Group match
-                    let mut new_start = captures.get(0).unwrap().start();
-                    let mut new_end = captures.get(0).unwrap().end();
                     for (i, _capture) in captures.iter().enumerate() {
                         if i == 0 {
                             continue; // Ignore because it is a full match and is already done.
@@ -272,10 +296,11 @@ fn colored_output<'a>(
                         if i == 1 {
                             colored_strings.pop();
                         }
-                        // println!("captures={:?}", captures);
+                        println!("captures={:?}", captures);
                         match captures.get(i) {
-                            Some(_) => (),
+                            Some(_) => {}
                             None => {
+                                // println!("colored_strings={:?}", colored_strings);
                                 continue;
                             }
                         }
@@ -286,12 +311,13 @@ fn colored_output<'a>(
                         let after_start = captures.get(i).unwrap().end();
                         let after_end = new_end;
                         // println!("str={}", str);
-                        // println!("before_start={},before_end={},start={},end={},after_start={},after_end={}",before_start,before_end,start,end,after_start,after_end);
+                        println!("before_start={},before_end={},start={},end={},after_start={},after_end={}",before_start,before_end,start,end,after_start,after_end);
 
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[before_start..before_end]).unwrap(),
                             color: palette.colours[0],
                         });
+
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[start..end]).unwrap(),
                             color: palette.colours[i],
@@ -309,16 +335,17 @@ fn colored_output<'a>(
                         // println!("colored_strings={:?}", colored_strings);
                         new_start = after_start;
                         new_end = after_end;
+                        println!("colored_strings={:?}", colored_strings);
                     }
 
                     // Non-matched end
-                    let start = captures.get(0).unwrap().end();
+                    println!("matched_end={}", &str[new_end..]);
                     colored_strings.push(ColorString {
-                        text: String::from_str(&str[start..]).unwrap(),
+                        text: String::from_str(&str[new_end..]).unwrap(),
                         color: &Colours::Default,
                     });
 
-                    // println!("colored_strings={:?}", colored_strings);
+                    println!("colored_strings={:?}", colored_strings);
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
@@ -332,7 +359,7 @@ fn colored_output<'a>(
     }
 
     // Remove empty strings
-    main_string.retain(|color_string| color_string.text != "");
+    // main_string.retain(|color_string| color_string.text != "");
     // println!("{:?}", main_string);
     main_string
 }
