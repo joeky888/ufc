@@ -265,10 +265,7 @@ fn colored_output<'a>(
                 .captures(main_string[index].text.clone().as_str())
             {
                 Some(captures) => {
-                    // println!("!!!!i={} {:?}!!!", index, captures);
-
                     let str = main_string[index].text.as_str();
-                    // println!("str={:?}!!!", str);
                     let mut colored_strings: Vec<ColorString> = vec![];
 
                     // Non-matched start
