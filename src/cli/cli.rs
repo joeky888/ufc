@@ -339,18 +339,20 @@ fn colored_output<'a>(
                     }
 
                     // Non-matched end
-                    println!("matched_end={}", &str[new_end..]);
+                    println!("new_start={} new_end={}", new_start, new_end);
+                    println!("'str={}'", &str[new_start..new_end]);
                     colored_strings.push(ColorString {
-                        text: String::from_str(&str[new_end..]).unwrap(),
+                        text: String::from_str(&str[new_start..]).unwrap(),
                         color: &Colours::Default,
                     });
 
                     println!("colored_strings={:?}", colored_strings);
+                    let len = colored_strings.len();
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
                     main_string.splice((index)..(index), colored_strings);
-                    index += 1;
+                    index += len;
                 }
                 None => {}
             };
