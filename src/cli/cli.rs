@@ -279,43 +279,38 @@ fn colored_output<'a>(
                         color: &Colours::Default,
                     });
 
-                    // captures[0..] -> Group match
-                    let mut new_start = captures.get(0).unwrap().start();
-                    let mut new_end = captures.get(0).unwrap().end();
+                    // captures[0] -> Full match
+                    // captures[1..] -> Group match
+                    let mut last_start = captures.get(0).unwrap().start();
+                    let full_match_end = captures.get(0).unwrap().end();
+                    let mut is_full_match = false;
                     for (i, _capture) in captures.iter().enumerate() {
                         if i == 0 {
                             colored_strings.push(ColorString {
-                                text: String::from_str(&str[new_start..new_end]).unwrap(),
+                                text: String::from_str(&str[last_start..full_match_end]).unwrap(),
                                 color: palette.colours[0],
                             });
-                            new_start = new_end;
-                            new_end = str.len();
-                            continue; // Ignore because it is a full match and is already done.
+                            continue;
                         }
 
-                        println!("captures={:?}", captures);
+                        // println!("captures={:?}", captures);
                         match captures.get(i) {
                             Some(_) => {
-                                if i == 1 {
+                                if !is_full_match {
                                     colored_strings.pop();
                                 }
+                                is_full_match = true;
                             }
                             None => {
-                                // println!("colored_strings={:?}", colored_strings);
                                 continue;
                             }
                         }
-                        let before_start = new_start;
-                        let before_end = captures.get(i).unwrap().start();
+
                         let start = captures.get(i).unwrap().start();
                         let end = captures.get(i).unwrap().end();
-                        let after_start = captures.get(i).unwrap().end();
-                        let after_end = new_end;
-                        // println!("str={}", str);
-                        println!("before_start={},before_end={},start={},end={},after_start={},after_end={}",before_start,before_end,start,end,after_start,after_end);
 
                         colored_strings.push(ColorString {
-                            text: String::from_str(&str[before_start..before_end]).unwrap(),
+                            text: String::from_str(&str[last_start..start]).unwrap(),
                             color: palette.colours[0],
                         });
 
@@ -324,30 +319,20 @@ fn colored_output<'a>(
                             color: palette.colours[i],
                         });
 
-                        // if i == captures.len() - 1 {
-                        //     // Push the last one (The rest of the string) back when the for loop ends
-                        //     // Because the for loop ends here, so we don't need to split the rest of the string anymore
-                        //     colored_strings.push(ColorString {
-                        //         text: String::from_str(&str[after_start..after_end]).unwrap(),
-                        //         color: palette.colours[0],
-                        //     });
-                        // }
-
-                        // println!("colored_strings={:?}", colored_strings);
-                        new_start = after_start;
-                        new_end = after_end;
-                        println!("colored_strings={:?}", colored_strings);
+                        last_start = end;
                     }
 
                     // Non-matched end
-                    println!("new_start={} new_end={}", new_start, new_end);
-                    println!("'str={}'", &str[new_start..new_end]);
+                    if !is_full_match {
+                        last_start = captures.get(0).unwrap().end();
+                    }
+
                     colored_strings.push(ColorString {
-                        text: String::from_str(&str[new_start..]).unwrap(),
+                        text: String::from_str(&str[last_start..]).unwrap(),
                         color: &Colours::Default,
                     });
 
-                    println!("colored_strings={:?}", colored_strings);
+                    // println!("colored_strings={:?}", colored_strings);
                     let len = colored_strings.len();
 
                     main_string[index].text = String::new();
