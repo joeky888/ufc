@@ -25,14 +25,14 @@ impl Ps {
             // HEADERS
             Palette {
                 regexp: Regex::new(
-                    r"(?:\s|^)(CONTAINER ID|IMAGE|COMMAND|CREATED|STATUS|PORTS|NAMES)(?:\s|$)",
+                    r#"(?:\s|^)(CONTAINER ID|IMAGE|COMMAND|CREATED|STATUS|PORTS|NAMES)(?:\s|$)"#,
                 )
                 .unwrap(),
                 colours: vec![&Colours::Default, &Colours::UDefault],
             },
             // IMAGE NAME (as docker image)
             Palette {
-                regexp: Regex::new(r#"\s{2,}(?:([a-z\-_0-9]+)/)*([a-z\-_0-9]+)(:\S+)?\s{2,}"#)
+                regexp: Regex::new(r#"\s{2,}(?:([a-z\-_0-9]+)\/)*([a-z\-_0-9]+)(:\S+)?\s{2,}\""#)
                     .unwrap(),
                 colours: vec![
                     &Colours::Default,
@@ -41,14 +41,20 @@ impl Ps {
                     &Colours::Cyan,
                 ],
             },
-            // Container ID
+            // IMAGE
             Palette {
-                regexp: Regex::new(r#"^\w+"#).unwrap(),
-                colours: vec![&Colours::UBWhite],
+                regexp: Regex::new(r#"^(?!CONTAINER)(\w+)\s+([^\s]+)\s+(".*")\s+(.*(?=(?:Up|Exited|Created|Restarting)))"#)
+                    .unwrap(),
+                colours: vec![
+                    &Colours::Default,
+                    &Colours::Yellow,
+                    &Colours::BWhite,
+                    &Colours::Cyan,
+                ],
             },
             // Statuses - Created
             Palette {
-                regexp: Regex::new(r#"\s(\d+)(months|weeks|days|hours|minutes|seconds)\sago"#)
+                regexp: Regex::new(r#"\sCreated\s"#)
                     .unwrap(),
                 colours: vec![&Colours::Blue],
             },
@@ -76,23 +82,23 @@ impl Ps {
             },
             // Statuses -  Exited
             Palette {
-                regexp: Regex::new(r#"Exited\s.(\d+).+$"#).unwrap(),
+                regexp: Regex::new(r#"Exited\s.(\d+).+?(?=\s{2,})"#).unwrap(),
                 colours: vec![&Colours::BRed, &Colours::Red],
             },
             // Statuses -  Restarting
             Palette {
-                regexp: Regex::new(r#"Restarting\s.(\d+).+$"#).unwrap(),
+                regexp: Regex::new(r#"Restarting\s.(\d+).+?(?=\s{2,})"#).unwrap(),
                 colours: vec![&Colours::BBlue],
             },
             // Ip Addresses
             Palette {
-                regexp: Regex::new(r#"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:)?"#).unwrap(),
+                regexp: Regex::new(r#"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\:)?"#).unwrap(),
                 colours: vec![&Colours::Default, &Colours::Blue, &Colours::Default],
             },
             // Ports
             Palette {
                 regexp: Regex::new(
-                    r#"(\d{1,5})?(-)?(\d{1,5})?(->)?(\d{1,5})(-)?(\d{1,5})?(/)(tcp|udp)"#,
+                    r#"(\d{1,5})?(-)?(\d{1,5})?(->)?(\d{1,5})(-)?(\d{1,5})?(\/)(tcp|udp)"#,
                 )
                 .unwrap(),
                 colours: vec![
@@ -109,15 +115,15 @@ impl Ps {
                 ],
             },
             // NAMES
-            // Palette {
-            //     regexp: Regex::new(r#"(?:([a-z\-_0-9]+)/)*([a-z\-_0-9]+)$"#).unwrap(),
-            //     colours: vec![
-            //         &Colours::Default,
-            //         &Colours::Yellow,
-            //         &Colours::OnBlue,
-            //         &Colours::White,
-            //     ],
-            // },
+            Palette {
+                regexp: Regex::new(r#"(?:([a-z\-_0-9]+)\/)*([a-z\-_0-9]+)$"#).unwrap(),
+                colours: vec![
+                    &Colours::Default,
+                    &Colours::Yellow,
+                    &Colours::OnBlue,
+                    &Colours::White,
+                ],
+            },
         ]
     }
 }

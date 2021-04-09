@@ -16,7 +16,7 @@ impl Images {
         vec![
             Palette {
                 // REPO, TAG, IMAGE ID
-                regexp: Regex::new(r#"^([a-z]+/?[^\s]+)\s+([^\s]+)\s+(\w+)"#).unwrap(),
+                regexp: Regex::new(r#"^([a-z]+\/?[^\s]+)\s+([^\s]+)\s+(\w+)"#).unwrap(),
                 colours: vec![
                     &Colours::Default,
                     &Colours::BWhite,
@@ -26,12 +26,12 @@ impl Images {
             },
             Palette {
                 // latest
-                regexp: Regex::new(r#"(\s)latest(\s)"#).unwrap(),
+                regexp: Regex::new(r#"(?<=\s)latest(?=\s+)"#).unwrap(),
                 colours: vec![&Colours::DCyan],
             },
             Palette {
                 // REPOSITORY (Image name)
-                regexp: Regex::new(r#"^(?:(\S+)/)*(\S+)\s"#).unwrap(),
+                regexp: Regex::new(r#"^(?:(\S+)\/)*(\S+)\s"#).unwrap(),
                 colours: vec![&Colours::Default, &Colours::Yellow, &Colours::BWhite],
             },
             Palette {
@@ -45,24 +45,24 @@ impl Images {
                 colours: vec![&Colours::Default, &Colours::BRed],
             },
             Palette {
-                // Size 'G'
-                regexp: Regex::new(r#"\s\d+[.,]?\d*\s?GB?"#).unwrap(),
-                colours: vec![&Colours::Red],
+                // Size 'K'
+                regexp: Regex::new(r#"(?<=\s)\d+[.,]?\d*\s?(KB?|B)"#).unwrap(),
+                colours: vec![&Colours::Green],
             },
             Palette {
                 // Size 'M' 3+ digits
-                regexp: Regex::new(r#"\s\d{3,4}[.,]?\d*\s?MB?"#).unwrap(),
+                regexp: Regex::new(r#"(?<=\s)\d{3,4}[.,]?\d*\s?MB?"#).unwrap(),
                 colours: vec![&Colours::Yellow],
             },
             Palette {
                 // Size 'M', 2 digits
-                regexp: Regex::new(r#"\s\d{1,2}[.,]?\d*\s?MB?"#).unwrap(),
+                regexp: Regex::new(r#"(?<=\s)\d{1,2}[.,]?\d*\s?MB?"#).unwrap(),
                 colours: vec![&Colours::Green],
             },
             Palette {
-                // Size 'K'
-                regexp: Regex::new(r#"\s\d+[.,]?\d*\s?(KB?|B)"#).unwrap(),
-                colours: vec![&Colours::Green],
+                // Size 'G'
+                regexp: Regex::new(r#"(?<=\s)\d+[.,]?\d*\s?GB?"#).unwrap(),
+                colours: vec![&Colours::Red],
             },
             Palette {
                 // CREATED seconds/minutes
