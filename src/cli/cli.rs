@@ -7,7 +7,7 @@ use std::{
     thread,
 };
 
-use regex::Regex;
+use fancy_regex::Regex;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
 #[derive(Debug)]
@@ -263,6 +263,7 @@ fn colored_output<'a>(
             match palette
                 .regexp
                 .captures(main_string[index].text.clone().as_str())
+                .unwrap()
             {
                 Some(captures) => {
                     let str = main_string[index].text.as_str();

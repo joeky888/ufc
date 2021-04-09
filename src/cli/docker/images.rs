@@ -1,6 +1,6 @@
 use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, ArgMatches};
-use regex::Regex;
+use fancy_regex::Regex;
 pub struct Images {}
 
 impl Images {
@@ -66,7 +66,8 @@ impl Images {
             },
             Palette {
                 // CREATED seconds/minutes
-                regexp: Regex::new(r#"[\da-f]{12}\s+((?:About a|\d+) (?:seconds?|minutes?) ago)"#).unwrap(),
+                regexp: Regex::new(r#"[\da-f]{12}\s+((?:About a|\d+) (?:seconds?|minutes?) ago)"#)
+                    .unwrap(),
                 colours: vec![&Colours::Default, &Colours::OnGreen, &Colours::BWhite],
             },
             Palette {
@@ -96,7 +97,8 @@ impl Images {
             },
             Palette {
                 // HEADERS
-                regexp: Regex::new(r#"(?:\s|^)(REPOSITORY|TAG|IMAGE ID|CREATED|SIZE)(?:\s|$)"#).unwrap(),
+                regexp: Regex::new(r#"(?:\s|^)(REPOSITORY|TAG|IMAGE ID|CREATED|SIZE)(?:\s|$)"#)
+                    .unwrap(),
                 colours: vec![&Colours::Default, &Colours::UDefault],
             },
         ]

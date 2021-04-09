@@ -1,6 +1,6 @@
 use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
-use regex::Regex;
+use fancy_regex::Regex;
 
 pub struct Ps {}
 
