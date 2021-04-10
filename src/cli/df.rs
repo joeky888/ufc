@@ -69,7 +69,7 @@ impl Df {
             },
             // Size 'G'
             Palette {
-                regexp: Regex::new(r#"\s\d*[\.,]?\dGi?\s|\b\d{7,9}\b"#).unwrap(),
+                regexp: Regex::new(r#"\s\d*[.,]?\dGi?\s|\b\d{7,9}\b"#).unwrap(),
                 colours: vec![&Colours::Red],
             },
             // Size 'T'
