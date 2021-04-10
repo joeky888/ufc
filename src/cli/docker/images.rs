@@ -13,7 +13,7 @@ impl Images {
     }
 
     fn palette() -> Vec<Palette<'static>> {
-        vec![
+        let mut p = vec![
             Palette {
                 // REPO, TAG, IMAGE ID
                 regexp: Regex::new(r#"^([a-z]+\/?[^\s]+)\s+([^\s]+)\s+(\w+)"#).unwrap(),
@@ -50,14 +50,14 @@ impl Images {
                 colours: vec![&Colours::Green],
             },
             Palette {
-                // Size 'M' 3+ digits
-                regexp: Regex::new(r#"(?<=\s)\d{3,4}[.,]?\d*\s?MB?"#).unwrap(),
-                colours: vec![&Colours::Yellow],
-            },
-            Palette {
                 // Size 'M', 2 digits
                 regexp: Regex::new(r#"(?<=\s)\d{1,2}[.,]?\d*\s?MB?"#).unwrap(),
                 colours: vec![&Colours::Green],
+            },
+            Palette {
+                // Size 'M' 3+ digits
+                regexp: Regex::new(r#"(?<=\s)\d{3,4}[.,]?\d*\s?MB?"#).unwrap(),
+                colours: vec![&Colours::Yellow],
             },
             Palette {
                 // Size 'G'
@@ -101,6 +101,8 @@ impl Images {
                     .unwrap(),
                 colours: vec![&Colours::Default, &Colours::UDefault],
             },
-        ]
+        ];
+        p.reverse();
+        p
     }
 }

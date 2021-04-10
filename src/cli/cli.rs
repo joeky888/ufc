@@ -282,7 +282,9 @@ fn colored_output<'a>(
                     let mut last_start = captures.get(0).unwrap().start();
                     let full_match_end = captures.get(0).unwrap().end();
                     let mut is_full_match = false;
-                    for (i, _capture) in captures.iter().enumerate() {
+                    // println!("{:?}", captures);
+                    for (i, capture) in captures.iter().enumerate() {
+                        // println!("i={} capture.un={:?}", i, capture.unwrap());
                         if i == 0 {
                             colored_strings.push(ColorString {
                                 text: String::from_str(&str[last_start..full_match_end]).unwrap(),
@@ -291,8 +293,7 @@ fn colored_output<'a>(
                             continue;
                         }
 
-                        // println!("captures={:?}", captures);
-                        match captures.get(i) {
+                        match capture {
                             Some(_) => {
                                 if !is_full_match {
                                     colored_strings.pop();
@@ -304,17 +305,21 @@ fn colored_output<'a>(
                             }
                         }
 
-                        let start = captures.get(i).unwrap().start();
-                        let end = captures.get(i).unwrap().end();
+                        let start = capture.unwrap().start();
+                        let end = capture.unwrap().end();
 
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[last_start..start]).unwrap(),
                             color: palette.colours[0],
                         });
 
+                        let mut color = palette.colours[0];
+                        if i < palette.colours.len() {
+                            color = palette.colours[i];
+                        }
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[start..end]).unwrap(),
-                            color: palette.colours[i],
+                            color: color,
                         });
 
                         last_start = end;
@@ -331,12 +336,12 @@ fn colored_output<'a>(
                     });
 
                     // println!("colored_strings={:?}", colored_strings);
-                    let len = colored_strings.len();
+                    // let len = colored_strings.len();
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
                     main_string.splice((index)..(index), colored_strings);
-                    index += len;
+                    // index += 1;
                 }
                 None => {}
             };
@@ -346,6 +351,6 @@ fn colored_output<'a>(
 
     // Remove empty strings
     // main_string.retain(|color_string| color_string.text != "");
-    // println!("{:?}", main_string);
+    // println!("main_string={:?}", main_string);
     main_string
 }

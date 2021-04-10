@@ -86,7 +86,8 @@ impl Ping {
             },
             // last line values
             Palette {
-                regexp: Regex::new(r#"\=\s([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)"#).unwrap(),
+                regexp: Regex::new(r#"\=\s([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)"#)
+                    .unwrap(),
                 colours: vec![
                     &Colours::Default,
                     &Colours::BYellow,

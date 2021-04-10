@@ -21,7 +21,7 @@ impl Ps {
     }
 
     fn palette() -> Vec<Palette<'static>> {
-        vec![
+        let mut p = vec![
             // HEADERS
             Palette {
                 regexp: Regex::new(
@@ -124,6 +124,8 @@ impl Ps {
                     &Colours::White,
                 ],
             },
-        ]
+        ];
+        p.reverse();
+        p
     }
 }
