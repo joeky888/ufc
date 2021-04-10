@@ -9,7 +9,10 @@ impl Df {
         App::new("df")
             .args(&[
                 Arg::with_name("FILE").help("URL destination"),
-                Arg::with_name("human-readable").long("human-readable").short("h").help("print sizes in powers of 1024 (e.g., 1023M)"),
+                Arg::with_name("human-readable")
+                    .long("human-readable")
+                    .short("h")
+                    .help("print sizes in powers of 1024 (e.g., 1023M)"),
             ])
             // .setting(AppSettings::ArgRequiredElseHelp)
             .about("df")

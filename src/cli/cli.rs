@@ -24,6 +24,7 @@ pub struct Palette<'a> {
 #[allow(dead_code)]
 #[derive(Debug, PartialEq)]
 pub enum Colours {
+    UnChanged,
     Default,
     Black,
     Blue,
@@ -163,6 +164,10 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
 fn get_color(color: &Colours) -> ColorSpec {
     let mut col = ColorSpec::new();
     match color {
+        Colours::UnChanged => col // This one should be unreable
+            .set_fg(Some(Color::Magenta))
+            .set_intense(true)
+            .set_underline(true),
         Colours::Default => col.set_fg(None),
         Colours::BDefault => col.set_bold(true).set_fg(None),
         Colours::Black => col.set_fg(Some(Color::Black)),
@@ -248,6 +253,7 @@ fn colored_output<'a>(
     main_string: &'a mut Vec<ColorString<'a>>,
     palettes: &'a Vec<Palette>,
 ) -> &'a Vec<ColorString<'a>> {
+    let mut prev_color = &Colours::Default;
     for palette in palettes.iter() {
         let mut index = 0;
         // Instead of using a for loop, the size of main_string will grow so we have to use while loop
@@ -282,14 +288,17 @@ fn colored_output<'a>(
                     let mut last_start = captures.get(0).unwrap().start();
                     let full_match_end = captures.get(0).unwrap().end();
                     let mut is_full_match = false;
-                    // println!("{:?}", captures);
-                    let mut prev_color = palette.colours[0];
                     for (i, capture) in captures.iter().enumerate() {
                         if i == 0 {
+                            let mut color = palette.colours[0];
+                            if color == &Colours::UnChanged {
+                                color = prev_color;
+                            }
                             colored_strings.push(ColorString {
                                 text: String::from_str(&str[last_start..full_match_end]).unwrap(),
-                                color: palette.colours[0],
+                                color: color,
                             });
+                            prev_color = color;
                             continue;
                         }
 
@@ -308,24 +317,29 @@ fn colored_output<'a>(
                         let start = capture.unwrap().start();
                         let end = capture.unwrap().end();
 
+                        let mut color = palette.colours[0];
+                        if color == &Colours::UnChanged {
+                            color = prev_color;
+                        }
+
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[last_start..start]).unwrap(),
-                            color: palette.colours[0],
+                            color: &color,
                         });
+                        prev_color = color;
 
-                        let mut color = prev_color;
                         if i < palette.colours.len() {
                             color = palette.colours[i];
+                            if color == &Colours::UnChanged {
+                                color = prev_color;
+                            }
                         }
-                        // println!("color={:?} prev_color{:?}", color, prev_color);
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[start..end]).unwrap(),
                             color: color,
                         });
+                        // prev_color = color;
 
-                        if color != &Colours::Default {
-                            prev_color = color;
-                        }
                         last_start = end;
                     }
 

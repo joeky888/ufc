@@ -42,7 +42,7 @@ impl Images {
             Palette {
                 // images without tag
                 regexp: Regex::new(r#"\s+(<none>)\s+"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::BRed],
+                colours: vec![&Colours::UnChanged, &Colours::BRed],
             },
             Palette {
                 // Size 'K'
