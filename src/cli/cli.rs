@@ -283,8 +283,8 @@ fn colored_output<'a>(
                     let full_match_end = captures.get(0).unwrap().end();
                     let mut is_full_match = false;
                     // println!("{:?}", captures);
+                    let mut prev_color = palette.colours[0];
                     for (i, capture) in captures.iter().enumerate() {
-                        // println!("i={} capture.un={:?}", i, capture.unwrap());
                         if i == 0 {
                             colored_strings.push(ColorString {
                                 text: String::from_str(&str[last_start..full_match_end]).unwrap(),
@@ -313,15 +313,19 @@ fn colored_output<'a>(
                             color: palette.colours[0],
                         });
 
-                        let mut color = palette.colours[0];
+                        let mut color = prev_color;
                         if i < palette.colours.len() {
                             color = palette.colours[i];
                         }
+                        // println!("color={:?} prev_color{:?}", color, prev_color);
                         colored_strings.push(ColorString {
                             text: String::from_str(&str[start..end]).unwrap(),
                             color: color,
                         });
 
+                        if color != &Colours::Default {
+                            prev_color = color;
+                        }
                         last_start = end;
                     }
 

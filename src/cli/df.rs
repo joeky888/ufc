@@ -57,25 +57,25 @@ impl Df {
                 regexp: Regex::new(r#"\s9[89]%|100%\s"#).unwrap(),
                 colours: vec![&Colours::BRed],
             },
-            // Size 'K'
+            // Size 'T'
             Palette {
-                regexp: Regex::new(r#"\s\d*[.,]?\d(K|B)i?\s|\b\d{1,3}\b"#).unwrap(),
-                colours: vec![&Colours::Green],
-            },
-            // Size 'M'
-            Palette {
-                regexp: Regex::new(r#"\s\d*[.,]?\dMi?\s|\b\d{4,6}\b"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                regexp: Regex::new(r#"\s\d*[.,]?\dTi?\s|\b\d{10,12}\b"#).unwrap(),
+                colours: vec![&Colours::BRed],
             },
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dGi?\s|\b\d{7,9}\b"#).unwrap(),
                 colours: vec![&Colours::Red],
             },
-            // Size 'T'
+            // Size 'M'
             Palette {
-                regexp: Regex::new(r#"\s\d*[.,]?\dTi?\s|\b\d{10,12}\b"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                regexp: Regex::new(r#"\s\d*[.,]?\dMi?\s|\b\d{4,6}\b"#).unwrap(),
+                colours: vec![&Colours::Yellow],
+            },
+            // Size 'K'
+            Palette {
+                regexp: Regex::new(r#"\s\d*[.,]?\d(K|B)i?\s|\b\d{1,3}\b"#).unwrap(),
+                colours: vec![&Colours::Green],
             },
         ]
     }
