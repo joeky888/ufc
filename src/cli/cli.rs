@@ -298,7 +298,11 @@ fn colored_output<'a>(
                                 text: String::from_str(&str[last_start..full_match_end]).unwrap(),
                                 color: color,
                             });
-                            prev_color = color;
+                            if color != &Colours::Default {
+                                prev_color = color;
+                                // println!("prev_color={:?}", prev_color);
+                                // println!("colored_strings={:?}", colored_strings);
+                            }
                             continue;
                         }
 
@@ -326,7 +330,11 @@ fn colored_output<'a>(
                             text: String::from_str(&str[last_start..start]).unwrap(),
                             color: &color,
                         });
-                        prev_color = color;
+                        if color != &Colours::Default {
+                            prev_color = color;
+                            // println!("prev_color={:?}", prev_color);
+                            // println!("colored_strings={:?}", colored_strings);
+                        }
 
                         if i < palette.colours.len() {
                             color = palette.colours[i];
@@ -338,7 +346,11 @@ fn colored_output<'a>(
                             text: String::from_str(&str[start..end]).unwrap(),
                             color: color,
                         });
-                        // prev_color = color;
+                        if color != &Colours::Default {
+                            prev_color = color;
+                            // println!("prev_color={:?}", prev_color);
+                            // println!("colored_strings={:?}", colored_strings);
+                        }
 
                         last_start = end;
                     }
@@ -355,6 +367,7 @@ fn colored_output<'a>(
 
                     // println!("colored_strings={:?}", colored_strings);
                     // let len = colored_strings.len();
+                    // println!("colored_strings={:?}", colored_strings);
 
                     main_string[index].text = String::new();
                     main_string.remove(index);

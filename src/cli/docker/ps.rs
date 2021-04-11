@@ -21,7 +21,7 @@ impl Ps {
     }
 
     fn palette() -> Vec<Palette<'static>> {
-        let mut p = vec![
+        vec![
             // HEADERS
             Palette {
                 regexp: Regex::new(
@@ -53,37 +53,6 @@ impl Ps {
                     &Colours::Cyan,
                 ],
             },
-            Palette {
-                // CREATED seconds/minutes
-                regexp: Regex::new(r#"[\da-f]{12}\s+((?:About a|\d+) (?:seconds?|minutes?) ago)"#)
-                    .unwrap(),
-                colours: vec![&Colours::Green, &Colours::Green, &Colours::Green],
-            },
-            Palette {
-                // CREATED About a minute ago
-                regexp: Regex::new(r#"\s+(About a minute ago)\s\w+"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green, &Colours::Green],
-            },
-            Palette {
-                // CREATED hours
-                regexp: Regex::new(r#"\s+(\d+\shours\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green],
-            },
-            Palette {
-                // CREATED days
-                regexp: Regex::new(r#"\s+(\d+\sdays\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green],
-            },
-            Palette {
-                // CREATED weeks
-                regexp: Regex::new(r#"\s+(\d+\sweeks\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green],
-            },
-            Palette {
-                // CREATED months
-                regexp: Regex::new(r#"\s+(\d+\smonths\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green],
-            },
             // Statuses - Created
             Palette {
                 regexp: Regex::new(r#"\sCreated\s"#)
@@ -114,14 +83,55 @@ impl Ps {
             },
             // Statuses -  Exited
             Palette {
-                regexp: Regex::new(r#"Exited\s.\d+.\s"#).unwrap(),
+                regexp: Regex::new(r#"Exited\s.\d+."#).unwrap(),
                 colours: vec![&Colours::BRed, &Colours::Red],
             },
             // Statuses -  Restarting
             Palette {
-                regexp: Regex::new(r#"Restarting\s.\d+.\s"#).unwrap(),
+                regexp: Regex::new(r#"Restarting\s.\d+."#).unwrap(),
                 colours: vec![&Colours::BBlue],
             },
+            Palette {
+                // CREATED seconds
+                regexp: Regex::new(r#"\s+(\d+\sseconds?\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED About a minute ago
+                regexp: Regex::new(r#"\s+(About a minute ago)\s"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED minutes
+                regexp: Regex::new(r#"\s+(\d+\sminutes\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED hours
+                regexp: Regex::new(r#"\s+(\d+\shours?\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED days
+                regexp: Regex::new(r#"\s+(\d+\sdays?\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED weeks
+                regexp: Regex::new(r#"\s+(\d+\sweeks?\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+            },
+            Palette {
+                // CREATED months
+                regexp: Regex::new(r#"\s+(\d+\smonths?\s\w+)"#).unwrap(),
+                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+            },
+            // Palette {
+            //     // CREATED seconds/minutes
+            //     regexp: Regex::new(r#"[\da-f]{12}\s+((?:About a|\d+) (?:seconds?|minutes?) ago)"#)
+            //         .unwrap(),
+            //     colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+            // },
             // Ip Addresses
             Palette {
                 regexp: Regex::new(r#"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\:)?"#).unwrap(),
@@ -156,8 +166,6 @@ impl Ps {
                     &Colours::White,
                 ],
             },
-        ];
-        p.reverse();
-        p
+        ]
     }
 }
