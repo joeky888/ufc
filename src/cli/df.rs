@@ -2,9 +2,9 @@ use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
-pub struct Df {}
+pub struct CMD {}
 
-impl Df {
+impl CMD {
     pub fn new() -> App<'static, 'static> {
         App::new("df")
             .args(&[
@@ -74,7 +74,7 @@ impl Df {
 
     pub fn parse(_app: &ArgMatches) {
         // print!("{:?}", app);
-        exec(Df::palette());
+        exec(CMD::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {
