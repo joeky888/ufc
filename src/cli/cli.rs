@@ -132,7 +132,7 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     // Start to capture stderr
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
-            println!("{}", line.unwrap());
+            eprintln!("{}", line.unwrap());
         });
     });
 
