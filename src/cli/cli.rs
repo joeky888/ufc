@@ -298,11 +298,7 @@ fn colored_output<'a>(
                                 text: String::from_str(&str[last_start..full_match_end]).unwrap(),
                                 color: color,
                             });
-                            if color != &Colours::Default {
-                                prev_color = color;
-                                // println!("prev_color={:?}", prev_color);
-                                // println!("colored_strings={:?}", colored_strings);
-                            }
+                            prev_color = color;
                             continue;
                         }
 
@@ -330,11 +326,7 @@ fn colored_output<'a>(
                             text: String::from_str(&str[last_start..start]).unwrap(),
                             color: &color,
                         });
-                        if color != &Colours::Default {
-                            prev_color = color;
-                            // println!("prev_color={:?}", prev_color);
-                            // println!("colored_strings={:?}", colored_strings);
-                        }
+                        prev_color = color;
 
                         if i < palette.colours.len() {
                             color = palette.colours[i];
@@ -346,11 +338,7 @@ fn colored_output<'a>(
                             text: String::from_str(&str[start..end]).unwrap(),
                             color: color,
                         });
-                        if color != &Colours::Default {
-                            prev_color = color;
-                            // println!("prev_color={:?}", prev_color);
-                            // println!("colored_strings={:?}", colored_strings);
-                        }
+                        prev_color = color;
 
                         last_start = end;
                     }
