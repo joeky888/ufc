@@ -126,12 +126,6 @@ impl Ps {
                 regexp: Regex::new(r#"\s+(\d+\smonths?\s\w+)"#).unwrap(),
                 colours: vec![&Colours::UnChanged, &Colours::UnChanged],
             },
-            // Palette {
-            //     // CREATED seconds/minutes
-            //     regexp: Regex::new(r#"[\da-f]{12}\s+((?:About a|\d+) (?:seconds?|minutes?) ago)"#)
-            //         .unwrap(),
-            //     colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
-            // },
             // Ip Addresses
             Palette {
                 regexp: Regex::new(r#"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\:)?"#).unwrap(),
