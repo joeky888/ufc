@@ -27,6 +27,7 @@ This project is powered by
 * [grc](https://github.com/garabik/grc)
 * [fancy-regex](https://github.com/fancy-regex/fancy-regex)
 * [termcolor](https://github.com/BurntSushi/termcolor)
+* [manpage](https://en.wikipedia.org/wiki/Man_page)
 
 #### Licence
 

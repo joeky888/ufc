@@ -9,10 +9,64 @@ impl Df {
         App::new("df")
             .args(&[
                 Arg::with_name("FILE").help("URL destination"),
+                Arg::with_name("all")
+                    .long("all")
+                    .short("a")
+                    .help("include pseudo, duplicate, inaccessible file systems"),
+                Arg::with_name("block-size")
+                    .long("block-size")
+                    .short("B")
+                    .takes_value(true)
+                    .help("scale sizes by SIZE before printing them; e.g., '-BM' prints sizes in units of 1,048,576 bytes; see SIZE format below"),
                 Arg::with_name("human-readable")
                     .long("human-readable")
                     .short("h")
                     .help("print sizes in powers of 1024 (e.g., 1023M)"),
+                Arg::with_name("inodes")
+                    .long("inodes")
+                    .short("i")
+                    .help("list inode information instead of block usage"),
+                Arg::with_name("block-size-k")
+                    .short("k")
+                    .help("like --block-size=1K"),
+                Arg::with_name("local")
+                    .long("local")
+                    .short("l")
+                    .help("limit listing to local file systems"),
+                Arg::with_name("no-sync")
+                    .long("no-sync")
+                    .help("do not invoke sync before getting usage info (default)"),
+                Arg::with_name("output")
+                    .long("output")
+                    .takes_value(true)
+                    .help("use the output format defined by FIELD_LIST, or print all fields if FIELD_LIST is omitted."),
+                Arg::with_name("portability")
+                    .long("portability")
+                    .short("P")
+                    .help("use the POSIX output format"),
+                Arg::with_name("total")
+                    .long("total")
+                    .help("elide all entries insignificant to available space, and produce a grand total"),
+                Arg::with_name("type")
+                    .long("type")
+                    .short("t")
+                    .takes_value(true)
+                    .help("limit listing to file systems of type TYPE"),
+                Arg::with_name("print-type")
+                    .long("print-type")
+                    .short("T")
+                    .help("print file system type"),
+                Arg::with_name("exclude-type")
+                    .long("exclude-type")
+                    .short("x")
+                    .takes_value(true)
+                    .help("limit listing to file systems not of type TYPE"),
+                Arg::with_name("help")
+                    .long("help")
+                    .help("display this help and exit"),
+                Arg::with_name("version")
+                    .long("version")
+                    .help("output version information and exit"),
             ])
             // .setting(AppSettings::ArgRequiredElseHelp)
             .about("df")
