@@ -2,24 +2,29 @@ Supersedes my [previous work](https://github.com/joeky888/ugc).
 
 Rewritten in safe rust.
 
-#### Features
+### Features
 
 * Single binary with zero setup
 * Command output highlighting
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` (Bash, Zsh, Fish)
+* Support macOS and Linux (Windows and FreeBSD should also work)
 
-#### Examples
-
-`ufc df -h`
-
-![df](https://i.imgur.com/0OP1hbW.png)
+### Examples
 
 `ufc ping google.com`
 
 ![ping](https://i.imgur.com/tmjoQa0.png)
 
-#### Credits
+`ufc df -h`
+
+![df](https://i.imgur.com/0OP1hbW.png)
+
+### TODO
+
+* Upgrade to clap 3
+
+### Credits
 
 This project is powered by
 
@@ -29,6 +34,6 @@ This project is powered by
 * [termcolor](https://github.com/BurntSushi/termcolor)
 * [manpage](https://en.wikipedia.org/wiki/Man_page)
 
-#### Licence
+### Licence
 
 Public domain
