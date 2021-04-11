@@ -11,7 +11,5 @@ Rewritten in safe rust.
 
 #### Quick Example
 
-```sh
-ufc
-ufc ping google.com
-```
+`ufc df -h`
+![df](https://i.imgur.com/0OP1hbW.png)
