@@ -18,3 +18,7 @@ Rewritten in safe rust.
 `ufc ping google.com`
 
 ![ping](https://i.imgur.com/tmjoQa0.png)
+
+#### Licence
+
+Public domain
