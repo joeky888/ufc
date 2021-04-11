@@ -13,6 +13,7 @@ fn build_app() -> App<'static, 'static> {
         .global_setting(AppSettings::ColoredHelp)
         .global_setting(AppSettings::DisableHelpFlags)
         .global_setting(AppSettings::VersionlessSubcommands)
+        .global_setting(AppSettings::DisableHelpSubcommand)
         // .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::SubcommandRequiredElseHelp)
         // .global_setting(AppSettings::SubcommandRequiredElseHelp)
