@@ -9,7 +9,8 @@ Rewritten in safe rust.
 * `ufc completion` Shell completion generating (Bash,Zsh,Fish,Powershell,Elvish)
 * `ufc alias` Command alias generating (Bash,Zsh,Fish)
 
-#### Quick Example
+#### Examples
 
-`ufc df -h`
 ![df](https://i.imgur.com/0OP1hbW.png)
+
+![ping](https://i.imgur.com/tmjoQa0.png)
