@@ -8,7 +8,7 @@ fn build_app() -> App<'static, 'static> {
     App::new("ufc")
         .version("v0.0.1")
         .about("Ultimate Fantastic CLI")
-        .author("Joeky <https://github.com/joeky888>")
+        .author("The UFC Team <https://github.com/joeky888/ufc>")
         .global_setting(AppSettings::ColorAlways)
         .global_setting(AppSettings::ColoredHelp)
         .global_setting(AppSettings::DisableHelpFlags)
