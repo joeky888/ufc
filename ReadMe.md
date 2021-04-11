@@ -11,6 +11,10 @@ Rewritten in safe rust.
 
 #### Examples
 
+`ufc df -h`
+
 ![df](https://i.imgur.com/0OP1hbW.png)
+
+`ufc ping google.com`
 
 ![ping](https://i.imgur.com/tmjoQa0.png)
