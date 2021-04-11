@@ -16,6 +16,10 @@ Rewritten in safe rust.
 
 ![ping](https://i.imgur.com/tmjoQa0.png)
 
+`source <(ufc completion bash)`
+
+![ping completion](https://i.imgur.com/mlV1zuR.png)
+
 `ufc df -h`
 
 ![df](https://i.imgur.com/0OP1hbW.png)
