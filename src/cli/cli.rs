@@ -354,13 +354,12 @@ fn colored_output<'a>(
                     });
 
                     // println!("colored_strings={:?}", colored_strings);
-                    // let len = colored_strings.len();
                     // println!("colored_strings={:?}", colored_strings);
 
                     main_string[index].text = String::new();
                     main_string.remove(index);
                     main_string.splice((index)..(index), colored_strings);
-                    // index += 1;
+                    index += 1;
                 }
                 None => {}
             };
