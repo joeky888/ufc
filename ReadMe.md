@@ -5,7 +5,7 @@ Rewritten in safe rust.
 ### Features
 
 * Single binary with zero setup
-* Command output highlighting
+* Command output highlighting via `ufc <subcommand> <args>`
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Support macOS and Linux (Windows and FreeBSD should also work)
