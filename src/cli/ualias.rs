@@ -4,7 +4,7 @@ pub struct Ualias {}
 
 impl Ualias {
     pub fn new() -> App<'static, 'static> {
-        App::new("ualias").about("ualias gen (like alias but with a 'u' prefixed)")
+        App::new("ualias").about("ualias gen (like alias but with a 'u' prefixed for each subcommand)")
     }
 
     pub fn gen() {
