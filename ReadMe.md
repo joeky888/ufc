@@ -24,6 +24,14 @@ Rewritten in safe rust.
 
 ![df](https://i.imgur.com/0OP1hbW.png)
 
+### Milestones
+
+This porject is still at an early stage of development.
+
+* Version 1.0.0 should support 10 subcommands
+* Version 2.0.0 should support 20 subcommands
+* Version 3.0.0 should support 30 subcommands
+
 ### TODO
 
 * Upgrade to clap 3
