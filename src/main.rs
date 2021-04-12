@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias::Alias, completion::Completion, df, docker, ping};
+use cli::{alias::Alias, ualias::Ualias, completion::Completion, df, docker, ping};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -20,6 +20,7 @@ fn build_app() -> App<'static, 'static> {
         // .global_setting(AppSettings::DisableHelpSubcommand)
         .subcommands(vec![
             Alias::new(),
+            Ualias::new(),
             Completion::new(),
             df::CMD::new(),
             docker::CMD::new(),
@@ -52,6 +53,7 @@ fn main() {
             }
         },
         ("alias", Some(_args)) => Alias::gen(),
+        ("ualias", Some(_args)) => Ualias::gen(),
         ("df", Some(args)) => df::CMD::parse(args),
         ("docker", Some(args)) => docker::CMD::parse(args),
         ("ping", Some(args)) => ping::CMD::parse(args),
