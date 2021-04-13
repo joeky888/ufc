@@ -1,15 +1,15 @@
 use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, ArgMatches};
 use fancy_regex::Regex;
-pub struct Images {}
+pub struct Cmd {}
 
-impl Images {
+impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("images").about("docker images")
     }
 
     pub fn parse(_args: &ArgMatches) {
-        exec(Images::palette());
+        exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {

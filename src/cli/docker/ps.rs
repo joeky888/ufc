@@ -2,22 +2,47 @@ use crate::cli::cli::{exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
-pub struct Ps {}
+pub struct Cmd {}
 
-impl Ps {
+impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("ps")
-            .arg(
+            .args(&[
                 Arg::with_name("all")
+                    .long("all")
                     .short("a")
-                    .required(false)
                     .help("Show all containers (default shows just running)"),
-            )
+                Arg::with_name("filter")
+                    .long("filter")
+                    .short("f")
+                    .takes_value(true)
+                    .help("Filter output based on conditions provided"),
+                Arg::with_name("format")
+                    .long("format")
+                    .takes_value(true)
+                    .help("Pretty-print containers using a Go template"),
+                Arg::with_name("last")
+                    .long("last")
+                    .short("n")
+                    .takes_value(true)
+                    .help("Show n last created containers (includes all states) (default -1)"),
+                Arg::with_name("no-trunc")
+                    .long("no-trunc")
+                    .help("Don't truncate output"),
+                Arg::with_name("quiet")
+                    .long("quiet")
+                    .short("q")
+                    .help("Only display numeric IDs"),
+                Arg::with_name("size")
+                    .long("size")
+                    .short("s")
+                    .help("Display total file sizes"),
+            ])
             .about("docker ps")
     }
 
     pub fn parse(_args: &ArgMatches) {
-        exec(Ps::palette());
+        exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {

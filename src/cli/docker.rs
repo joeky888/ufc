@@ -1,8 +1,6 @@
-use clap::{App, Arg, ArgMatches};
+use clap::{App, AppSettings, Arg, ArgMatches};
 mod images;
 mod ps;
-use images::Images;
-use ps::Ps;
 
 use super::cli::exec;
 
@@ -20,14 +18,15 @@ impl Cmd {
             ])
             // .setting(AppSettings::NeedsSubcommandHelp)
             // .setting(AppSettings::SubcommandRequiredElseHelp)
-            .subcommands(vec![Ps::new(), Images::new()])
+            .setting(AppSettings::ArgRequiredElseHelp)
+            .subcommands(vec![ps::Cmd::new(), images::Cmd::new()])
             .about("docker")
     }
 
     pub fn parse(app: &ArgMatches) {
         match app.subcommand() {
-            ("ps", Some(args)) => Ps::parse(args),
-            ("images", Some(args)) => Images::parse(args),
+            ("ps", Some(args)) => ps::Cmd::parse(args),
+            ("images", Some(args)) => images::Cmd::parse(args),
             _ => exec(vec![]),
         }
     }
