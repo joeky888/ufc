@@ -1,8 +1,8 @@
 use clap::App;
 
-pub struct Alias {}
+pub struct Cmd {}
 
-impl Alias {
+impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("alias").about("alias gen")
     }

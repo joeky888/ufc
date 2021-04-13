@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias::Alias, ualias::Ualias, completion::Completion, df, docker, ping};
+use cli::{alias, completion::Completion, df, docker, ping, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -14,17 +14,14 @@ fn build_app() -> App<'static, 'static> {
         .global_setting(AppSettings::DisableHelpFlags)
         .global_setting(AppSettings::VersionlessSubcommands)
         .global_setting(AppSettings::DisableHelpSubcommand)
-        // .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::SubcommandRequiredElseHelp)
-        // .global_setting(AppSettings::SubcommandRequiredElseHelp)
-        // .global_setting(AppSettings::DisableHelpSubcommand)
         .subcommands(vec![
-            Alias::new(),
-            Ualias::new(),
+            alias::Cmd::new(),
+            ualias::Cmd::new(),
             Completion::new(),
-            df::CMD::new(),
-            docker::CMD::new(),
-            ping::CMD::new(),
+            df::Cmd::new(),
+            docker::Cmd::new(),
+            ping::Cmd::new(),
         ])
 }
 
@@ -52,11 +49,11 @@ fn main() {
                 println!("Unsupported completion")
             }
         },
-        ("alias", Some(_args)) => Alias::gen(),
-        ("ualias", Some(_args)) => Ualias::gen(),
-        ("df", Some(args)) => df::CMD::parse(args),
-        ("docker", Some(args)) => docker::CMD::parse(args),
-        ("ping", Some(args)) => ping::CMD::parse(args),
+        ("alias", Some(_args)) => alias::Cmd::gen(),
+        ("ualias", Some(_args)) => ualias::Cmd::gen(),
+        ("df", Some(args)) => df::Cmd::parse(args),
+        ("docker", Some(args)) => docker::Cmd::parse(args),
+        ("ping", Some(args)) => ping::Cmd::parse(args),
         _ => println!("Unsupported command"),
     }
 }

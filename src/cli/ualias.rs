@@ -1,8 +1,8 @@
 use clap::App;
 
-pub struct Ualias {}
+pub struct Cmd {}
 
-impl Ualias {
+impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("ualias").about("ualias gen (like alias but with a 'u' prefixed for each subcommand)")
     }

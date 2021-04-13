@@ -6,9 +6,9 @@ use ps::Ps;
 
 use super::cli::exec;
 
-pub struct CMD {}
+pub struct Cmd {}
 
-impl CMD {
+impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("docker")
             .args(&[
