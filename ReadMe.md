@@ -38,13 +38,13 @@ This porject is still at an early stage of development.
 
 ### Credits
 
-This project is powered by
+This project is inspired by
 
-* [clap](https://github.com/clap-rs/clap)
 * [grc](https://github.com/garabik/grc)
-* [fancy-regex](https://github.com/fancy-regex/fancy-regex)
-* [termcolor](https://github.com/BurntSushi/termcolor)
 * [manpage](https://en.wikipedia.org/wiki/Man_page)
+* [clap](https://github.com/clap-rs/clap)
+* [fish](https://github.com/fish-shell/fish-shell)
+* [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 
 ### Licence
 
