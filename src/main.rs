@@ -7,7 +7,7 @@ use cli::{alias, completion::Completion, df, docker, ping, ualias};
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
         .version("v0.0.1")
-        .about("Ultimate Friendly CLI")
+        .about("Ultimate Friendly CLI tool")
         .author("The UFC Team <https://github.com/joeky888/ufc>")
         .global_setting(AppSettings::ColorAlways)
         .global_setting(AppSettings::ColoredHelp)
