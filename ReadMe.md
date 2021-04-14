@@ -42,7 +42,7 @@ This project is inspired by
 
 * [grc](https://github.com/garabik/grc)
 * [manpage](https://en.wikipedia.org/wiki/Man_page)
-* [clap](https://github.com/clap-rs/clap)
+* [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap)
 * [fish](https://github.com/fish-shell/fish-shell)
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 
