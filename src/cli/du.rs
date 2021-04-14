@@ -89,11 +89,11 @@ impl Cmd {
                 regexp: Regex::new(r#"^\d{1,3}"#).unwrap(),
                 colours: vec![&Colours::Green],
             },
-            // // Cannot read STDERR, not working
-            // Palette {
-            //     regexp: Regex::new(r#"^du.*"#).unwrap(),
-            //     colours: vec![&Colours::Red],
-            // },
+            // Cannot read error
+            Palette {
+                regexp: Regex::new(r#"^du.*"#).unwrap(),
+                colours: vec![&Colours::Red],
+            },
         ]
     }
 }
