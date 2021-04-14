@@ -8,7 +8,7 @@ impl Cmd {
     }
 
     pub fn gen() {
-        let subcommands = vec!["df", "docker", "du", "ping"];
+        let subcommands = vec!["df", "docker", "du", "fdisk", "ping"];
         let mut alias = String::new();
         for cmd_str in subcommands.iter() {
             alias.push_str(format!("alias u{}='ufc {}'\n", cmd_str, cmd_str).as_str());

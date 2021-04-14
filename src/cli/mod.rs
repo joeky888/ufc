@@ -5,4 +5,5 @@ pub mod completion;
 pub mod df;
 pub mod docker;
 pub mod du;
+pub mod fdisk;
 pub mod ping;

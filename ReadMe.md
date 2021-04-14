@@ -9,6 +9,7 @@ Rewritten in safe rust.
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Support macOS and Linux (Windows and FreeBSD should also work)
+* Support root and non-root users
 
 ### Examples
 

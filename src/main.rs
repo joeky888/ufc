@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, docker, du, ping, ualias};
+use cli::{alias, completion::Completion, df, docker, du, fdisk, ping, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -22,6 +22,7 @@ fn build_app() -> App<'static, 'static> {
             df::Cmd::new(),
             docker::Cmd::new(),
             du::Cmd::new(),
+            fdisk::Cmd::new(),
             ping::Cmd::new(),
         ])
 }
@@ -55,6 +56,7 @@ fn main() {
         ("df", Some(args)) => df::Cmd::parse(args),
         ("docker", Some(args)) => docker::Cmd::parse(args),
         ("du", Some(args)) => du::Cmd::parse(args),
+        ("fdisk", Some(args)) => fdisk::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
         _ => println!("Unsupported command"),
     }
