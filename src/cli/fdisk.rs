@@ -60,7 +60,7 @@ impl Cmd {
             // Disk
             Palette {
                 regexp: Regex::new(r#"^(Disk) (?:\/([^\/: ]+))+"#).unwrap(),
-                colours: vec![&Colours::Yellow, &Colours::OnYellow, &Colours::Black, &Colours::BYellow],
+                colours: vec![&Colours::Yellow, &Colours::OnYellow, &Colours::BYellow, &Colours::BYellow],
             },
             // Error
             Palette {
