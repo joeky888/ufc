@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, docker, du, fdisk, ping, ualias};
+use cli::{alias, completion::Completion, df, dig, docker, du, fdisk, ping, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -20,6 +20,7 @@ fn build_app() -> App<'static, 'static> {
             ualias::Cmd::new(),
             Completion::new(),
             df::Cmd::new(),
+            dig::Cmd::new(),
             docker::Cmd::new(),
             du::Cmd::new(),
             fdisk::Cmd::new(),
@@ -54,6 +55,7 @@ fn main() {
         ("alias", Some(_args)) => alias::Cmd::gen(),
         ("ualias", Some(_args)) => ualias::Cmd::gen(),
         ("df", Some(args)) => df::Cmd::parse(args),
+        ("dig", Some(args)) => dig::Cmd::parse(args),
         ("docker", Some(args)) => docker::Cmd::parse(args),
         ("du", Some(args)) => du::Cmd::parse(args),
         ("fdisk", Some(args)) => fdisk::Cmd::parse(args),
