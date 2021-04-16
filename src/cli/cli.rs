@@ -107,28 +107,8 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let bufwtr = BufferWriter::stdout(ColorChoice::Always);
-            let mut buffer_writer = bufwtr.buffer();
             let ln = &line.unwrap();
-            let mut buffer = bufwtr.buffer();
-
-            let mut main_string = vec![ColorString {
-                text: ln.clone(),
-                color: &Colours::Default,
-            }];
-            let main_string = colored_output(&mut main_string, &palettes_stdout);
-
-            for str in main_string.iter() {
-                buffer.set_color(&get_color(str.color)).unwrap();
-                write!(&mut buffer, "{}", str.text).unwrap();
-
-                // Reset color
-                buffer.set_color(&get_color(&Colours::Default)).unwrap();
-            }
-
-            write!(&mut buffer, "\n").unwrap();
-            buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
-            // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
-            bufwtr.print(&buffer_writer).unwrap();
+            color_std(&bufwtr, ln, &palettes_stdout);
         });
     });
 
@@ -136,28 +116,8 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
             let bufwtr = BufferWriter::stderr(ColorChoice::Always);
-            let mut buffer_writer = bufwtr.buffer();
             let ln = &line.unwrap();
-            let mut buffer = bufwtr.buffer();
-
-            let mut main_string = vec![ColorString {
-                text: ln.clone(),
-                color: &Colours::Default,
-            }];
-            let main_string = colored_output(&mut main_string, &palettes_stderr);
-
-            for str in main_string.iter() {
-                buffer.set_color(&get_color(str.color)).unwrap();
-                write!(&mut buffer, "{}", str.text).unwrap();
-
-                // Reset color
-                buffer.set_color(&get_color(&Colours::Default)).unwrap();
-            }
-
-            write!(&mut buffer, "\n").unwrap();
-            buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
-            // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
-            bufwtr.print(&buffer_writer).unwrap();
+            color_std(&bufwtr, ln, &palettes_stderr);
         });
     });
 
@@ -184,6 +144,30 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     stderr_thread.join().unwrap();
 
     process::exit(exit_code);
+}
+
+fn color_std(bufwtr: &BufferWriter, ln: &String, palettes: &Arc<Vec<Palette>>) {
+    let mut buffer = bufwtr.buffer();
+    let mut buffer_writer = bufwtr.buffer();
+
+    let mut main_string = vec![ColorString {
+        text: ln.clone(),
+        color: &Colours::Default,
+    }];
+    let main_string = colored_output(&mut main_string, &palettes);
+
+    for str in main_string.iter() {
+        buffer.set_color(&get_color(str.color)).unwrap();
+        write!(&mut buffer, "{}", str.text).unwrap();
+
+        // Reset color
+        buffer.set_color(&get_color(&Colours::Default)).unwrap();
+    }
+
+    write!(&mut buffer, "\n").unwrap();
+    buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
+    // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
+    bufwtr.print(&buffer_writer).unwrap();
 }
 
 fn get_color(color: &Colours) -> ColorSpec {
