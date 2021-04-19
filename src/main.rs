@@ -2,12 +2,12 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, dig, docker, du, fdisk, ping, ualias};
+use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, ping, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
         .version("v0.0.1")
-        .about("Ultimate Friendly CLI tool")
+        .about("Ultimate Friendly Colorizer")
         .author("The UFC Team <https://github.com/joeky888/ufc>")
         .global_setting(AppSettings::ColorAlways)
         .global_setting(AppSettings::ColoredHelp)
@@ -23,6 +23,7 @@ fn build_app() -> App<'static, 'static> {
             dig::Cmd::new(),
             docker::Cmd::new(),
             du::Cmd::new(),
+            env::Cmd::new(),
             fdisk::Cmd::new(),
             ping::Cmd::new(),
         ])
@@ -58,6 +59,7 @@ fn main() {
         ("dig", Some(args)) => dig::Cmd::parse(args),
         ("docker", Some(args)) => docker::Cmd::parse(args),
         ("du", Some(args)) => du::Cmd::parse(args),
+        ("env", Some(args)) => env::Cmd::parse(args),
         ("fdisk", Some(args)) => fdisk::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
         _ => println!("Unsupported command"),
