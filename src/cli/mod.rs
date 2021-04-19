@@ -8,4 +8,5 @@ pub mod docker;
 pub mod du;
 pub mod env;
 pub mod fdisk;
+pub mod findmnt;
 pub mod ping;
