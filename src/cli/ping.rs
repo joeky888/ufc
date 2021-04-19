@@ -56,56 +56,27 @@ impl Cmd {
 
     fn palette() -> Vec<Palette<'static>> {
         vec![
-            // IP
+            // nping
             Palette {
-                regexp: Regex::new(r#"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"#).unwrap(),
-                colours: vec![&Colours::BBlue],
-            },
-            // ipv6 number
-            Palette {
-                regexp: Regex::new(r#"(([0-9a-fA-F]{1,4})?\:\:?[0-9a-fA-F]{1,4})+"#).unwrap(),
-                colours: vec![&Colours::Magenta],
-            },
-            // icmp_seq=
-            Palette {
-                regexp: Regex::new(r#"icmp_seq=(\d+)"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Magenta],
-            },
-            // ttl=
-            Palette {
-                regexp: Regex::new(r#"ttl=(\d+)"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Magenta],
-            },
-            // name
-            Palette {
-                regexp: Regex::new(r#"(?:[fF]rom|PING)\s(\S+)\s"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Blue],
-            },
-            // DUP
-            Palette {
-                regexp: Regex::new(r#"DUP\!"#).unwrap(),
+                regexp: Regex::new(r#"unreachable"#).unwrap(),
                 colours: vec![&Colours::Red],
             },
-            // OK
+            // these are good for nping
             Palette {
-                regexp: Regex::new(r#" 0(\.0)?% packet loss"#).unwrap(),
-                colours: vec![&Colours::Green],
+                regexp: Regex::new(r#"SENT|RCVD"#).unwrap(),
+                colours: vec![&Colours::Red],
             },
-            // Errors
+            // last line values
             Palette {
-                regexp: Regex::new(r#"(Destination Host Unreachable|100(\.0)?% packet loss)"#)
+                regexp: Regex::new(r#"\=\s([0-9\.]+)/([0-9\.]+)/([0-9\.]+)/([0-9\.]+)"#)
                     .unwrap(),
-                colours: vec![&Colours::Red],
-            },
-            // unknown host
-            Palette {
-                regexp: Regex::new(r#".+unknown\shost\s(.+)"#).unwrap(),
-                colours: vec![&Colours::Red, &Colours::BRed],
-            },
-            // statistics header
-            Palette {
-                regexp: Regex::new(r#"--- (\S+) ping statistics ---"#).unwrap(),
-                colours: vec![&Colours::BDefault, &Colours::BBlue],
+                colours: vec![
+                    &Colours::Default,
+                    &Colours::BYellow,
+                    &Colours::BBlue,
+                    &Colours::BRed,
+                    &Colours::BMagenta,
+                ],
             },
             // last line min/avg/max/mdev
             Palette {
@@ -118,32 +89,61 @@ impl Cmd {
                     &Colours::BMagenta,
                 ],
             },
-            // last line values
+            // statistics header
             Palette {
-                regexp: Regex::new(r#"\=\s([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)"#)
-                    .unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::BYellow,
-                    &Colours::BBlue,
-                    &Colours::BRed,
-                    &Colours::BMagenta,
-                ],
+                regexp: Regex::new(r#"--- (\S+) ping statistics ---"#).unwrap(),
+                colours: vec![&Colours::BDefault, &Colours::BBlue],
             },
-            // these are good for nping
+            // unknown host
             Palette {
-                regexp: Regex::new(r#"SENT|RCVD"#).unwrap(),
+                regexp: Regex::new(r#".+unknown\shost\s(.+)"#).unwrap(),
+                colours: vec![&Colours::Red, &Colours::BRed],
+            },
+            // Errors
+            Palette {
+                regexp: Regex::new(r#"(Destination Host Unreachable|100(\.0)?% packet loss)"#)
+                    .unwrap(),
                 colours: vec![&Colours::Red],
             },
-            // nping
+            // OK
             Palette {
-                regexp: Regex::new(r#"unreachable"#).unwrap(),
+                regexp: Regex::new(r#" 0(\.0)?% packet loss"#).unwrap(),
+                colours: vec![&Colours::Green],
+            },
+            // DUP
+            Palette {
+                regexp: Regex::new(r#"DUP\!"#).unwrap(),
                 colours: vec![&Colours::Red],
             },
             // time
             Palette {
-                regexp: Regex::new(r#"([0-9\.]+)\s?ms"#).unwrap(),
+                regexp: Regex::new(r#"([0-9\.]+)?\s?ms"#).unwrap(),
                 colours: vec![&Colours::Green, &Colours::BGreen],
+            },
+            // name
+            Palette {
+                regexp: Regex::new(r#"(?:[fF]rom|PING)\s(\S+)\s"#).unwrap(),
+                colours: vec![&Colours::Default, &Colours::Blue],
+            },
+            // ttl=
+            Palette {
+                regexp: Regex::new(r#"ttl=(\d+)"#).unwrap(),
+                colours: vec![&Colours::Default, &Colours::Magenta],
+            },
+            // icmp_seq=
+            Palette {
+                regexp: Regex::new(r#"icmp_seq=(\d+)"#).unwrap(),
+                colours: vec![&Colours::Default, &Colours::Magenta],
+            },
+            // ipv6 number
+            Palette {
+                regexp: Regex::new(r#"(([0-9a-fA-F]{1,4})?\:\:?[0-9a-fA-F]{1,4})+"#).unwrap(),
+                colours: vec![&Colours::Magenta],
+            },
+            // IP
+            Palette {
+                regexp: Regex::new(r#"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"#).unwrap(),
+                colours: vec![&Colours::BBlue],
             },
         ]
     }
