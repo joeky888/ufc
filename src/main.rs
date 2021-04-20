@@ -2,7 +2,10 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, ping, top, ualias};
+use cli::{
+    alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, ping, top,
+    ualias,
+};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -33,6 +36,10 @@ fn build_app() -> App<'static, 'static> {
 }
 
 fn main() {
+    let supported_cmd = &vec![
+        "df", "docker", "dig", "du", "env", "fdisk", "free", "ping", "top",
+    ];
+
     let app_matches = build_app().get_matches();
 
     match app_matches.subcommand() {
@@ -56,8 +63,8 @@ fn main() {
                 println!("Unsupported completion")
             }
         },
-        ("alias", Some(_args)) => alias::Cmd::gen(),
-        ("ualias", Some(_args)) => ualias::Cmd::gen(),
+        ("alias", Some(_args)) => alias::Cmd::gen(supported_cmd),
+        ("ualias", Some(_args)) => ualias::Cmd::gen(supported_cmd),
         ("df", Some(args)) => df::Cmd::parse(args),
         ("dig", Some(args)) => dig::Cmd::parse(args),
         ("docker", Some(args)) => docker::Cmd::parse(args),
