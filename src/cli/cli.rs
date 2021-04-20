@@ -63,6 +63,14 @@ pub enum Colours {
     OnMagenta,
     OnYellow,
     OnWhite,
+    BlackOnBlack,
+    BlackOnBlue,
+    BlackOnGreen,
+    BlackOnRed,
+    BlackOnCyan,
+    BlackOnMagenta,
+    BlackOnYellow,
+    BlackOnWhite,
     // Undoerline
     UDefault,
     UBlack,
@@ -117,7 +125,7 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
         stderr.lines().for_each(|line| {
             let bufwtr = BufferWriter::stderr(ColorChoice::Always);
             let ln = &line.unwrap();
-            color_std(&bufwtr, ln, &palettes_stderr);
+            color_std(&bufwtr, &ln, &palettes_stderr);
         });
     });
 
@@ -245,6 +253,14 @@ fn get_color(color: &Colours) -> ColorSpec {
         Colours::OnMagenta => col.set_bg(Some(Color::Magenta)),
         Colours::OnYellow => col.set_bg(Some(Color::Yellow)),
         Colours::OnWhite => col.set_bg(Some(Color::White)),
+        Colours::BlackOnBlack => col.set_bg(Some(Color::Black)).set_fg(Some(Color::Black)),
+        Colours::BlackOnBlue => col.set_bg(Some(Color::Blue)).set_fg(Some(Color::Black)),
+        Colours::BlackOnGreen => col.set_bg(Some(Color::Green)).set_fg(Some(Color::Black)),
+        Colours::BlackOnRed => col.set_bg(Some(Color::Red)).set_fg(Some(Color::Black)),
+        Colours::BlackOnCyan => col.set_bg(Some(Color::Cyan)).set_fg(Some(Color::Black)),
+        Colours::BlackOnMagenta => col.set_bg(Some(Color::Magenta)).set_fg(Some(Color::Black)),
+        Colours::BlackOnYellow => col.set_bg(Some(Color::Yellow)).set_fg(Some(Color::Black)),
+        Colours::BlackOnWhite => col.set_bg(Some(Color::White)).set_fg(Some(Color::Black)),
         Colours::DDefault => col.set_dimmed(true).set_fg(None),
         Colours::DBlack => col.set_dimmed(true).set_fg(Some(Color::Black)),
         Colours::DBlue => col.set_dimmed(true).set_fg(Some(Color::Blue)),

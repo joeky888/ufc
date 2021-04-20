@@ -2,7 +2,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, ping, ualias};
+use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, ping, top, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -28,6 +28,7 @@ fn build_app() -> App<'static, 'static> {
             findmnt::Cmd::new(),
             free::Cmd::new(),
             ping::Cmd::new(),
+            top::Cmd::new(),
         ])
 }
 
@@ -66,6 +67,7 @@ fn main() {
         ("findmnt", Some(args)) => findmnt::Cmd::parse(args),
         ("free", Some(args)) => free::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
+        ("top", Some(args)) => top::Cmd::parse(args),
         _ => println!("Unsupported command"),
     }
 }
