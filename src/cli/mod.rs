@@ -10,5 +10,6 @@ pub mod env;
 pub mod fdisk;
 pub mod findmnt;
 pub mod free;
+pub mod ifconfig;
 pub mod ping;
 pub mod top;
