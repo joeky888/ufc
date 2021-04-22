@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 use std::io;
 
 use clap::{App, AppSettings, Shell};

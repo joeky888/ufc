@@ -1,6 +1,6 @@
 Supersedes my [previous work](https://github.com/joeky888/ugc).
 
-Rewritten in safe rust.
+Rewritten in safe rust (`#![forbid(unsafe_code)]` is used).
 
 ### Features
 
