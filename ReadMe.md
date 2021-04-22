@@ -33,17 +33,30 @@ This porject is still at an early stage of development.
 * Version 2.0.0 should support 20 subcommands
 * Version 3.0.0 should support 30 subcommands
 
+Currently supported commands are
+
+* df
+* docker (incomplete)
+* dig
+* du
+* env
+* fdisk
+* free
+* ifconfig
+* ping
+* top
+
 ### TODO
 
 * Upgrade to clap 3
 
 ### Credits
 
-This project is inspired by
+This project is powered and inspired by
 
-* [grc](https://github.com/garabik/grc)
-* [manpage](https://en.wikipedia.org/wiki/Man_page)
-* [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap)
+* [grc](https://github.com/garabik/grc) - All syntax files are modified from grc (Regex definitions in Rust and Python are incompatible)
+* [manpage](https://en.wikipedia.org/wiki/Man_page) - All completions and docs are copied from manpage
+* [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap) - Completion generating
 * [fish](https://github.com/fish-shell/fish-shell)
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 
