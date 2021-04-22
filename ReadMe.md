@@ -46,9 +46,9 @@ Currently supported commands are
 ### TODO
 
 * Upgrade to clap-rs v3
-* Add Watch mode (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command)))
-* Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron))
-* Add Time mode (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix)))
+* Add Watch mode (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - runs the subprogram every N seconds
+* Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - runs the subprogram as a scheduling daemon
+* Add Time mode (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - timing statistics when the subprogram exits
 
 ### Credits
 
