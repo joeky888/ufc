@@ -58,8 +58,9 @@ This project is powered and inspired by
 * [grc](https://github.com/garabik/grc) - All syntax files are modified from grc (Regex definitions in Rust and Python are incompatible)
 * [manpage](https://en.wikipedia.org/wiki/Man_page) - All completions and docs are copied from manpage
 * [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap) - Completion generating
-* [fish](https://github.com/fish-shell/fish-shell) [Issue#7451](https://github.com/fish-shell/fish-shell/issues/7451)
+* [fish](https://github.com/fish-shell/fish-shell) ([Issue#7451](https://github.com/fish-shell/fish-shell/issues/7451))
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
+* [powerlevel10k](https://github.com/romkatv/powerlevel10k)/[gitstatus](https://github.com/romkatv/gitstatus) - The idea of combining zsh theme and external `gitstatus` command is inspiring
 * [ugc](https://github.com/joeky888/ugc) - My previous work in Golang
 
 ### Licence
