@@ -1,7 +1,3 @@
-Supersedes my [previous work](https://github.com/joeky888/ugc).
-
-Rewritten in safe rust (`#![forbid(unsafe_code)]` is used).
-
 ### Features
 
 * Single binary with zero setup
@@ -10,6 +6,7 @@ Rewritten in safe rust (`#![forbid(unsafe_code)]` is used).
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Support macOS and Linux (Windows and FreeBSD should also work)
 * Support root and non-root users
+* Written in safe rust (`#![forbid(unsafe_code)]` is used)
 
 ### Examples
 
@@ -59,6 +56,7 @@ This project is powered and inspired by
 * [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap) - Completion generating
 * [fish](https://github.com/fish-shell/fish-shell)
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
+* [ugc](https://github.com/joeky888/ugc) - My previous work in Golang
 
 ### Licence
 
