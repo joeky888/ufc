@@ -45,7 +45,10 @@ Currently supported commands are
 
 ### TODO
 
-* Upgrade to clap 3
+* Upgrade to clap-rs v3
+* Add Watch mode (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command)))
+* Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron))
+* Add Time mode (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix)))
 
 ### Credits
 
