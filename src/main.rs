@@ -4,7 +4,7 @@ use std::io;
 
 use clap::{App, AppSettings, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, ifconfig, ping, top, ualias};
+use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, id, ifconfig, ping, top, ualias};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -29,6 +29,7 @@ fn build_app() -> App<'static, 'static> {
             fdisk::Cmd::new(),
             findmnt::Cmd::new(),
             free::Cmd::new(),
+            id::Cmd::new(),
             ifconfig::Cmd::new(),
             ping::Cmd::new(),
             top::Cmd::new(),
@@ -37,7 +38,7 @@ fn build_app() -> App<'static, 'static> {
 
 fn main() {
     let supported_cmd = &vec![
-        "df", "docker", "dig", "du", "env", "fdisk", "free", "ifconfig", "ping", "top",
+        "df", "docker", "dig", "du", "env", "fdisk", "free", "id", "ifconfig", "ping", "top",
     ];
 
     let app_matches = build_app().get_matches();
@@ -73,6 +74,7 @@ fn main() {
         ("fdisk", Some(args)) => fdisk::Cmd::parse(args),
         ("findmnt", Some(args)) => findmnt::Cmd::parse(args),
         ("free", Some(args)) => free::Cmd::parse(args),
+        ("id", Some(args)) => id::Cmd::parse(args),
         ("ifconfig", Some(args)) => ifconfig::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
         ("top", Some(args)) => top::Cmd::parse(args),
