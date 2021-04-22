@@ -4,7 +4,7 @@
 * Command output highlighting via `ufc <subcommand> <args>`
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
-* Support macOS and Linux (Windows and FreeBSD should also work)
+* Support macOS and Linux (Windows, FreeBSD and Android Termux should also work)
 * Support root and non-root users
 * Written in safe rust (`#![forbid(unsafe_code)]` is used)
 
