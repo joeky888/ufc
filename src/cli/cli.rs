@@ -93,6 +93,14 @@ pub enum Colours {
     UBWhite,
 }
 
+fn clear_screen() {
+    if cfg!(windows) {
+        let _ = Command::new("cmd.exe").args(&["/c", "cls"]).status();
+    } else {
+        let _ = Command::new("clear").status();
+    };
+}
+
 pub fn exec(palettes: Vec<Palette<'static>>) {
     let args: Vec<String> = env::args().collect();
 
