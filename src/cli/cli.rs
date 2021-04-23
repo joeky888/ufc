@@ -97,7 +97,8 @@ fn clear_screen() {
     if cfg!(windows) {
         let _ = Command::new("cmd.exe").args(&["/c", "cls"]).status();
     } else {
-        let _ = Command::new("clear").status();
+        // https://stackoverflow.com/a/66911945
+        print!("{esc}c", esc = 27 as char);
     };
 }
 
