@@ -38,10 +38,10 @@ fn build_app() -> App<'static, 'static> {
             top::Cmd::new(),
         ])
         .args(&[Arg::with_name("watch_sec")
-            .long("watch_sec")
+            .long("watch")
             .short("w")
             .takes_value(true)
-            .help("execute subcommand every N second(s)")])
+            .help("Optional watch mode, execute subcommand every N second(s)")])
 }
 
 fn main() {
