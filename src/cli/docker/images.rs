@@ -1,39 +1,41 @@
-use crate::cli::cli::{exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
     pub fn new() -> App<'static, 'static> {
-        App::new("images").args(&[
-            Arg::with_name("all")
-                .long("all")
-                .short("a")
-                .help("Show all images (default hides intermediate images)"),
-            Arg::with_name("digests")
-                .long("digests")
-                .help("Show digests"),
-            Arg::with_name("filter")
-                .long("filter")
-                .short("f")
-                .takes_value(true)
-                .help("Filter output based on conditions provided"),
-            Arg::with_name("format")
-                .long("format")
-                .takes_value(true)
-                .help("Pretty-print containers using a Go template"),
-            Arg::with_name("no-trunc")
-                .long("no-trunc")
-                .help("Don't truncate output"),
-            Arg::with_name("quiet")
-                .long("quiet")
-                .short("q")
-                .help("Only display numeric IDs"),
-        ]).about("docker images")
+        App::new("images")
+            .args(&[
+                Arg::with_name("all")
+                    .long("all")
+                    .short("a")
+                    .help("Show all images (default hides intermediate images)"),
+                Arg::with_name("digests")
+                    .long("digests")
+                    .help("Show digests"),
+                Arg::with_name("filter")
+                    .long("filter")
+                    .short("f")
+                    .takes_value(true)
+                    .help("Filter output based on conditions provided"),
+                Arg::with_name("format")
+                    .long("format")
+                    .takes_value(true)
+                    .help("Pretty-print containers using a Go template"),
+                Arg::with_name("no-trunc")
+                    .long("no-trunc")
+                    .help("Don't truncate output"),
+                Arg::with_name("quiet")
+                    .long("quiet")
+                    .short("q")
+                    .help("Only display numeric IDs"),
+            ])
+            .about("docker images")
     }
 
     pub fn parse(_args: &ArgMatches) {
-        exec(Cmd::palette());
+        pre_exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {

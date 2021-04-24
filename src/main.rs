@@ -2,9 +2,12 @@
 
 use std::io;
 
-use clap::{App, AppSettings, Shell};
+use clap::{App, AppSettings, Arg, Shell};
 mod cli;
-use cli::{alias, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, id, ifconfig, ping, top, ualias};
+use cli::{
+    alias, cli::SETTINGS, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free,
+    id, ifconfig, ping, top, ualias,
+};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -34,6 +37,11 @@ fn build_app() -> App<'static, 'static> {
             ping::Cmd::new(),
             top::Cmd::new(),
         ])
+        .args(&[Arg::with_name("watch_sec")
+            .long("watch_sec")
+            .short("w")
+            .takes_value(true)
+            .help("execute subcommand every N second(s)")])
 }
 
 fn main() {
@@ -42,6 +50,20 @@ fn main() {
     ];
 
     let app_matches = build_app().get_matches();
+
+    match app_matches.value_of("watch_sec") {
+        Some(value) => {
+            SETTINGS.write().unwrap().watch_sec = value.to_string().parse().unwrap();
+        }
+        _ => {}
+    }
+
+    match app_matches.subcommand_name() {
+        Some(value) => {
+            SETTINGS.write().unwrap().subcommand_name = value.to_string();
+        }
+        _ => {}
+    }
 
     match app_matches.subcommand() {
         ("completion", Some(args)) => match args.subcommand_name() {

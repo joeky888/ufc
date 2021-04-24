@@ -1,4 +1,4 @@
-use crate::cli::cli::{exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -55,7 +55,7 @@ impl Cmd {
 
     pub fn parse(_app: &ArgMatches) {
         // print!("{:?}", app);
-        exec(Cmd::palette());
+        pre_exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {
@@ -88,7 +88,7 @@ impl Cmd {
             // Mount Path
             Palette {
                 regexp: Regex::new(r#"(?<=─|-)(?:\/([^\/ ]+))+"#).unwrap(),
-                colours: vec![&Colours::UnChanged,&Colours::BYellow],
+                colours: vec![&Colours::UnChanged, &Colours::BYellow],
             },
             // Devices
             Palette {

@@ -1,4 +1,4 @@
-use crate::cli::cli::{exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colours, Palette};
 use clap::{App, AppSettings, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -17,7 +17,7 @@ impl Cmd {
 
     pub fn parse(_app: &ArgMatches) {
         // print!("{:?}", app);
-        exec(Cmd::palette());
+        pre_exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {
@@ -45,7 +45,7 @@ impl Cmd {
             // Type
             Palette {
                 regexp: Regex::new(r#"type: (.*)$"#).unwrap(),
-                colours: vec![&Colours::UnChanged,&Colours::BCyan],
+                colours: vec![&Colours::UnChanged, &Colours::BCyan],
             },
             // Partitions
             Palette {
@@ -60,7 +60,12 @@ impl Cmd {
             // Disk
             Palette {
                 regexp: Regex::new(r#"^(Disk) (?:\/([^\/: ]+))+"#).unwrap(),
-                colours: vec![&Colours::Yellow, &Colours::OnYellow, &Colours::BYellow, &Colours::BYellow],
+                colours: vec![
+                    &Colours::Yellow,
+                    &Colours::OnYellow,
+                    &Colours::BYellow,
+                    &Colours::BYellow,
+                ],
             },
             // Error
             Palette {

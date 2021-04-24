@@ -2,7 +2,7 @@ use clap::{App, AppSettings, Arg, ArgMatches};
 mod images;
 mod ps;
 
-use super::cli::exec;
+use super::cli::pre_exec;
 
 pub struct Cmd {}
 
@@ -27,7 +27,7 @@ impl Cmd {
         match app.subcommand() {
             ("ps", Some(args)) => ps::Cmd::parse(args),
             ("images", Some(args)) => images::Cmd::parse(args),
-            _ => exec(vec![]),
+            _ => pre_exec(vec![]),
         }
     }
 }

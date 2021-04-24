@@ -1,14 +1,27 @@
-use std::{
-    env,
-    io::{BufRead, BufReader, Write},
-    process::{self, Command, Stdio},
-    str::FromStr,
-    sync::{Arc, RwLock},
-    thread,
-};
+use std::{env, io::{BufRead, BufReader, Write}, process::{self, Child, Command, Stdio}, str::FromStr, sync::{Arc, RwLock}, thread, time::Duration};
 
 use fancy_regex::Regex;
+use lazy_static::lazy_static;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
+
+lazy_static! {
+    pub static ref SETTINGS: RwLock<Settings> = RwLock::new(Settings {
+        subcommand_name: String::new(),
+        watch_sec: 0,
+        palettes: vec![],
+        ctrlc_hit: false,
+        subcommand_proc: Arc::new(RwLock::new(Command::new("true").spawn().expect(""))),
+    });
+}
+
+#[derive(Debug)]
+pub struct Settings {
+    pub subcommand_name: String,
+    pub watch_sec: u64,
+    pub palettes: Vec<Palette<'static>>,
+    pub ctrlc_hit: bool,
+    pub subcommand_proc: Arc<RwLock<Child>>,
+}
 
 #[derive(Debug)]
 struct ColorString<'a> {
@@ -16,6 +29,7 @@ struct ColorString<'a> {
     color: &'a Colours,
 }
 
+#[derive(Debug)]
 pub struct Palette<'a> {
     pub regexp: Regex,
     pub colours: Vec<&'a Colours>,
@@ -102,30 +116,73 @@ fn clear_screen() {
     };
 }
 
-pub fn exec(palettes: Vec<Palette<'static>>) {
+pub fn pre_exec(palettes: Vec<Palette<'static>>) {
+    SETTINGS.write().unwrap().palettes = palettes;
+    let ctrlc_hit = Arc::new(RwLock::new(false));
+    let setting = SETTINGS.read().unwrap();
+    let arg_start = env::args()
+        .position(|cmd| cmd.eq(&setting.subcommand_name))
+        .unwrap();
+
+    let mut subcommand_proc = Arc::new(RwLock::new(Command::new("true").spawn().expect("")));
+    let child_clone = Arc::clone(&subcommand_proc);
+    let ctrlc_hit_clone = Arc::clone(&ctrlc_hit);
+
+    ctrlc::set_handler(move || {
+        // Ignore kill() error, because the program exits anyway
+        println!("ctrlc hit!");
+        // match child_clone.write().unwrap().kill() {
+        //     Err(err) => (panic!("{}", err)),
+        //     Ok(_) => (),
+        // }
+        child_clone.write().unwrap().kill().unwrap();
+
+
+        // SETTINGS.write().unwrap().ctrlc_hit = true;
+        println!("ctrlc hit end!");
+        // ctrlc_hit_clone = true;
+        *ctrlc_hit_clone.write().unwrap() = true;
+    })
+    .unwrap();
+
+    let mut exit_code = 0;
+    if setting.watch_sec != 0 {
+        while !*ctrlc_hit.read().unwrap() {
+            clear_screen();
+            exit_code = exec(arg_start, &mut subcommand_proc);
+            thread::sleep(Duration::from_secs(setting.watch_sec));
+        }
+    } else {
+        exit_code = exec(arg_start, &mut subcommand_proc);
+    }
+    process::exit(exit_code);
+}
+
+fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
+    // let palettes = SETTINGS.read().unwrap().palettes;
     let args: Vec<String> = env::args().collect();
 
-    let child = Arc::new(RwLock::new(
-        Command::new(args[1].as_str())
-            .args(&args[2..])
+    *subcommand_proc = Arc::new(RwLock::new(
+        Command::new(args[arg_start].as_str())
+            .args(&args[arg_start + 1..])
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
             .spawn()
             .unwrap(),
     ));
 
-    let stdout = BufReader::new(child.write().unwrap().stdout.take().unwrap());
-    let stderr = BufReader::new(child.write().unwrap().stderr.take().unwrap());
+    let stdout = BufReader::new(subcommand_proc.write().unwrap().stdout.take().unwrap());
+    let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
 
-    let palettes_stdout = Arc::new(palettes);
-    let palettes_stderr = palettes_stdout.clone();
+    // let palettes_stdout = Arc::new(palettes);
+    // let palettes_stderr = palettes_stdout.clone();
 
     // Start to capture and color stdout
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let bufwtr = BufferWriter::stdout(ColorChoice::Always);
             let ln = &line.unwrap();
-            color_std(&bufwtr, ln, &palettes_stdout);
+            color_std(&bufwtr, ln);
         });
     });
 
@@ -134,22 +191,28 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
         stderr.lines().for_each(|line| {
             let bufwtr = BufferWriter::stderr(ColorChoice::Always);
             let ln = &line.unwrap();
-            color_std(&bufwtr, &ln, &palettes_stderr);
+            color_std(&bufwtr, &ln);
         });
     });
 
     // Clone the process to the ctrlc thread (to be killed)
-    let child_clone = Arc::clone(&child);
-    ctrlc::set_handler(move || {
-        // Ignore kill() error, because the program exits anyway
-        match child_clone.write().unwrap().kill() {
-            Err(_) => (),
-            Ok(_) => (),
-        }
-    })
-    .unwrap();
 
-    let status = child.write().unwrap().wait().unwrap();
+    // let child_clone = child.clone();
+    // SETTINGS.write().unwrap().subcommand_proc = None;
+    // SETTINGS.write().unwrap().watch_sec = 2;
+    // SETTINGS.write().unwrap().subcommand_proc = Arc::clone(&child);
+
+    // ctrlc::set_handler(move || {
+    //     // Ignore kill() error, because the program exits anyway
+    //     match child_clone.write().unwrap().kill() {
+    //         Err(_) => (),
+    //         Ok(_) => (),
+    //     }
+    //     SETTINGS.write().unwrap().ctrlc_hit = true;
+    // })
+    // .unwrap();
+
+    let status = subcommand_proc.write().unwrap().wait().unwrap();
     let exit_code = match status.code() {
         Some(code) => code,
         None => 0,
@@ -160,10 +223,11 @@ pub fn exec(palettes: Vec<Palette<'static>>) {
     stdout_thread.join().unwrap();
     stderr_thread.join().unwrap();
 
-    process::exit(exit_code);
+    // process::exit(exit_code);
+    return exit_code;
 }
 
-fn color_std(bufwtr: &BufferWriter, ln: &String, palettes: &Arc<Vec<Palette>>) {
+fn color_std(bufwtr: &BufferWriter, ln: &String) {
     let mut buffer = bufwtr.buffer();
     let mut buffer_writer = bufwtr.buffer();
 
@@ -171,7 +235,7 @@ fn color_std(bufwtr: &BufferWriter, ln: &String, palettes: &Arc<Vec<Palette>>) {
         text: ln.clone(),
         color: &Colours::Default,
     }];
-    let main_string = colored_output(&mut main_string, &palettes);
+    let main_string = colored_output(&mut main_string);
 
     for str in main_string.iter() {
         buffer.set_color(&get_color(str.color)).unwrap();
@@ -283,12 +347,9 @@ fn get_color(color: &Colours) -> ColorSpec {
     col
 }
 
-fn colored_output<'a>(
-    main_string: &'a mut Vec<ColorString<'a>>,
-    palettes: &'a Vec<Palette>,
-) -> &'a Vec<ColorString<'a>> {
+fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<ColorString<'a>> {
     let mut prev_color = &Colours::Default;
-    for palette in palettes.iter() {
+    for palette in SETTINGS.read().unwrap().palettes.iter() {
         let mut index = 0;
         // Instead of using a for loop, the size of main_string will grow so we have to use while loop
         // https://stackoverflow.com/questions/47338839

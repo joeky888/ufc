@@ -1,4 +1,4 @@
-use crate::cli::cli::{exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colours, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -7,15 +7,16 @@ pub struct Cmd {}
 impl Cmd {
     pub fn new() -> App<'static, 'static> {
         App::new("ifconfig")
-            .args(&[
-                Arg::with_name("bytes").long("bytes").short("b").help("Display the amount of memory in bytes."),
-            ])
+            .args(&[Arg::with_name("bytes")
+                .long("bytes")
+                .short("b")
+                .help("Display the amount of memory in bytes.")])
             .about("ifconfig")
     }
 
     pub fn parse(_app: &ArgMatches) {
         // print!("{:?}", app);
-        exec(Cmd::palette());
+        pre_exec(Cmd::palette());
     }
 
     fn palette() -> Vec<Palette<'static>> {
