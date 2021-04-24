@@ -6,6 +6,7 @@
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Support macOS and Linux (Windows, FreeBSD and Android Termux should also work)
 * Support root and non-root users
+* Watch mode via `ufc --watch 3 <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - runs the subprogram every N seconds
 * Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
 
 ### Examples
@@ -47,7 +48,6 @@ Currently supported commands are
 ### TODO
 
 * Upgrade to clap-rs v3
-* Add Watch mode (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - runs the subprogram every N seconds
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - runs the subprogram as a scheduling daemon
 * Add Time mode (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - timing statistics when the subprogram exits
 
