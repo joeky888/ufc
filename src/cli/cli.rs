@@ -126,18 +126,16 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
 
     ctrlc::set_handler(move || {
         // Ignore kill() error, because the program exits anyway
-        println!("ctrlc hit!");
-        // match child_clone.write().unwrap().kill() {
-        //     Err(err) => (panic!("{}", err)),
-        //     Ok(_) => (),
-        // }
-        child_clone.write().unwrap().kill().unwrap();
-
-
-        // SETTINGS.write().unwrap().ctrlc_hit = true;
-        println!("ctrlc hit end!");
-        // ctrlc_hit_clone = true;
+        // println!("ctrlc hit!");
+        match child_clone.write().unwrap().kill() {
+            Err(_) => {}
+            Ok(_) => {}
+        }
+        // println!("ctrlc hit end!");
         *ctrlc_hit_clone.write().unwrap() = true;
+        // If the program does not stop after 100ms, e.g blocked by thread::sleep, then force quit
+        thread::sleep(Duration::from_millis(100));
+        process::exit(0);
     })
     .unwrap();
 
