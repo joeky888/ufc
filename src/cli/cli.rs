@@ -9,8 +9,6 @@ lazy_static! {
         subcommand_name: String::new(),
         watch_sec: 0,
         palettes: vec![],
-        ctrlc_hit: false,
-        subcommand_proc: Arc::new(RwLock::new(Command::new("true").spawn().expect(""))),
     });
 }
 
@@ -19,8 +17,6 @@ pub struct Settings {
     pub subcommand_name: String,
     pub watch_sec: u64,
     pub palettes: Vec<Palette<'static>>,
-    pub ctrlc_hit: bool,
-    pub subcommand_proc: Arc<RwLock<Child>>,
 }
 
 #[derive(Debug)]
