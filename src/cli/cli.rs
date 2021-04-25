@@ -153,6 +153,8 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
 
     let mut subcommand_proc = Arc::new(RwLock::new(Command::new("true").spawn().expect("")));
     let child_clone = Arc::clone(&subcommand_proc);
+
+    // Clone the process to the ctrlc thread (to be killed)
     let ctrlc_hit_clone = Arc::clone(&ctrlc_hit);
 
     ctrlc::set_handler(move || {
@@ -200,14 +202,11 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stdout = BufReader::new(subcommand_proc.write().unwrap().stdout.take().unwrap());
     let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
 
-    // let palettes_stdout = Arc::new(palettes);
-    // let palettes_stderr = palettes_stdout.clone();
-
     // Start to capture and color stdout
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let bufwtr = BufferWriter::stdout(ColorChoice::Always);
-            let ln = &line.unwrap();
+            let ln = line.unwrap();
             color_std(&bufwtr, ln);
         });
     });
@@ -216,27 +215,10 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
             let bufwtr = BufferWriter::stderr(ColorChoice::Always);
-            let ln = &line.unwrap();
-            color_std(&bufwtr, &ln);
+            let ln = line.unwrap();
+            color_std(&bufwtr, ln);
         });
     });
-
-    // Clone the process to the ctrlc thread (to be killed)
-
-    // let child_clone = child.clone();
-    // SETTINGS.write().unwrap().subcommand_proc = None;
-    // SETTINGS.write().unwrap().watch_sec = 2;
-    // SETTINGS.write().unwrap().subcommand_proc = Arc::clone(&child);
-
-    // ctrlc::set_handler(move || {
-    //     // Ignore kill() error, because the program exits anyway
-    //     match child_clone.write().unwrap().kill() {
-    //         Err(_) => (),
-    //         Ok(_) => (),
-    //     }
-    //     SETTINGS.write().unwrap().ctrlc_hit = true;
-    // })
-    // .unwrap();
 
     let status = subcommand_proc.write().unwrap().wait().unwrap();
     let exit_code = match status.code() {
@@ -244,20 +226,20 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
         None => 0,
     };
 
-    // For some reason, we have to wait a longer here to make sure the sub program exits
-    // And to correctly capture the last word of the sub program
+    // Wait a longer here to make sure the subcommand exits
+    // and to correctly capture the last word of the sub program
     stdout_thread.join().unwrap();
     stderr_thread.join().unwrap();
 
     return exit_code;
 }
 
-fn color_std(bufwtr: &BufferWriter, ln: &String) {
+fn color_std(bufwtr: &BufferWriter, ln: String) {
     let mut buffer = bufwtr.buffer();
     let mut buffer_writer = bufwtr.buffer();
 
     let mut main_string = vec![ColorString {
-        text: ln.clone(),
+        text: ln,
         color: &Colours::Default,
     }];
     let main_string = colored_output(&mut main_string);
@@ -388,7 +370,7 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
 
             match palette
                 .regexp
-                .captures(main_string[index].text.clone().as_str())
+                .captures(main_string[index].text.as_str())
                 .unwrap()
             {
                 Some(captures) => {
