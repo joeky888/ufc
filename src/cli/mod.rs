@@ -1,6 +1,5 @@
-pub mod cli;
 pub mod alias;
-pub mod ualias;
+pub mod cli;
 pub mod completion;
 pub mod df;
 pub mod dig;
@@ -14,3 +13,4 @@ pub mod id;
 pub mod ifconfig;
 pub mod ping;
 pub mod top;
+pub mod ualias;

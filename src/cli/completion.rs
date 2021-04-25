@@ -1,4 +1,4 @@
-use clap::{App,AppSettings};
+use clap::{App, AppSettings};
 mod bash;
 use bash::Bash;
 mod fish;

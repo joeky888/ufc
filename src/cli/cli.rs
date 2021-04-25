@@ -1,7 +1,9 @@
 use std::{
     env,
     io::{BufRead, BufReader, Write},
-    process::{self, Child, Command, Stdio},
+    process::{
+        Child, Command, Stdio, {self},
+    },
     str::FromStr,
     sync::{Arc, RwLock},
     thread,

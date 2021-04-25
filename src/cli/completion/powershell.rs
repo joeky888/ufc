@@ -1,4 +1,4 @@
-use clap::{App};
+use clap::App;
 pub struct Powershell {}
 
 impl Powershell {
