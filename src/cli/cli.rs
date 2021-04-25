@@ -21,6 +21,7 @@ lazy_static! {
         watch_sec: 0,
         time: false,
         palettes: vec![],
+        is_tty: atty::is(Stream::Stdout),
     });
 }
 
@@ -31,6 +32,7 @@ pub struct Settings {
     pub watch_sec: u64,
     pub time: bool,
     pub palettes: Vec<Palette<'static>>,
+    pub is_tty: bool,
 }
 
 #[derive(Debug)]
@@ -118,7 +120,7 @@ pub enum Colours {
 }
 
 fn clear_screen() {
-    if atty::is(Stream::Stdout) {
+    if SETTINGS.read().unwrap().is_tty {
         // https://stackoverflow.com/a/34837038
         print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
     } else {
