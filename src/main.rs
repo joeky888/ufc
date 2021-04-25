@@ -37,11 +37,17 @@ fn build_app() -> App<'static, 'static> {
             ping::Cmd::new(),
             top::Cmd::new(),
         ])
-        .args(&[Arg::with_name("watch_sec")
-            .long("watch")
-            .short("w")
-            .takes_value(true)
-            .help("Optional watch mode, execute subcommand every N second(s)")])
+        .args(&[
+            Arg::with_name("watch_sec")
+                .long("watch")
+                .short("w")
+                .takes_value(true)
+                .help("Optional watch mode, execute subcommand every N second(s)"),
+            Arg::with_name("time")
+                .long("time")
+                .short("t")
+                .help("Optional time mode, timing statistics when the subprogram exits"),
+        ])
 }
 
 fn main() {
@@ -51,12 +57,15 @@ fn main() {
 
     let app_matches = build_app().get_matches();
 
+    // Watch mode
     match app_matches.value_of("watch_sec") {
         Some(value) => {
             SETTINGS.write().unwrap().watch_sec = value.to_string().parse().unwrap();
         }
         _ => {}
     }
+    // Time mode
+    SETTINGS.write().unwrap().time = app_matches.is_present("time");
 
     match app_matches.subcommand_name() {
         Some(value) => {

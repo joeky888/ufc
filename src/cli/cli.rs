@@ -1,13 +1,24 @@
-use std::{env, io::{BufRead, BufReader, Write}, process::{self, Child, Command, Stdio}, str::FromStr, sync::{Arc, RwLock}, thread, time::Duration};
+use std::{
+    env,
+    io::{BufRead, BufReader, Write},
+    process::{self, Child, Command, Stdio},
+    str::FromStr,
+    sync::{Arc, RwLock},
+    thread,
+    time::{Duration, SystemTime},
+};
 
 use fancy_regex::Regex;
 use lazy_static::lazy_static;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
 lazy_static! {
+    // Global SETTINGS
     pub static ref SETTINGS: RwLock<Settings> = RwLock::new(Settings {
         subcommand_name: String::new(),
+        subcommand_start: SystemTime::now(),
         watch_sec: 0,
+        time: false,
         palettes: vec![],
     });
 }
@@ -15,7 +26,9 @@ lazy_static! {
 #[derive(Debug)]
 pub struct Settings {
     pub subcommand_name: String,
+    pub subcommand_start: SystemTime,
     pub watch_sec: u64,
+    pub time: bool,
     pub palettes: Vec<Palette<'static>>,
 }
 
@@ -112,6 +125,21 @@ fn clear_screen() {
     };
 }
 
+fn process_exit(exit_code: i32) {
+    if !SETTINGS.read().unwrap().time {
+        process::exit(exit_code);
+    }
+    match SETTINGS.read().unwrap().subcommand_start.elapsed() {
+        Ok(elapsed) => {
+            println!("\nThe subcommand takes {:?} to finish", elapsed);
+        }
+        Err(e) => {
+            println!("Error: {:?}", e);
+        }
+    }
+    process::exit(exit_code);
+}
+
 pub fn pre_exec(palettes: Vec<Palette<'static>>) {
     SETTINGS.write().unwrap().palettes = palettes;
     let ctrlc_hit = Arc::new(RwLock::new(false));
@@ -125,17 +153,18 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
     let ctrlc_hit_clone = Arc::clone(&ctrlc_hit);
 
     ctrlc::set_handler(move || {
-        // Ignore kill() error, because the program exits anyway
         // println!("ctrlc hit!");
         match child_clone.write().unwrap().kill() {
+            // Ignore kill() error, because the program exits anyway
             Err(_) => {}
             Ok(_) => {}
         }
         // println!("ctrlc hit end!");
         *ctrlc_hit_clone.write().unwrap() = true;
         // If the program does not stop after 100ms, e.g blocked by thread::sleep, then force quit
+        // This is required because some program will output its last words before exiting
         thread::sleep(Duration::from_millis(100));
-        process::exit(0);
+        process_exit(0);
     })
     .unwrap();
 
@@ -149,7 +178,7 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
     } else {
         exit_code = exec(arg_start, &mut subcommand_proc);
     }
-    process::exit(exit_code);
+    process_exit(exit_code);
 }
 
 fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
@@ -217,7 +246,6 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     stdout_thread.join().unwrap();
     stderr_thread.join().unwrap();
 
-    // process::exit(exit_code);
     return exit_code;
 }
 
