@@ -4,10 +4,11 @@
 * Command output highlighting via `ufc <subcommand> <args>`
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
-* Support Windows and Linux (macOS, FreeBSD and Android Termux should also work)
+* Support Linux (macOS, FreeBSD and Android Termux should also work)
+* Support Cygwin/Msys2 and git-bash for Windows (CMD, Powershell are supported if the subcommand exists)
 * Support root and non-root users
-* Watch mode via `ufc --watch 3 <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - runs the subprogram every N seconds
-* Time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - timing statistics when the subprogram exits
+* Built-in watch mode via `ufc --watch 3 <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - runs the subprogram every N seconds
+* Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - timing statistics when the subprogram exits
 * Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
 
 ### Examples

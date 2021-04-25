@@ -120,15 +120,12 @@ pub enum Colours {
 }
 
 fn clear_screen() {
-    if SETTINGS.read().unwrap().is_tty {
+    if !SETTINGS.read().unwrap().is_tty && cfg!(windows) {
+        let _ = Command::new("cmd.exe").args(&["/c", "cls"]).status();
+    } else {
         // https://stackoverflow.com/a/34837038
         print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
-    } else {
-        let _ = Command::new("cmd.exe").args(&["/c", "cls"]).status();
     }
-    // if cfg!(windows) {
-    // } else {
-    // };
 }
 
 fn process_exit(exit_code: i32) {
