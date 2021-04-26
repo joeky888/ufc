@@ -6,8 +6,7 @@
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Support Linux (macOS, FreeBSD and Android Termux should also work)
 * Support Cygwin/Msys2 and git-bash for Windows (CMD, Powershell are supported if the subcommand exists)
-* Support root and non-root users
-* Built-in watch mode via `ufc --watch 3 <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
+* Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
 * Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
 * Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
 
