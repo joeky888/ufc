@@ -1,5 +1,6 @@
 #![forbid(unsafe_code)]
 
+use fancy_regex::Regex;
 use std::io;
 
 use clap::{App, AppSettings, Arg, Shell};
@@ -38,11 +39,11 @@ fn build_app() -> App<'static, 'static> {
             top::Cmd::new(),
         ])
         .args(&[
-            Arg::with_name("watch_sec")
+            Arg::with_name("watch_duration")
                 .long("watch")
                 .short("w")
                 .takes_value(true)
-                .help("Optional watch mode, execute subcommand every N second(s)"),
+                .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s" or "1h2m5s""#),
             Arg::with_name("time")
                 .long("time")
                 .short("t")
@@ -58,9 +59,32 @@ fn main() {
     let app_matches = build_app().get_matches();
 
     // Watch mode
-    match app_matches.value_of("watch_sec") {
+    match app_matches.value_of("watch_duration") {
         Some(value) => {
-            SETTINGS.write().unwrap().watch_sec = value.to_string().parse().unwrap();
+            let time_re =
+                Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
+            let captures = time_re.captures(value).unwrap().unwrap();
+            // println!("cap: {:?}", captures);
+            // println!("cap1: {:?}", captures.get(1));
+            // println!("cap2: {:?}", captures.get(2));
+            // println!("cap3: {:?}", captures.get(3));
+            // println!("cap4: {:?}", captures.get(4));
+            // println!("cap5: {:?}", captures.get(5));
+            // println!("cap6: {:?}", captures.get(6));
+            // println!("cap7: {:?}", captures.get(7));
+            // println!("cap8: {:?}", captures.get(8));
+            // println!("cap9: {:?}", captures.get(9));
+            let h = captures
+                .get(2)
+                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+            let m = captures
+                .get(4)
+                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+            let s = captures
+                .get(6)
+                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+            // println!("h:{} m:{} s:{}", h, m, s);
+            SETTINGS.write().unwrap().watch_duration = h * 3600.0 + m * 60.0 + s;
         }
         _ => {}
     }

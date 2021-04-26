@@ -20,7 +20,7 @@ lazy_static! {
     pub static ref SETTINGS: RwLock<Settings> = RwLock::new(Settings {
         subcommand_name: String::new(),
         subcommand_start: SystemTime::now(),
-        watch_sec: 0,
+        watch_duration: 0.0,
         time: false,
         palettes: vec![],
         is_tty: atty::is(Stream::Stdout),
@@ -31,7 +31,7 @@ lazy_static! {
 pub struct Settings {
     pub subcommand_name: String,
     pub subcommand_start: SystemTime,
-    pub watch_sec: u64,
+    pub watch_duration: f64,
     pub time: bool,
     pub palettes: Vec<Palette<'static>>,
     pub is_tty: bool,
@@ -176,11 +176,11 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
     .unwrap();
 
     let mut exit_code = 0;
-    if setting.watch_sec != 0 {
+    if setting.watch_duration != 0.0 {
         while !*ctrlc_hit.read().unwrap() {
             clear_screen();
             exit_code = exec(arg_start, &mut subcommand_proc);
-            thread::sleep(Duration::from_secs(setting.watch_sec));
+            thread::sleep(Duration::from_secs_f64(setting.watch_duration));
         }
     } else {
         exit_code = exec(arg_start, &mut subcommand_proc);
