@@ -136,7 +136,7 @@ fn process_exit(exit_code: i32) {
     }
     match SETTINGS.read().unwrap().subcommand_start.elapsed() {
         Ok(elapsed) => {
-            println!("\nThe subcommand takes {:?} to finish", elapsed);
+            println!("\nThe subcommand took {:?} to finish", elapsed);
         }
         Err(e) => {
             println!("Error: {:?}", e);

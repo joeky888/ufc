@@ -11,7 +11,7 @@ use cli::{
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
-        .version("v0.0.1")
+        .version("v0.8.0")
         .about("Ultimate Friendly Colorizer")
         .author("The UFC Team <https://github.com/joeky888/ufc>")
         .global_setting(AppSettings::ColorAlways)
