@@ -84,7 +84,12 @@ fn main() {
                 .get(6)
                 .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
             // println!("h:{} m:{} s:{}", h, m, s);
-            SETTINGS.write().unwrap().watch_duration = h * 3600.0 + m * 60.0 + s;
+            let duration = h * 3600.0 + m * 60.0 + s;
+            SETTINGS.write().unwrap().watch_duration = if duration != 0.0 {
+                duration // hhmmss format
+            } else {
+                value.parse().unwrap() // ss format
+            }
         }
         _ => {}
     }
