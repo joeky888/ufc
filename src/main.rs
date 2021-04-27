@@ -48,6 +48,10 @@ fn build_app() -> App<'static, 'static> {
                 .long("time")
                 .short("t")
                 .help("Optional time mode, timing statistics when the subprogram exits"),
+            Arg::with_name("nocolor")
+                .long("nocolor")
+                .short("n")
+                .help("Disable colorizer"),
         ])
 }
 
@@ -84,7 +88,9 @@ fn main() {
         _ => {}
     }
     // Time mode
-    SETTINGS.write().unwrap().time = app_matches.is_present("time");
+    SETTINGS.write().unwrap().time_statistics = app_matches.is_present("time");
+    // Disable colorizer
+    SETTINGS.write().unwrap().colorizer = !app_matches.is_present("nocolor");
 
     match app_matches.subcommand_name() {
         Some(value) => {

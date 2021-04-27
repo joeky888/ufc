@@ -21,7 +21,8 @@ lazy_static! {
         subcommand_name: String::new(),
         subcommand_start: SystemTime::now(),
         watch_duration: 0.0,
-        time: false,
+        time_statistics: false,
+        colorizer: true,
         palettes: vec![],
         is_tty: atty::is(Stream::Stdout),
     });
@@ -32,7 +33,8 @@ pub struct Settings {
     pub subcommand_name: String,
     pub subcommand_start: SystemTime,
     pub watch_duration: f64,
-    pub time: bool,
+    pub time_statistics: bool,
+    pub colorizer: bool,
     pub palettes: Vec<Palette<'static>>,
     pub is_tty: bool,
 }
@@ -131,7 +133,7 @@ fn clear_screen() {
 }
 
 fn process_exit(exit_code: i32) {
-    if !SETTINGS.read().unwrap().time {
+    if !SETTINGS.read().unwrap().time_statistics {
         process::exit(exit_code);
     }
     match SETTINGS.read().unwrap().subcommand_start.elapsed() {
@@ -207,8 +209,12 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     // Start to capture and color stdout
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
-            let bufwtr = BufferWriter::stdout(ColorChoice::Always);
             let ln = line.unwrap();
+            if !SETTINGS.read().unwrap().colorizer {
+                println!("{}", ln);
+                return;
+            }
+            let bufwtr = BufferWriter::stdout(ColorChoice::Always);
             color_std(&bufwtr, ln);
         });
     });
@@ -216,8 +222,12 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     // Start to capture and color stderr
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
-            let bufwtr = BufferWriter::stderr(ColorChoice::Always);
             let ln = line.unwrap();
+            if !SETTINGS.read().unwrap().colorizer {
+                eprintln!("{}", ln);
+                return;
+            }
+            let bufwtr = BufferWriter::stderr(ColorChoice::Always);
             color_std(&bufwtr, ln);
         });
     });
