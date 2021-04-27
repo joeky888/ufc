@@ -43,7 +43,7 @@ fn build_app() -> App<'static, 'static> {
                 .long("watch")
                 .short("w")
                 .takes_value(true)
-                .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s" or "1h2m5s", set to "0" to disable. Default: "0""#),
+                .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable. Default: "0""#),
             Arg::with_name("time")
                 .long("time")
                 .short("t")
@@ -64,16 +64,6 @@ fn main() {
             let time_re =
                 Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
             let captures = time_re.captures(value).unwrap().unwrap();
-            // println!("cap: {:?}", captures);
-            // println!("cap1: {:?}", captures.get(1));
-            // println!("cap2: {:?}", captures.get(2));
-            // println!("cap3: {:?}", captures.get(3));
-            // println!("cap4: {:?}", captures.get(4));
-            // println!("cap5: {:?}", captures.get(5));
-            // println!("cap6: {:?}", captures.get(6));
-            // println!("cap7: {:?}", captures.get(7));
-            // println!("cap8: {:?}", captures.get(8));
-            // println!("cap9: {:?}", captures.get(9));
             let h = captures
                 .get(2)
                 .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
