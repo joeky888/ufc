@@ -49,6 +49,7 @@ Currently supported commands are
 ### TODO
 
 * Upgrade to clap-rs v3
+* Add Nocolor mode - Switch off colorizer, this is useful when the subcommand already gives colorful output
 * Add Universal mode - Try to colorize any subprogram which is not supported by `ufc`
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 
