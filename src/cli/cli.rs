@@ -15,6 +15,7 @@ lazy_static! {
             watch: 0.0,
             time: false,
             nocolor: false,
+            universal: false,
         },
         subcommand_name: String::new(),
         subcommand_start: SystemTime::now(),
@@ -42,6 +43,9 @@ pub struct ClapArgs {
 
     #[structopt(short = "n", long = "nocolor")]
     pub nocolor: bool,
+
+    #[structopt(short = "u", long = "universal")]
+    pub universal: bool,
 }
 
 fn parse_watch_duration(src: &str) -> Result<f64, ParseFloatError> {

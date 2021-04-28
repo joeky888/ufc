@@ -17,10 +17,11 @@ fn build_app() -> App<'static, 'static> {
         .author("The UFC Team <https://github.com/joeky888/ufc>")
         .global_setting(AppSettings::ColorAlways)
         .global_setting(AppSettings::ColoredHelp)
-        .global_setting(AppSettings::DisableHelpFlags)
+        .setting(AppSettings::SubcommandRequiredElseHelp)
+        .setting(AppSettings::AllowExternalSubcommands)
         .global_setting(AppSettings::VersionlessSubcommands)
         .global_setting(AppSettings::DisableHelpSubcommand)
-        .setting(AppSettings::SubcommandRequiredElseHelp)
+        .global_setting(AppSettings::DisableHelpFlags)
         .subcommands(vec![
             alias::Cmd::new(),
             ualias::Cmd::new(),
@@ -44,7 +45,7 @@ fn build_app() -> App<'static, 'static> {
                 .short("w")
                 .takes_value(true)
                 .default_value("0.0")
-                .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable. Default: "0""#),
+                .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable."#),
             Arg::with_name("time")
                 .long("time")
                 .short("t")
@@ -53,6 +54,10 @@ fn build_app() -> App<'static, 'static> {
                 .long("nocolor")
                 .short("n")
                 .help("Disable colorizer"),
+            Arg::with_name("universal")
+                .long("universal")
+                .short("u")
+                .help("Universal subcommand, this option will try to colorize unsupported subcommands"),
         ])
 }
 
@@ -106,6 +111,21 @@ fn main() {
         ("ifconfig", Some(args)) => ifconfig::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
         ("top", Some(args)) => top::Cmd::parse(args),
-        _ => println!("Unsupported command"),
+        _ => {
+            if SETTINGS.read().unwrap().clap_args.universal {
+                // app_matches.subcommand()
+                // println!("{:?}", app_matches);
+                match app_matches.subcommand() {
+                    (_, Some(args)) => {
+                        // SETTINGS.write().unwrap().subcommand_name = value.to_string();
+                        println!("the command {:?} is used", args);
+                        println!("the command {:?} is used", SETTINGS.read().unwrap());
+                    }
+                    _ => {println!("{}\nPlease try -h or --help to get the full usages", app_matches.usage());}
+                }
+            } else {
+                println!("Unsupported subcommand, please use -u or --universal to enable universal mode.\nThis option will try to colorize unsupported subcommands");
+            }
+        },
     }
 }
