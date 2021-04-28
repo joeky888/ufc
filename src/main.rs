@@ -5,10 +5,7 @@ use std::io;
 
 use clap::{App, AppSettings, Arg, Shell};
 mod cli;
-use cli::{
-    alias, cli::SETTINGS, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free,
-    id, ifconfig, ping, top, ualias,
-};
+use cli::{alias, cli::SETTINGS, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, id, ifconfig, ping, top, ualias, universal};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -113,13 +110,9 @@ fn main() {
         ("top", Some(args)) => top::Cmd::parse(args),
         _ => {
             if SETTINGS.read().unwrap().clap_args.universal {
-                // app_matches.subcommand()
-                // println!("{:?}", app_matches);
                 match app_matches.subcommand() {
                     (_, Some(args)) => {
-                        // SETTINGS.write().unwrap().subcommand_name = value.to_string();
-                        println!("the command {:?} is used", args);
-                        println!("the command {:?} is used", SETTINGS.read().unwrap());
+                        universal::Cmd::parse(args)
                     }
                     _ => {println!("{}\nPlease try -h or --help to get the full usages", app_matches.usage());}
                 }

@@ -14,3 +14,4 @@ pub mod ifconfig;
 pub mod ping;
 pub mod top;
 pub mod ualias;
+pub mod universal;

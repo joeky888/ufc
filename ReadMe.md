@@ -50,7 +50,6 @@ Currently supported commands are
 
 * Use async rust and show statistics of cpu and memory usage
 * Upgrade to clap-rs v3 and remove the dependency `StructOpt`
-* Add Universal mode - Try to colorize any subprogram which is not supported by `ufc`
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 
 ### Credits
