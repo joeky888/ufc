@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-use fancy_regex::Regex;
+use structopt::StructOpt;
 use std::io;
 
 use clap::{App, AppSettings, Arg, Shell};
@@ -39,10 +39,11 @@ fn build_app() -> App<'static, 'static> {
             top::Cmd::new(),
         ])
         .args(&[
-            Arg::with_name("watch_duration")
+            Arg::with_name("watch")
                 .long("watch")
                 .short("w")
                 .takes_value(true)
+                .default_value("0.0")
                 .help(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable. Default: "0""#),
             Arg::with_name("time")
                 .long("time")
@@ -61,36 +62,7 @@ fn main() {
     ];
 
     let app_matches = build_app().get_matches();
-
-    // Watch mode
-    match app_matches.value_of("watch_duration") {
-        Some(value) => {
-            let time_re =
-                Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
-            let captures = time_re.captures(value).unwrap().unwrap();
-            let h = captures
-                .get(2)
-                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
-            let m = captures
-                .get(4)
-                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
-            let s = captures
-                .get(6)
-                .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
-            // println!("h:{} m:{} s:{}", h, m, s);
-            let duration = h * 3600.0 + m * 60.0 + s;
-            SETTINGS.write().unwrap().watch_duration = if duration != 0.0 {
-                duration // hhmmss format
-            } else {
-                value.parse().unwrap() // ss format
-            }
-        }
-        _ => {}
-    }
-    // Time mode
-    SETTINGS.write().unwrap().time_statistics = app_matches.is_present("time");
-    // Disable colorizer
-    SETTINGS.write().unwrap().colorizer = !app_matches.is_present("nocolor");
+    SETTINGS.write().unwrap().clap_args = StructOpt::from_clap(&app_matches);
 
     match app_matches.subcommand_name() {
         Some(value) => {

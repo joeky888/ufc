@@ -1,28 +1,23 @@
-use std::{
-    env,
-    io::{BufRead, BufReader, Write},
-    process::{
+use std::{env, io::{BufRead, BufReader, Write}, num::ParseFloatError, process::{
         Child, Command, Stdio, {self},
-    },
-    str::FromStr,
-    sync::{Arc, RwLock},
-    thread,
-    time::{Duration, SystemTime},
-};
+    }, str::FromStr, sync::{Arc, RwLock}, thread, time::{Duration, SystemTime}};
 
 use atty::Stream;
 use fancy_regex::Regex;
 use lazy_static::lazy_static;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
+use structopt::StructOpt;
 
 lazy_static! {
     // Global SETTINGS
     pub static ref SETTINGS: RwLock<Settings> = RwLock::new(Settings {
+        clap_args: ClapArgs{
+            watch: 0.0,
+            time: false,
+            nocolor: false,
+        },
         subcommand_name: String::new(),
         subcommand_start: SystemTime::now(),
-        watch_duration: 0.0,
-        time_statistics: false,
-        colorizer: true,
         palettes: vec![],
         is_tty: atty::is(Stream::Stdout),
     });
@@ -30,13 +25,44 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Settings {
+    pub clap_args: ClapArgs,
     pub subcommand_name: String,
     pub subcommand_start: SystemTime,
-    pub watch_duration: f64,
-    pub time_statistics: bool,
-    pub colorizer: bool,
     pub palettes: Vec<Palette<'static>>,
     pub is_tty: bool,
+}
+
+#[derive(Debug, StructOpt)]
+pub struct ClapArgs {
+    #[structopt(short = "w", long = "watch", parse(try_from_str = parse_watch_duration))]
+    pub watch: f64,
+
+    #[structopt(short = "t", long = "time")]
+    pub time: bool,
+
+    #[structopt(short = "n", long = "nocolor")]
+    pub nocolor: bool,
+}
+
+fn parse_watch_duration(src: &str) -> Result<f64, ParseFloatError> {
+    let time_re = Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
+    let captures = time_re.captures(src).unwrap().unwrap();
+    let h = captures
+        .get(2)
+        .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+    let m = captures
+        .get(4)
+        .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+    let s = captures
+        .get(6)
+        .map_or(0.0, |v| v.as_str().to_string().parse().unwrap_or(0.0));
+    // println!("h:{} m:{} s:{}", h, m, s);
+    let duration = h * 3600.0 + m * 60.0 + s;
+    if duration != 0.0 {
+        Ok(duration) // hhmmss format
+    } else {
+        src.parse()// ss format
+    }
 }
 
 #[derive(Debug)]
@@ -133,7 +159,7 @@ fn clear_screen() {
 }
 
 fn process_exit(exit_code: i32) {
-    if !SETTINGS.read().unwrap().time_statistics {
+    if !SETTINGS.read().unwrap().clap_args.time {
         process::exit(exit_code);
     }
     match SETTINGS.read().unwrap().subcommand_start.elapsed() {
@@ -178,11 +204,11 @@ pub fn pre_exec(palettes: Vec<Palette<'static>>) {
     .unwrap();
 
     let mut exit_code = 0;
-    if setting.watch_duration != 0.0 {
+    if setting.clap_args.watch != 0.0 {
         while !*ctrlc_hit.read().unwrap() {
             clear_screen();
             exit_code = exec(arg_start, &mut subcommand_proc);
-            thread::sleep(Duration::from_secs_f64(setting.watch_duration));
+            thread::sleep(Duration::from_secs_f64(setting.clap_args.watch));
         }
     } else {
         exit_code = exec(arg_start, &mut subcommand_proc);
@@ -210,7 +236,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let ln = line.unwrap();
-            if !SETTINGS.read().unwrap().colorizer {
+            if SETTINGS.read().unwrap().clap_args.nocolor {
                 println!("{}", ln);
                 return;
             }
@@ -223,7 +249,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
             let ln = line.unwrap();
-            if !SETTINGS.read().unwrap().colorizer {
+            if !SETTINGS.read().unwrap().clap_args.nocolor {
                 eprintln!("{}", ln);
                 return;
             }
