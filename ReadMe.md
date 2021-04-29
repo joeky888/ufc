@@ -15,11 +15,14 @@
 
 ### Benchmark
 
-* Up to 4.5x faster than [grc](https://github.com/garabik/grc)
+* Up to 4.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`)
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex
-  * original command `time bash -c "journalctl --no-pager -u NetworkManager"` took 0.87s to finish without color
-  * grc run `time bash -c "grc -es --colour=auto /usr/bin/journalctl --no-pager -u NetworkManager"` took 9.10s to finish
-  * ufc run `time bash -c "ufc journalctl --no-pager -u NetworkManager"` took 1.94s to finish (compiled with `cargo build --release`)
+
+| journalctl                                        | Time  | Ratio | Colorful |
+| ------------------------------------------------- | ----- | ----- | -------- |
+| `journalctl --no-pager -u NetworkManager`         | 0.87s | 1.0   | No       |
+| `ufc journalctl --no-pager -u NetworkManager`     | 1.94s | 2.23  | Yes      |
+| `grc -es journalctl --no-pager -u NetworkManager` | 9.10s | 10.46 | Yes      |
 
 ### Examples
 
