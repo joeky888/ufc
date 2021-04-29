@@ -23,17 +23,25 @@
 
 ### Examples
 
-`ufc ping google.com`
-
-![ping](https://i.imgur.com/tmjoQa0.png)
-
-`source <(ufc completion bash)`
-
-![ping completion](https://i.imgur.com/mlV1zuR.png)
-
 `ufc df -h`
 
-![df](https://i.imgur.com/0OP1hbW.png)
+![df](https://i.imgur.com/nd76Tu0.png)
+
+`ufc ping google.com`
+
+![ping](https://i.imgur.com/FGeIjGG.png)
+
+`sudo ufc fdisk -l`
+
+![fdisk](https://i.imgur.com/JAtfwxb.png)
+
+`ufc top`
+
+![top](https://i.imgur.com/MKjZyQR.png)
+
+bash completion: `source <(ufc completion bash)`
+
+![ping completion](https://i.imgur.com/mlV1zuR.png)
 
 ### Milestones
 
