@@ -15,7 +15,7 @@
 
 ### Benchmark
 
-* Up to 7.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`)
+* Up to 7.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`, thanks to [buffered printer](https://github.com/BurntSushi/termcolor))
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex with [Alacritty](https://github.com/alacritty/alacritty) terminal
 
 | journalctl --no-pager -u NetworkManager           | Time  | Ratio | Colorful |
