@@ -54,6 +54,7 @@ Currently supported commands are
 
 * Upgrade to clap-rs v3 and remove the dependency `StructOpt`
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
+* Colorize from stdout E.g. `cat /path/to/file.log | ufc`
 * Use async rust and show statistics of cpu and memory usage
 
 ### Credits
@@ -66,7 +67,6 @@ This project is powered and inspired by
 * [fancy-regex](https://github.com/fancy-regex/fancy-regex) - Library for regular expressions
 * [fish](https://github.com/fish-shell/fish-shell) ([Issue#7451](https://github.com/fish-shell/fish-shell/issues/7451))
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
-* [powerlevel10k](https://github.com/romkatv/powerlevel10k)/[gitstatus](https://github.com/romkatv/gitstatus) - The idea of combining zsh theme and external `gitstatus` command is inspiring
 * [ugc](https://github.com/joeky888/ugc) - My previous work in Golang
 
 ### Licence
