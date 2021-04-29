@@ -15,14 +15,20 @@
 
 ### Benchmark
 
-* Up to 4.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`)
-  * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex
+* Up to 7.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`)
+  * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex with [Alacritty](https://github.com/alacritty/alacritty) terminal
 
-| journalctl                                        | Time  | Ratio | Colorful |
+| journalctl --no-pager -u NetworkManager           | Time  | Ratio | Colorful |
 | ------------------------------------------------- | ----- | ----- | -------- |
 | `journalctl --no-pager -u NetworkManager`         | 0.87s | 1.0   | No       |
 | `ufc journalctl --no-pager -u NetworkManager`     | 1.94s | 2.23  | Yes      |
 | `grc -es journalctl --no-pager -u NetworkManager` | 9.10s | 10.46 | Yes      |
+
+| journalctl --no-pager           | Time    | Ratio | Colorful |
+| ------------------------------- | ------- | ----- | -------- |
+| `journalctl --no-pager`         | 45.36s  | 1.0   | No       |
+| `ufc journalctl --no-pager`     | 107.76s | 2.375 | Yes      |
+| `grc -es journalctl --no-pager` | 817.57s | 18.02 | Yes      |
 
 ### Examples
 
