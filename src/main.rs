@@ -5,7 +5,7 @@ use std::io;
 
 use clap::{App, AppSettings, Arg, Shell};
 mod cli;
-use cli::{alias, cli::SETTINGS, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, id, ifconfig, ping, top, ualias, universal};
+use cli::{alias, cli::SETTINGS, completion::Completion, df, dig, docker, du, env, fdisk, findmnt, free, id, ifconfig, journalctl, ping, top, ualias, universal};
 
 fn build_app() -> App<'static, 'static> {
     App::new("ufc")
@@ -33,6 +33,7 @@ fn build_app() -> App<'static, 'static> {
             free::Cmd::new(),
             id::Cmd::new(),
             ifconfig::Cmd::new(),
+            journalctl::Cmd::new(),
             ping::Cmd::new(),
             top::Cmd::new(),
         ])
@@ -60,7 +61,7 @@ fn build_app() -> App<'static, 'static> {
 
 fn main() {
     let supported_cmd = &vec![
-        "df", "docker", "dig", "du", "env", "fdisk", "free", "id", "ifconfig", "ping", "top",
+        "df", "docker", "dig", "du", "env", "fdisk", "free", "id", "ifconfig", "journalctl", "ping", "top",
     ];
 
     let app_matches = build_app().get_matches();
@@ -106,6 +107,7 @@ fn main() {
         ("free", Some(args)) => free::Cmd::parse(args),
         ("id", Some(args)) => id::Cmd::parse(args),
         ("ifconfig", Some(args)) => ifconfig::Cmd::parse(args),
+        ("journalctl", Some(args)) => journalctl::Cmd::parse(args),
         ("ping", Some(args)) => ping::Cmd::parse(args),
         ("top", Some(args)) => top::Cmd::parse(args),
         _ => {

@@ -11,6 +11,7 @@ pub mod findmnt;
 pub mod free;
 pub mod id;
 pub mod ifconfig;
+pub mod journalctl;
 pub mod ping;
 pub mod top;
 pub mod ualias;
