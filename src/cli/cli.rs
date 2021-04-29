@@ -235,6 +235,8 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
 
     let stdout = BufReader::new(subcommand_proc.write().unwrap().stdout.take().unwrap());
     let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
+    let stdout_bufwtr = BufferWriter::stdout(ColorChoice::Always);
+    let stderr_bufwtr = BufferWriter::stderr(ColorChoice::Always);
 
     // Start to capture and color stdout
     let stdout_thread = thread::spawn(move || {
@@ -244,8 +246,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
                 print!("{}\n", ln);
                 return;
             }
-            let bufwtr = BufferWriter::stdout(ColorChoice::Always);
-            color_std(&bufwtr, ln);
+            color_std(&stdout_bufwtr, ln);
         });
     });
 
@@ -257,8 +258,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
                 eprint!("{}\n", ln);
                 return;
             }
-            let bufwtr = BufferWriter::stderr(ColorChoice::Always);
-            color_std(&bufwtr, ln);
+            color_std(&stderr_bufwtr, ln);
         });
     });
 
@@ -278,7 +278,6 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
 
 fn color_std(bufwtr: &BufferWriter, ln: String) {
     let mut buffer = bufwtr.buffer();
-    let mut buffer_writer = bufwtr.buffer();
 
     let mut main_string = vec![ColorString {
         text: ln,
@@ -295,9 +294,7 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
     }
 
     write!(&mut buffer, "\n").unwrap();
-    buffer_writer.write(&buffer.as_slice().to_vec()).unwrap();
-    // buffer_writer.write(&buffer2.as_slice().to_vec()).unwrap();
-    bufwtr.print(&buffer_writer).unwrap();
+    bufwtr.print(&buffer).unwrap();
 }
 
 fn get_color(color: &Colours) -> ColorSpec {
@@ -512,7 +509,7 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
     }
 
     // Remove empty strings
-    // main_string.retain(|color_string| color_string.text != "");
+    main_string.retain(|color_string| color_string.text != "");
     // println!("main_string={:?}", main_string);
     main_string
 }
