@@ -4,11 +4,17 @@
 * Command output highlighting via `ufc <subcommand> <args>`
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
+* Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
+* Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
+* Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
+
+### Platform support
+
 * Support Linux (macOS, FreeBSD and Android Termux should also work)
 * Support Cygwin/Msys2 and git-bash for Windows (CMD and Powershell are supported if the subcommand exists)
-* Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
-* Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
-* Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
+
+### Benchmark
+
 * Up to 4.5x faster than [grc](https://github.com/garabik/grc)
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex
   * original command `time bash -c "journalctl --no-pager -u NetworkManager"` took 0.87s to finish without color
@@ -57,6 +63,7 @@ Currently supported commands are
 * Upgrade to clap-rs v3 and remove the dependency `StructOpt`
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 * Colorize from stdout E.g. `cat /path/to/file.log | ufc`
+* A benchmark script
 * Use async rust and show statistics of cpu and memory usage
 
 ### Credits
