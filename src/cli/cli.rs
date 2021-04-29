@@ -237,12 +237,13 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
     let stdout_bufwtr = BufferWriter::stdout(ColorChoice::Always);
     let stderr_bufwtr = BufferWriter::stderr(ColorChoice::Always);
+    let is_nocolor = SETTINGS.read().unwrap().clap_args.nocolor;
 
     // Start to capture and color stdout
     let stdout_thread = thread::spawn(move || {
         stdout.lines().for_each(|line| {
             let ln = line.unwrap();
-            if SETTINGS.read().unwrap().clap_args.nocolor {
+            if is_nocolor {
                 print!("{}\n", ln);
                 return;
             }
@@ -254,7 +255,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     let stderr_thread = thread::spawn(move || {
         stderr.lines().for_each(|line| {
             let ln = line.unwrap();
-            if !SETTINGS.read().unwrap().clap_args.nocolor {
+            if is_nocolor {
                 eprint!("{}\n", ln);
                 return;
             }
