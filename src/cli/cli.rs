@@ -241,7 +241,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
         stdout.lines().for_each(|line| {
             let ln = line.unwrap();
             if SETTINGS.read().unwrap().clap_args.nocolor {
-                println!("{}", ln);
+                print!("{}\n", ln);
                 return;
             }
             let bufwtr = BufferWriter::stdout(ColorChoice::Always);
@@ -254,7 +254,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
         stderr.lines().for_each(|line| {
             let ln = line.unwrap();
             if !SETTINGS.read().unwrap().clap_args.nocolor {
-                eprintln!("{}", ln);
+                eprint!("{}\n", ln);
                 return;
             }
             let bufwtr = BufferWriter::stderr(ColorChoice::Always);
