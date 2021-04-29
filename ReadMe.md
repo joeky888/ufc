@@ -47,6 +47,7 @@ Currently supported commands are
 * free
 * id
 * ifconfig
+* journalctl
 * ping
 * top
 
