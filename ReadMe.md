@@ -11,8 +11,9 @@
 * Written in pure and safe rust (`#![forbid(unsafe_code)]` is used)
 * Up to 4.5x faster than [grc](https://github.com/garabik/grc)
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex
-  * `time bash -c "grc -es --colour=auto /usr/bin/journalctl -x -u NetworkManager"` took 9.26s to finish
-  * `time bash -c "ufc journalctl -x -u NetworkManager"` took 2.03s to finish (compiled with `cargo build --release`)
+  * original command `time bash -c "journalctl --no-pager -u NetworkManager"` took 0.87s to finish without color
+  * grc run `time bash -c "grc -es --colour=auto /usr/bin/journalctl --no-pager -u NetworkManager"` took 9.10s to finish
+  * ufc run `time bash -c "ufc journalctl --no-pager -u NetworkManager"` took 1.94s to finish (compiled with `cargo build --release`)
 
 ### Examples
 
