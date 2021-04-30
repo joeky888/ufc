@@ -52,6 +52,20 @@ bash completion: `source <(ufc completion bash)`
 
 ![ping completion](https://i.imgur.com/mlV1zuR.png)
 
+### Shell completion
+
+#### Bash: add this line to `~/.bashrc`
+
+```sh
+source <(ufc completion bash)
+```
+
+#### Zsh: add this line to `~/.zshrc`
+
+```sh
+source <(ufc completion zsh)
+```
+
 ### Milestones
 
 This porject is still at an early stage of development.
