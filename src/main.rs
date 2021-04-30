@@ -16,6 +16,8 @@ use clap_generate::{
     generate,
     generators::{Bash, Elvish, Fish, PowerShell, Zsh},
 };
+use termcolor::{BufferWriter, ColorChoice};
+use std::io::Write;
 
 fn build_app() -> App<'static> {
     App::new("ufc")
@@ -100,7 +102,14 @@ fn main() {
                 generate::<Bash, _>(&mut build_app(), "ufc", &mut io::stdout());
             }
             Some("zsh") => {
-                generate::<Zsh, _>(&mut build_app(), "ufc", &mut io::stdout());
+                let stdout = BufferWriter::stdout(ColorChoice::Never);
+                let mut buf = stdout.buffer();
+                writeln!(buf, "compdef _ufc ufc").unwrap();
+
+                generate::<Zsh, _>(&mut build_app(), "ufc", &mut buf);
+                let mut str = String::from_utf8(buf.as_slice().to_vec()).unwrap();
+                str = str.strip_suffix(r#"_ufc "$@""#).unwrap().to_string();
+                println!("{}", str);
             }
             Some("fish") => {
                 generate::<Fish, _>(&mut build_app(), "ufc", &mut io::stdout());
