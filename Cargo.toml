@@ -1,7 +1,7 @@
 [package]
 name = "ufc"
 version = "0.8.5"
-authors = ["Joeky <joeky5888@gmail.com>"]
+authors = ["The UFC Team <https://github.com/ufc-cli/ufc>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
