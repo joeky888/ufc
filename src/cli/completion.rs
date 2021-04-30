@@ -13,7 +13,7 @@ use elvish::Elvish;
 pub struct Completion {}
 
 impl Completion {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("completion")
             .subcommands(vec![
                 Bash::new(),
@@ -22,7 +22,6 @@ impl Completion {
                 Powershell::new(),
                 Elvish::new(),
             ])
-            .setting(AppSettings::NeedsSubcommandHelp)
             .setting(AppSettings::SubcommandRequiredElseHelp)
             .about("completion gen")
     }

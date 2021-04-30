@@ -2,7 +2,7 @@ use clap::App;
 pub struct Bash {}
 
 impl Bash {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("bash").about("gen bash completion")
     }
 }

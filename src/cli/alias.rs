@@ -3,7 +3,7 @@ use clap::App;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("alias").about("alias gen")
     }
 

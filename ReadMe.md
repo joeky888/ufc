@@ -77,7 +77,6 @@ Currently supported commands are
 
 ### TODO
 
-* Upgrade to clap-rs v3 and remove the dependency `StructOpt`
 * Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 * Colorize from stdout E.g. `cat /path/to/file.log | ufc`
 * A benchmark script

@@ -4,32 +4,30 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("images")
             .args(&[
-                Arg::with_name("all")
+                Arg::new("all")
                     .long("all")
-                    .short("a")
-                    .help("Show all images (default hides intermediate images)"),
-                Arg::with_name("digests")
-                    .long("digests")
-                    .help("Show digests"),
-                Arg::with_name("filter")
+                    .short('a')
+                    .about("Show all images (default hides intermediate images)"),
+                Arg::new("digests").long("digests").about("Show digests"),
+                Arg::new("filter")
                     .long("filter")
-                    .short("f")
+                    .short('f')
                     .takes_value(true)
-                    .help("Filter output based on conditions provided"),
-                Arg::with_name("format")
+                    .about("Filter output based on conditions provided"),
+                Arg::new("format")
                     .long("format")
                     .takes_value(true)
-                    .help("Pretty-print containers using a Go template"),
-                Arg::with_name("no-trunc")
+                    .about("Pretty-print containers using a Go template"),
+                Arg::new("no-trunc")
                     .long("no-trunc")
-                    .help("Don't truncate output"),
-                Arg::with_name("quiet")
+                    .about("Don't truncate output"),
+                Arg::new("quiet")
                     .long("quiet")
-                    .short("q")
-                    .help("Only display numeric IDs"),
+                    .short('q')
+                    .about("Only display numeric IDs"),
             ])
             .about("docker images")
     }

@@ -1,17 +1,26 @@
-use std::{env, io::{BufRead, BufReader, Write}, num::ParseFloatError, process::{
+use std::{
+    env,
+    io::{BufRead, BufReader, Write},
+    num::ParseFloatError,
+    process::{
         Child, Command, Stdio, {self},
-    }, str::FromStr, sync::{Arc, RwLock}, thread, time::{Duration, SystemTime}};
+    },
+    str::FromStr,
+    sync::{Arc, RwLock},
+    thread,
+    time::{Duration, SystemTime},
+};
 
 use atty::Stream;
+use clap::{AppSettings, Clap};
 use fancy_regex::Regex;
 use lazy_static::lazy_static;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
-use structopt::StructOpt;
 
 lazy_static! {
     // Global SETTINGS
     pub static ref SETTINGS: RwLock<Settings> = RwLock::new(Settings {
-        clap_args: ClapArgs{
+        clap_args: Opts{
             watch: 0.0,
             time: false,
             nocolor: false,
@@ -26,30 +35,45 @@ lazy_static! {
 
 #[derive(Debug)]
 pub struct Settings {
-    pub clap_args: ClapArgs,
+    pub clap_args: Opts,
     pub subcommand_name: String,
     pub subcommand_start: SystemTime,
     pub palettes: Vec<Palette<'static>>,
     pub is_tty: bool,
 }
 
-#[derive(Debug, StructOpt)]
-pub struct ClapArgs {
-    #[structopt(short = "w", long = "watch", parse(try_from_str = parse_watch_duration))]
+#[derive(Debug, Clap)]
+#[clap(
+    name = "ufc",
+    setting = AppSettings::AllowExternalSubcommands,
+    setting = AppSettings::SubcommandRequiredElseHelp,
+    global_setting = AppSettings::ColoredHelp,
+    global_setting = AppSettings::DisableVersionForSubcommands,
+    global_setting = AppSettings::DisableHelpSubcommand,
+    global_setting = AppSettings::DisableHelpFlag,
+)]
+pub struct Opts {
+    #[clap(
+        short = 'w',
+        long = "watch",
+        parse(try_from_str = parse_watch_duration),
+        default_value = "0.0",
+    )]
     pub watch: f64,
 
-    #[structopt(short = "t", long = "time")]
+    #[clap(short = 't', long = "time")]
     pub time: bool,
 
-    #[structopt(short = "n", long = "nocolor")]
+    #[clap(short = 'n', long = "nocolor")]
     pub nocolor: bool,
 
-    #[structopt(short = "u", long = "universal")]
+    #[clap(short = 'u', long = "universal")]
     pub universal: bool,
 }
 
 fn parse_watch_duration(src: &str) -> Result<f64, ParseFloatError> {
-    let time_re = Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
+    let time_re =
+        Regex::new(r#"((\d*\.?\d*)[h|H])?((\d*\.?\d*)[m|M])?((\d*\.?\d*)[s|S])?"#).unwrap();
     let captures = time_re.captures(src).unwrap().unwrap();
     let h = captures
         .get(2)
@@ -65,7 +89,7 @@ fn parse_watch_duration(src: &str) -> Result<f64, ParseFloatError> {
     if duration != 0.0 {
         Ok(duration) // hhmmss format
     } else {
-        src.parse()// ss format
+        src.parse() // ss format
     }
 }
 

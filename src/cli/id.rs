@@ -5,46 +5,46 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("id")
             .args(&[
-                Arg::with_name("a")
-                    .short("a")
-                    .help("ignore, for compatibility with other versions"),
-                Arg::with_name("context")
+                Arg::new("a")
+                    .short('a')
+                    .about("ignore, for compatibility with other versions"),
+                Arg::new("context")
                     .long("context")
-                    .short("Z")
-                    .help("print only the security context of the process"),
-                Arg::with_name("group")
+                    .short('Z')
+                    .about("print only the security context of the process"),
+                Arg::new("group")
                     .long("group")
-                    .short("g")
-                    .help("print only the effective group ID"),
-                Arg::with_name("groups")
+                    .short('g')
+                    .about("print only the effective group ID"),
+                Arg::new("groups")
                     .long("groups")
-                    .short("G")
-                    .help("print all group IDs"),
-                Arg::with_name("name")
+                    .short('G')
+                    .about("print all group IDs"),
+                Arg::new("name")
                     .long("name")
-                    .short("n")
-                    .help("print a name instead of a number, for -ugG"),
-                Arg::with_name("real")
+                    .short('n')
+                    .about("print a name instead of a number, for -ugG"),
+                Arg::new("real")
                     .long("real")
-                    .short("r")
-                    .help("print the real ID instead of the effective ID, with -ugG"),
-                Arg::with_name("user")
+                    .short('r')
+                    .about("print the real ID instead of the effective ID, with -ugG"),
+                Arg::new("user")
                     .long("user")
-                    .short("u")
-                    .help("print only the effective user ID"),
-                Arg::with_name("zero")
+                    .short('u')
+                    .about("print only the effective user ID"),
+                Arg::new("zero")
                     .long("zero")
-                    .short("z")
-                    .help("delimit entries with NUL characters, not whitespace"),
-                Arg::with_name("help")
+                    .short('z')
+                    .about("delimit entries with NUL characters, not whitespace"),
+                Arg::new("help")
                     .long("help")
-                    .help("display this help and exit"),
-                Arg::with_name("version")
+                    .about("display this help and exit"),
+                Arg::new("version")
                     .long("version")
-                    .help("output version information and exit"),
+                    .about("output version information and exit"),
             ])
             .about("id")
     }

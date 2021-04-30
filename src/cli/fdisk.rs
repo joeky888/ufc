@@ -5,11 +5,11 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("fdisk")
             .args(&[
-                Arg::with_name("FILE").help("[FILE]"),
-                Arg::with_name("list").long("list").short("l").help("List the partition tables for the specified devices and then exit. If no devices are given, those mentioned in /proc/partitions (if that file exists) are used."),
+                Arg::new("FILE").about("[FILE]"),
+                Arg::new("list").long("list").short('l').about("List the partition tables for the specified devices and then exit. If no devices are given, those mentioned in /proc/partitions (if that file exists) are used."),
             ])
             .setting(AppSettings::ArgRequiredElseHelp)
             .about("fdisk")

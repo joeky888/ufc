@@ -5,8 +5,8 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
-        App::new("top").args(&[]).about("top")
+    pub fn new() -> App<'static> {
+        App::new("top").about("top")
     }
 
     pub fn parse(_app: &ArgMatches) {

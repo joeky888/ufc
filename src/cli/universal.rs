@@ -5,7 +5,7 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    // pub fn new() -> App<'static, 'static> {
+    // pub fn new() -> App<'static> {
     //     App::new("")
     //         .about("")
     // }

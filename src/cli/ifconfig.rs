@@ -5,12 +5,12 @@ use fancy_regex::Regex;
 pub struct Cmd {}
 
 impl Cmd {
-    pub fn new() -> App<'static, 'static> {
+    pub fn new() -> App<'static> {
         App::new("ifconfig")
-            .args(&[Arg::with_name("bytes")
+            .args(&[Arg::new("bytes")
                 .long("bytes")
-                .short("b")
-                .help("Display the amount of memory in bytes.")])
+                .short('b')
+                .about("Display the amount of memory in bytes.")])
             .about("ifconfig")
     }
 
