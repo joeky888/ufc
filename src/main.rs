@@ -107,12 +107,17 @@ fn main() {
                 writeln!(buf, "compdef _ufc ufc").unwrap();
 
                 generate::<Zsh, _>(&mut build_app(), "ufc", &mut buf);
-                let mut str = String::from_utf8(buf.as_slice().to_vec()).unwrap();
-                str = str.strip_suffix(r#"_ufc "$@""#).unwrap().to_string();
-                println!("{}", str);
+                let mut completion = String::from_utf8(buf.as_slice().to_vec()).unwrap();
+                completion = completion.strip_suffix(r#"_ufc "$@""#).unwrap().to_string();
+                println!("{}", completion);
             }
             Some("fish") => {
-                generate::<Fish, _>(&mut build_app(), "ufc", &mut io::stdout());
+                let stdout = BufferWriter::stdout(ColorChoice::Never);
+                let mut buf = stdout.buffer();
+                generate::<Fish, _>(&mut build_app(), "ufc", &mut buf);
+                let mut completion = String::from_utf8(buf.as_slice().to_vec()).unwrap();
+                completion = completion.replace("\n", ";");
+                println!("{}", completion);
             }
             Some("powershell") => {
                 generate::<PowerShell, _>(&mut build_app(), "ufc", &mut io::stdout());

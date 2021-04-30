@@ -66,6 +66,12 @@ source <(ufc completion bash)
 source <(ufc completion zsh)
 ```
 
+#### Fish: add this line to `config.fish`
+
+```sh
+eval (ufc completion fish)
+```
+
 ### Milestones
 
 This porject is still at an early stage of development.
