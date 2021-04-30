@@ -3,6 +3,6 @@ pub struct Bash {}
 
 impl Bash {
     pub fn new() -> App<'static> {
-        App::new("bash").about("gen bash completion")
+        App::new("bash").about("Generate bash completion")
     }
 }

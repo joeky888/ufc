@@ -3,6 +3,6 @@ pub struct Fish {}
 
 impl Fish {
     pub fn new() -> App<'static> {
-        App::new("fish").about("gen fish completion")
+        App::new("fish").about("Generate fish completion")
     }
 }

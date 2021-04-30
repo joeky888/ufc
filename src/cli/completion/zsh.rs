@@ -3,6 +3,6 @@ pub struct Zsh {}
 
 impl Zsh {
     pub fn new() -> App<'static> {
-        App::new("zsh").about("gen zsh completion")
+        App::new("zsh").about("Generate zsh completion")
     }
 }
