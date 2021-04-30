@@ -72,6 +72,12 @@ source <(ufc completion zsh)
 eval (ufc completion fish)
 ```
 
+#### PowerShell: add this line to `profile.ps1`
+
+```sh
+ufc completion powershell | Out-String | Invoke-Expression
+```
+
 ### Milestones
 
 This porject is still at an early stage of development.
