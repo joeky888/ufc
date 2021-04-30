@@ -19,7 +19,7 @@ use clap_generate::{
 
 fn build_app() -> App<'static> {
     App::new("ufc")
-        .version("v0.8.0")
+        .version("v0.8.5")
         .about("Ultimate Friendly Colorizer")
         .author("The UFC Team <https://github.com/ufc-cli/ufc>")
         .setting(AppSettings::SubcommandRequiredElseHelp)
