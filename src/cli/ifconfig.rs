@@ -7,10 +7,19 @@ pub struct Cmd {}
 impl Cmd {
     pub fn new() -> App<'static> {
         App::new("ifconfig")
-            .args(&[Arg::new("bytes")
-                .long("bytes")
-                .short('b')
-                .about("Display the amount of memory in bytes.")])
+            .args(&[
+                Arg::new("interface")
+                    .about("The name of the interface."),
+                Arg::new("all")
+                    .short('a')
+                    .about("Display all interfaces which are currently available, even if down"),
+                Arg::new("short")
+                    .short('s')
+                    .about("Display a short list (like netstat -i)"),
+                Arg::new("verbose")
+                    .short('v')
+                    .about("Be more verbose for some error conditions"),
+            ])
             .about("ifconfig")
     }
 
