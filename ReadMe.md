@@ -8,6 +8,8 @@
 * Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
 * Written in safe rust and `#![forbid(unsafe_code)]` is used (Some dependencies are using `unsafe block` though)
 
+#### *In a nutshell, ufc = [ugc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)).*
+
 ### Platform support
 
 * Support Linux (macOS, FreeBSD and Android Termux should also work)
