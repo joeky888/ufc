@@ -15,7 +15,7 @@ use atty::Stream;
 use clap::{AppSettings, Clap};
 use fancy_regex::Regex;
 use lazy_static::lazy_static;
-use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
+use termcolor::{BufferedStandardStream, Color, ColorChoice, ColorSpec, WriteColor};
 
 lazy_static! {
     // Global SETTINGS
@@ -257,10 +257,14 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
             .unwrap(),
     ));
 
+    let mut stdout_bufwtr = BufferedStandardStream::stdout(ColorChoice::Always);
+    let mut stderr_bufwtr = BufferedStandardStream::stderr(ColorChoice::Always);
+    // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Green))).unwrap();
+    // writeln!(&mut stdout, "green text!");
     let stdout = BufReader::new(subcommand_proc.write().unwrap().stdout.take().unwrap());
     let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
-    let stdout_bufwtr = BufferWriter::stdout(ColorChoice::Always);
-    let stderr_bufwtr = BufferWriter::stderr(ColorChoice::Always);
+    // let stdout_bufwtr = BufferWriter::stdout(ColorChoice::Always);
+    // let stderr_bufwtr = BufferWriter::stderr(ColorChoice::Always);
     let is_nocolor = SETTINGS.read().unwrap().clap_args.nocolor;
 
     // Start to capture and color stdout
@@ -271,7 +275,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
                 print!("{}\n", ln);
                 return;
             }
-            color_std(&stdout_bufwtr, ln);
+            color_std(&mut stdout_bufwtr, ln);
         });
     });
 
@@ -283,7 +287,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
                 eprint!("{}\n", ln);
                 return;
             }
-            color_std(&stderr_bufwtr, ln);
+            color_std(&mut stderr_bufwtr, ln);
         });
     });
 
@@ -301,8 +305,8 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
     return exit_code;
 }
 
-fn color_std(bufwtr: &BufferWriter, ln: String) {
-    let mut buffer = bufwtr.buffer();
+fn color_std(bufwtr: &mut BufferedStandardStream, ln: String) {
+    // let mut buffer = bufwtr.buffer();
 
     let mut main_string = vec![ColorString {
         text: ln,
@@ -311,15 +315,16 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
     let main_string = colored_output(&mut main_string);
 
     for str in main_string.iter() {
-        buffer.set_color(&get_color(str.color)).unwrap();
-        write!(&mut buffer, "{}", str.text).unwrap();
+        bufwtr.set_color(&get_color(str.color)).unwrap();
+        write!(bufwtr, "{}", str.text).unwrap();
 
         // Reset color
-        buffer.set_color(&get_color(&Colors::Default)).unwrap();
+        // buffer.set_color(&get_color(&Colors::Default)).unwrap();
     }
+    write!(bufwtr, "\n").unwrap();
 
-    write!(&mut buffer, "\n").unwrap();
-    bufwtr.print(&buffer).unwrap();
+    // write!(&mut buffer, "\n").unwrap();
+    // bufwtr.print(&buffer).unwrap();
 }
 
 fn get_color(color: &Colors) -> ColorSpec {

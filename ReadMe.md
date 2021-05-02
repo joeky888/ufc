@@ -113,6 +113,7 @@ Currently supported commands are
 * Colorize from stdout E.g. `cat /path/to/file.log | ufc`
 * A benchmark script
 * Use async rust and show statistics of cpu and memory usage
+* The `top` command has a slow start-time when using `termcolor::BufferedStandardStream`
 
 ### ❤️ Credits
 
