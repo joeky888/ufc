@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -41,38 +41,38 @@ impl Cmd {
             // Title
             Palette {
                 regexp: Regex::new(r#"; <<>> DiG.* <<>> (\S+)"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::BMagenta],
+                colors: vec![&Colors::Default, &Colors::BMagenta],
             },
             // comments
             Palette {
                 regexp: Regex::new(r#"^;;[\s\w]+"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // ipv6
             Palette {
                 regexp: Regex::new(r#"\t(([0-9a-fA-F]{1,4})?\:\:?[0-9a-fA-F]{1,4})+"#).unwrap(),
-                colours: vec![&Colours::DGreen],
+                colors: vec![&Colors::DGreen],
             },
             // ip4 address
             Palette {
                 regexp: Regex::new(r#"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // line
             Palette {
                 regexp: Regex::new(r#"^(\S+).*?(\d+)\t(\w+)\t(\w+)\t"#).unwrap(),
-                colours: vec![
-                    &Colours::UnChanged,
-                    &Colours::Magenta,
-                    &Colours::Red,
-                    &Colours::Yellow,
-                    &Colours::Cyan,
+                colors: vec![
+                    &Colors::UnChanged,
+                    &Colors::Magenta,
+                    &Colors::Red,
+                    &Colors::Yellow,
+                    &Colors::Cyan,
                 ],
             },
             // domain
             Palette {
                 regexp: Regex::new(r#"[\S]+\."#).unwrap(),
-                colours: vec![&Colours::BMagenta],
+                colors: vec![&Colors::BMagenta],
             },
         ]
     }

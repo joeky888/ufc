@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -82,57 +82,57 @@ impl Cmd {
             // FS
             Palette {
                 regexp: Regex::new(r#"^(?!Filesystem)(\/[-\w\d.]+)+\s"#).unwrap(),
-                colours: vec![&Colours::Blue, &Colours::BBlue],
+                colors: vec![&Colors::Blue, &Colors::BBlue],
             },
             // tmpfs lines
             Palette {
                 regexp: Regex::new(r#"^tmpfs.*"#).unwrap(),
-                colours: vec![&Colours::BBlack],
+                colors: vec![&Colors::BBlack],
             },
             // Mounted on
             Palette {
                 regexp: Regex::new(r#"\/$|(\/[-\w\d. ]+)+$"#).unwrap(),
-                colours: vec![&Colours::Green, &Colours::BGreen],
+                colors: vec![&Colors::Green, &Colors::BGreen],
             },
             // Use 0-60%
             Palette {
                 regexp: Regex::new(r#"\s[1-6]?[0-9]%\s"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // 70-89%
             Palette {
                 regexp: Regex::new(r#"\s[78][0-9]%\s"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // 90-97%
             Palette {
                 regexp: Regex::new(r#"\s9[0-7]%\s"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Use 98-100%
             Palette {
                 regexp: Regex::new(r#"\s9[89]%|100%\s"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Size 'T'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dTi?\s|\b\d{10,12}\b"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dGi?\s|\b\d{7,9}\b"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Size 'M'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dMi?\s|\b\d{4,6}\b"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // Size 'K'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\d(K|B)i?\s|\b\d{1,3}\b"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
         ]
     }

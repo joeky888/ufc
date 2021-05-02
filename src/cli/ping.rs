@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, AppSettings, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -59,90 +59,90 @@ impl Cmd {
             // nping
             Palette {
                 regexp: Regex::new(r#"unreachable"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // these are good for nping
             Palette {
                 regexp: Regex::new(r#"SENT|RCVD"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // last line values
             Palette {
                 regexp: Regex::new(r#"\=\s([0-9\.]+)/([0-9\.]+)/([0-9\.]+)/([0-9\.]+)"#).unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::BYellow,
-                    &Colours::BBlue,
-                    &Colours::BRed,
-                    &Colours::BMagenta,
+                colors: vec![
+                    &Colors::Default,
+                    &Colors::BYellow,
+                    &Colors::BBlue,
+                    &Colors::BRed,
+                    &Colors::BMagenta,
                 ],
             },
             // last line min/avg/max/mdev
             Palette {
                 regexp: Regex::new(r#"rtt (min)/(avg)/(max)/(mdev)"#).unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::BYellow,
-                    &Colours::BBlue,
-                    &Colours::BRed,
-                    &Colours::BMagenta,
+                colors: vec![
+                    &Colors::Default,
+                    &Colors::BYellow,
+                    &Colors::BBlue,
+                    &Colors::BRed,
+                    &Colors::BMagenta,
                 ],
             },
             // statistics header
             Palette {
                 regexp: Regex::new(r#"--- (\S+) ping statistics ---"#).unwrap(),
-                colours: vec![&Colours::BDefault, &Colours::BBlue],
+                colors: vec![&Colors::BDefault, &Colors::BBlue],
             },
             // unknown host
             Palette {
                 regexp: Regex::new(r#".+unknown\shost\s(.+)"#).unwrap(),
-                colours: vec![&Colours::Red, &Colours::BRed],
+                colors: vec![&Colors::Red, &Colors::BRed],
             },
             // Errors
             Palette {
                 regexp: Regex::new(r#"(Destination Host Unreachable|100(\.0)?% packet loss)"#)
                     .unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // OK
             Palette {
                 regexp: Regex::new(r#" 0(\.0)?% packet loss"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // DUP
             Palette {
                 regexp: Regex::new(r#"DUP\!"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // time
             Palette {
                 regexp: Regex::new(r#"([0-9\.]+)?\s?ms"#).unwrap(),
-                colours: vec![&Colours::Green, &Colours::BGreen],
+                colors: vec![&Colors::Green, &Colors::BGreen],
             },
             // name
             Palette {
                 regexp: Regex::new(r#"(?:[fF]rom|PING)\s(\S+)\s"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Blue],
+                colors: vec![&Colors::Default, &Colors::Blue],
             },
             // ttl=
             Palette {
                 regexp: Regex::new(r#"ttl=(\d+)"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Magenta],
+                colors: vec![&Colors::Default, &Colors::Magenta],
             },
             // icmp_seq=
             Palette {
                 regexp: Regex::new(r#"icmp_seq=(\d+)"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Magenta],
+                colors: vec![&Colors::Default, &Colors::Magenta],
             },
             // ipv6 number
             Palette {
                 regexp: Regex::new(r#"(([0-9a-fA-F]{1,4})?\:\:?[0-9a-fA-F]{1,4})+"#).unwrap(),
-                colours: vec![&Colours::Magenta],
+                colors: vec![&Colors::Magenta],
             },
             // IP
             Palette {
                 regexp: Regex::new(r#"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"#).unwrap(),
-                colours: vec![&Colours::BBlue],
+                colors: vec![&Colors::BBlue],
             },
         ]
     }

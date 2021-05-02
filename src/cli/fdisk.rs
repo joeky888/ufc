@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, AppSettings, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -43,52 +43,52 @@ impl Cmd {
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"\s\d+[.,]?\d*\s?Gi?B?"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Size 'M'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\d*\s?Mi?B?"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // Size 'K'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\d*\s?Ki?B?"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // ID
             Palette {
                 regexp: Regex::new(r#"identifier: (.*)$"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Cyan],
+                colors: vec![&Colors::UnChanged, &Colors::Cyan],
             },
             // Type
             Palette {
                 regexp: Regex::new(r#"type: (.*)$"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::BCyan],
+                colors: vec![&Colors::UnChanged, &Colors::BCyan],
             },
             // Partitions
             Palette {
                 regexp: Regex::new(r#"^(?:\/([^\/: ]+))+"#).unwrap(),
-                colours: vec![&Colours::Green, &Colours::BGreen],
+                colors: vec![&Colors::Green, &Colors::BGreen],
             },
             // Boot?
             Palette {
                 regexp: Regex::new(r#"\*\s\s\s"#).unwrap(),
-                colours: vec![&Colours::OnRed, &Colours::BWhite],
+                colors: vec![&Colors::OnRed, &Colors::BWhite],
             },
             // Disk
             Palette {
                 regexp: Regex::new(r#"^(Disk) (?:\/([^\/: ]+))+"#).unwrap(),
-                colours: vec![
-                    &Colours::Yellow,
-                    &Colours::OnYellow,
-                    &Colours::BYellow,
-                    &Colours::BYellow,
+                colors: vec![
+                    &Colors::Yellow,
+                    &Colors::OnYellow,
+                    &Colors::BYellow,
+                    &Colors::BYellow,
                 ],
             },
             // Error
             Palette {
                 regexp: Regex::new(r#"fdisk: cannot open ([^:]+).*$"#).unwrap(),
-                colours: vec![&Colours::Red, &Colours::BRed],
+                colors: vec![&Colors::Red, &Colors::BRed],
             },
         ]
     }

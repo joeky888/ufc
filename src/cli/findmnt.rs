@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -63,37 +63,37 @@ impl Cmd {
             // MS Types
             Palette {
                 regexp: Regex::new(r#"\b(fat|vfat|ntfs|msdos)\b"#).unwrap(),
-                colours: vec![&Colours::OnCyan],
+                colors: vec![&Colors::OnCyan],
             },
             // Common Types
             Palette {
                 regexp: Regex::new(r#"\b(ext\d|xfs|btrfs|nfs)\b"#).unwrap(),
-                colours: vec![&Colours::Cyan],
+                colors: vec![&Colors::Cyan],
             },
             // Like comment, leave at end always
             Palette {
                 regexp: Regex::new(r#"^.*(?=cgroup|tmpfs).*$"#).unwrap(),
-                colours: vec![&Colours::BBlack],
+                colors: vec![&Colors::BBlack],
             },
             // RO
             Palette {
                 regexp: Regex::new(r#"(?:\s)ro"#).unwrap(),
-                colours: vec![&Colours::BGreen],
+                colors: vec![&Colors::BGreen],
             },
             // RW
             Palette {
                 regexp: Regex::new(r#"(?:\s)rw"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Mount Path
             Palette {
                 regexp: Regex::new(r#"(?<=─|-)(?:\/([^\/ ]+))+"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::BYellow],
+                colors: vec![&Colors::UnChanged, &Colors::BYellow],
             },
             // Devices
             Palette {
                 regexp: Regex::new(r#"\s\/dev(?:\/([^\/ ]+))+"#).unwrap(),
-                colours: vec![&Colours::Green, &Colours::BGreen],
+                colors: vec![&Colors::Green, &Colors::BGreen],
             },
         ]
     }

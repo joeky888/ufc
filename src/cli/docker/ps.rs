@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -53,108 +53,108 @@ impl Cmd {
                     r#"(?:\s|^)(CONTAINER ID|IMAGE|COMMAND|CREATED|STATUS|PORTS|NAMES)(?:\s|$)"#,
                 )
                 .unwrap(),
-                colours: vec![&Colours::Default, &Colours::UDefault],
+                colors: vec![&Colors::Default, &Colors::UDefault],
             },
             // IMAGE NAME (as docker image)
             Palette {
                 regexp: Regex::new(r#"\s{2,}(?:([a-z\-_0-9]+)\/)*([a-z\-_0-9]+)(:\S+)?\s{2,}\""#)
                     .unwrap(),
-                colours: vec![
-                    &Colours::UnChanged,
-                    &Colours::Yellow,
-                    &Colours::BWhite,
-                    &Colours::Cyan,
+                colors: vec![
+                    &Colors::UnChanged,
+                    &Colors::Yellow,
+                    &Colors::BWhite,
+                    &Colors::Cyan,
                 ],
             },
             // IMAGE
             Palette {
                 regexp: Regex::new(r#"^(?!CONTAINER)(\w+)\s+([^\s]+)\s+(".*")\s+(.*(?=(?:Up|Exited|Created|Restarting)))"#)
                     .unwrap(),
-                colours: vec![
-                    &Colours::UnChanged,
-                    &Colours::BBlack,
-                    &Colours::UnChanged,
-                    &Colours::BBlack,
-                    &Colours::Cyan,
+                colors: vec![
+                    &Colors::UnChanged,
+                    &Colors::BBlack,
+                    &Colors::UnChanged,
+                    &Colors::BBlack,
+                    &Colors::Cyan,
                 ],
             },
             // Statuses - Created
             Palette {
                 regexp: Regex::new(r#"\sCreated\s"#)
                     .unwrap(),
-                colours: vec![&Colours::Blue],
+                colors: vec![&Colors::Blue],
             },
             // Statuses
             // https://github.com/docker/docker/blob/e5a3f86e447dd659da3c2e759f3c088a0bfcfe3d/container/state.go#L40
             // Up
             Palette {
                 regexp: Regex::new(r#"(?:\s{2}|^)(?:Up|Restarting)(?:(?:\s[\w,\d]+)+)?"#).unwrap(),
-                colours: vec![&Colours::BGreen],
+                colors: vec![&Colors::BGreen],
             },
             // Health - healthy
             Palette {
                 regexp: Regex::new(r#"\s\(healthy\)"#).unwrap(),
-                colours: vec![&Colours::BGreen],
+                colors: vec![&Colors::BGreen],
             },
             // Health -  starting
             Palette {
                 regexp: Regex::new(r#"\s\(health: starting\)"#).unwrap(),
-                colours: vec![&Colours::BYellow],
+                colors: vec![&Colors::BYellow],
             },
             // Health -  unhealthy
             Palette {
                 regexp: Regex::new(r#"\s\(unhealthy\)"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Statuses -  Exited
             Palette {
                 regexp: Regex::new(r#"Exited\s.\d+."#).unwrap(),
-                colours: vec![&Colours::BRed, &Colours::Red],
+                colors: vec![&Colors::BRed, &Colors::Red],
             },
             // Statuses -  Restarting
             Palette {
                 regexp: Regex::new(r#"Restarting\s.\d+."#).unwrap(),
-                colours: vec![&Colours::BBlue],
+                colors: vec![&Colors::BBlue],
             },
             Palette {
                 // CREATED seconds
                 regexp: Regex::new(r#"\s+(\d+\sseconds?\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED About a minute ago
                 regexp: Regex::new(r#"\s+(About a minute ago)\s"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED minutes
                 regexp: Regex::new(r#"\s+(\d+\sminutes\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED hours
                 regexp: Regex::new(r#"\s+(\d+\shours?\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED days
                 regexp: Regex::new(r#"\s+(\d+\sdays?\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED weeks
                 regexp: Regex::new(r#"\s+(\d+\sweeks?\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged],
             },
             Palette {
                 // CREATED months
                 regexp: Regex::new(r#"\s+(\d+\smonths?\s\w+)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::UnChanged],
+                colors: vec![&Colors::UnChanged, &Colors::UnChanged],
             },
             // Ip Addresses
             Palette {
                 regexp: Regex::new(r#"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\:)?"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::Blue, &Colours::Default],
+                colors: vec![&Colors::Default, &Colors::Blue, &Colors::Default],
             },
             // Ports
             Palette {
@@ -162,27 +162,27 @@ impl Cmd {
                     r#"(\d{1,5})?(-)?(\d{1,5})?(->)?(\d{1,5})(-)?(\d{1,5})?(\/)(tcp|udp)"#,
                 )
                 .unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::BGreen,
-                    &Colours::Default,
-                    &Colours::BGreen,
-                    &Colours::Default,
-                    &Colours::BGreen,
-                    &Colours::Default,
-                    &Colours::BGreen,
-                    &Colours::Default,
-                    &Colours::Cyan,
+                colors: vec![
+                    &Colors::Default,
+                    &Colors::BGreen,
+                    &Colors::Default,
+                    &Colors::BGreen,
+                    &Colors::Default,
+                    &Colors::BGreen,
+                    &Colors::Default,
+                    &Colors::BGreen,
+                    &Colors::Default,
+                    &Colors::Cyan,
                 ],
             },
             // NAMES
             Palette {
                 regexp: Regex::new(r#"(?:([a-z\-_0-9]+)\/)*([a-z\-_0-9]+)$"#).unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::Yellow,
-                    &Colours::OnBlue,
-                    &Colours::White,
+                colors: vec![
+                    &Colors::Default,
+                    &Colors::Yellow,
+                    &Colors::OnBlue,
+                    &Colors::White,
                 ],
             },
         ]

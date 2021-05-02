@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -42,37 +42,37 @@ impl Cmd {
             // Zero
             Palette {
                 regexp: Regex::new(r#"\s+0\w?(\s|$)"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // Swap
             Palette {
                 regexp: Regex::new(r#"^Swap"#).unwrap(),
-                colours: vec![&Colours::BMagenta],
+                colors: vec![&Colors::BMagenta],
             },
             // Mem
             Palette {
                 regexp: Regex::new(r#"^Mem"#).unwrap(),
-                colours: vec![&Colours::BCyan],
+                colors: vec![&Colors::BCyan],
             },
             // Size 'T'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dTi?|\b\d{10,12}\b"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dGi?|\b\d{7,9}\b"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Size 'M'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dMi?|\b\d{4,6}\b"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // Size 'K'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dKi?|\b\d{1,3}\b"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
         ]
     }

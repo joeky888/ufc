@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -50,49 +50,49 @@ impl Cmd {
             // Path
             Palette {
                 regexp: Regex::new(r#"\s+[\./]+([\w\s\-\_\.]+)(/.*)?$"#).unwrap(),
-                colours: vec![&Colours::Default, &Colours::BBlue, &Colours::Blue],
+                colors: vec![&Colors::Default, &Colors::BBlue, &Colors::Blue],
             },
             // Total
             Palette {
                 regexp: Regex::new(r#"(.*)\s+(total)$"#).unwrap(),
-                colours: vec![&Colours::BYellow],
+                colors: vec![&Colors::BYellow],
             },
             // Size 'T'
             Palette {
                 regexp: Regex::new(r#"^ ?\d*[.,]?\dTi?"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"^ ?\d*[.,]?\dGi?"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             Palette {
                 regexp: Regex::new(r#"^\d{7,9}"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Size 'M'
             Palette {
                 regexp: Regex::new(r#"^ ?\d*[.,]?\dMi?"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             Palette {
                 regexp: Regex::new(r#"^\d{4,6}"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // Size 'K'
             Palette {
                 regexp: Regex::new(r#"^ ?\d*[.,]?\dKi?"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             Palette {
                 regexp: Regex::new(r#"^\d{1,3}"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // Cannot read error
             Palette {
                 regexp: Regex::new(r#"^du.*"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
         ]
     }

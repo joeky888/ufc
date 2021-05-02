@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, ArgMatches};
 use fancy_regex::Regex;
 
@@ -19,42 +19,42 @@ impl Cmd {
             // Header
             Palette {
                 regexp: Regex::new(r#"\s+PID.+COMMAND.+$"#).unwrap(),
-                colours: vec![&Colours::BlackOnGreen],
+                colors: vec![&Colors::BlackOnGreen],
             },
             // Swap
             Palette {
                 regexp: Regex::new(r#"Swap"#).unwrap(),
-                colours: vec![&Colours::BMagenta],
+                colors: vec![&Colors::BMagenta],
             },
             // Mem
             Palette {
                 regexp: Regex::new(r#"Mem"#).unwrap(),
-                colours: vec![&Colours::BCyan],
+                colors: vec![&Colors::BCyan],
             },
             // Time
             Palette {
                 regexp: Regex::new(r#"\d+:\d+[:\.]\d+"#).unwrap(),
-                colours: vec![&Colours::BBlue],
+                colors: vec![&Colors::BBlue],
             },
             // Size 'T'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dt|\b\d{10,12}\b"#).unwrap(),
-                colours: vec![&Colours::BRed],
+                colors: vec![&Colors::BRed],
             },
             // Size 'G'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dg|\b\d{7,9}\b"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // Size 'M'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dm|\b\d{4,6}\b"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // Size 'K'
             Palette {
                 regexp: Regex::new(r#"\s\d*[.,]?\dk?"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
         ]
     }

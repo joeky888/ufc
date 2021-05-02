@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -79,92 +79,92 @@ impl Cmd {
             // Connect requires special attention
             Palette {
                 regexp: Regex::new(r#"connect"#).unwrap(),
-                colours: vec![&Colours::OnRed],
+                colors: vec![&Colors::OnRed],
             },
             // Status deferred
             Palette {
                 regexp: Regex::new(r#"status\=deferred|Connection refused"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // 5xx status
             Palette {
                 regexp: Regex::new(r#"\s\b5\d{2}\b\s"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // 4xx status
             Palette {
                 regexp: Regex::new(r#"\s\b4\d{2}\b\s"#).unwrap(),
-                colours: vec![&Colours::Red],
+                colors: vec![&Colors::Red],
             },
             // 3xx status
             Palette {
                 regexp: Regex::new(r#"\s\b3\d{2}\b\s"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
             // 2xx status
             Palette {
                 regexp: Regex::new(r#"\s\b2\d{2}\b\s"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // HTTP verbs
             Palette {
                 regexp: Regex::new(r#"GET|POST|PUT|DELETE|PATCH|HEAD"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // Email address
             Palette {
                 regexp: Regex::new(r#"[a-zA-z0-9\.\-\+]+\@[\w\-\.]+"#).unwrap(),
-                colours: vec![&Colours::Green],
+                colors: vec![&Colors::Green],
             },
             // Date and hostname
             Palette {
                 regexp: Regex::new(r#"^... (\d| )\d \d\d:\d\d:\d\d(\s[-.\w\d]+?\s)"#).unwrap(),
-                colours: vec![&Colours::Green, &Colours::Green, &Colours::Yellow],
+                colors: vec![&Colors::Green, &Colors::Green, &Colors::Yellow],
             },
             // IPv6
             Palette {
                 regexp: Regex::new(r#"\b[0-9a-fA-F]{1,4}(\:\:?[0-9a-fA-F]{1,4})+"#).unwrap(),
-                colours: vec![&Colours::BYellow],
+                colors: vec![&Colors::BYellow],
             },
             // IPv4 or IPv4:Port
             Palette {
                 regexp: Regex::new(r#"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d{1,5})?"#).unwrap(),
-                colours: vec![&Colours::BYellow],
+                colors: vec![&Colors::BYellow],
             },
             // Name of process and pid
             Palette {
                 regexp: Regex::new(r#"([\w/\.\-]+)(\[\d+?\])"#).unwrap(),
-                colours: vec![&Colours::BBlue, &Colours::BRed],
+                colors: vec![&Colors::BBlue, &Colors::BRed],
             },
             // Everything in <>
             Palette {
                 regexp: Regex::new(r#"\<.*?\>"#).unwrap(),
-                colours: vec![&Colours::Blue],
+                colors: vec![&Colors::Blue],
             },
             // This is probably a pathname
             Palette {
                 regexp: Regex::new(r#"\s/[a-zA-Z_/\.\-\?\d\=\&]+"#).unwrap(),
-                colours: vec![&Colours::Blue],
+                colors: vec![&Colors::Blue],
             },
             // Everything in "
             Palette {
                 regexp: Regex::new(r#"\".*?\""#).unwrap(),
-                colours: vec![&Colours::Blue],
+                colors: vec![&Colors::Blue],
             },
             // Everything in `'
             Palette {
                 regexp: Regex::new(r#"\`.+?\'"#).unwrap(),
-                colours: vec![&Colours::BYellow],
+                colors: vec![&Colors::BYellow],
             },
             // Everything in parentheses
             Palette {
                 regexp: Regex::new(r#"\(.*?\)"#).unwrap(),
-                colours: vec![&Colours::Blue],
+                colors: vec![&Colors::Blue],
             },
             // Display this line in yellow and stop further processing
             Palette {
                 regexp: Regex::new(r#".*last message repeated \d+ times$"#).unwrap(),
-                colours: vec![&Colours::Yellow],
+                colors: vec![&Colors::Yellow],
             },
         ]
     }

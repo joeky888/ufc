@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -34,11 +34,11 @@ impl Cmd {
             // Main
             Palette {
                 regexp: Regex::new(r#"^([^=]+)(=)(.*)$"#).unwrap(),
-                colours: vec![
-                    &Colours::Default,
-                    &Colours::Cyan,
-                    &Colours::White,
-                    &Colours::Yellow,
+                colors: vec![
+                    &Colors::Default,
+                    &Colors::Cyan,
+                    &Colors::White,
+                    &Colors::Yellow,
                 ],
             },
         ]

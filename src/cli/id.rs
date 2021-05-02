@@ -1,4 +1,4 @@
-use crate::cli::cli::{pre_exec, Colours, Palette};
+use crate::cli::cli::{pre_exec, Colors, Palette};
 use clap::{App, Arg, ArgMatches};
 use fancy_regex::Regex;
 
@@ -59,23 +59,23 @@ impl Cmd {
             // SELinux
             Palette {
                 regexp: Regex::new(r#"(\w+_u):(\w+_r):(\w+_t):([\w\-.:]+)"#).unwrap(),
-                colours: vec![
-                    &Colours::UnChanged,
-                    &Colours::Green,
-                    &Colours::Yellow,
-                    &Colours::Cyan,
-                    &Colours::Magenta,
+                colors: vec![
+                    &Colors::UnChanged,
+                    &Colors::Green,
+                    &Colors::Yellow,
+                    &Colors::Cyan,
+                    &Colors::Magenta,
                 ],
             },
             // User
             Palette {
                 regexp: Regex::new(r#"uid.(\d+)\((\w+)\)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Green, &Colours::BGreen],
+                colors: vec![&Colors::UnChanged, &Colors::Green, &Colors::BGreen],
             },
             // Groups
             Palette {
                 regexp: Regex::new(r#"(\d+)\((\w+)\)"#).unwrap(),
-                colours: vec![&Colours::UnChanged, &Colours::Yellow, &Colours::BYellow],
+                colors: vec![&Colors::UnChanged, &Colors::Yellow, &Colors::BYellow],
             },
         ]
     }

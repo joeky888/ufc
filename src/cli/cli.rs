@@ -96,18 +96,18 @@ fn parse_watch_duration(src: &str) -> Result<f64, ParseFloatError> {
 #[derive(Debug)]
 struct ColorString<'a> {
     text: String,
-    color: &'a Colours,
+    color: &'a Colors,
 }
 
 #[derive(Debug)]
 pub struct Palette<'a> {
     pub regexp: Regex,
-    pub colours: Vec<&'a Colours>,
+    pub colors: Vec<&'a Colors>,
 }
 
 #[allow(dead_code)]
 #[derive(Debug, PartialEq)]
-pub enum Colours {
+pub enum Colors {
     UnChanged,
     Default,
     Black,
@@ -306,7 +306,7 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
 
     let mut main_string = vec![ColorString {
         text: ln,
-        color: &Colours::Default,
+        color: &Colors::Default,
     }];
     let main_string = colored_output(&mut main_string);
 
@@ -315,111 +315,111 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
         write!(&mut buffer, "{}", str.text).unwrap();
 
         // Reset color
-        buffer.set_color(&get_color(&Colours::Default)).unwrap();
+        buffer.set_color(&get_color(&Colors::Default)).unwrap();
     }
 
     write!(&mut buffer, "\n").unwrap();
     bufwtr.print(&buffer).unwrap();
 }
 
-fn get_color(color: &Colours) -> ColorSpec {
+fn get_color(color: &Colors) -> ColorSpec {
     let mut col = ColorSpec::new();
     match color {
-        Colours::UnChanged => col // This one should be unreable
+        Colors::UnChanged => col // This one should be unreable
             .set_fg(Some(Color::Magenta))
             .set_intense(true)
             .set_underline(true),
-        Colours::Default => col.set_fg(None),
-        Colours::BDefault => col.set_bold(true).set_fg(None),
-        Colours::Black => col.set_fg(Some(Color::Black)),
-        Colours::Blue => col.set_fg(Some(Color::Blue)),
-        Colours::Green => col.set_fg(Some(Color::Green)),
-        Colours::Red => col.set_fg(Some(Color::Red)),
-        Colours::Cyan => col.set_fg(Some(Color::Cyan)),
-        Colours::Magenta => col.set_fg(Some(Color::Magenta)),
-        Colours::Yellow => col.set_fg(Some(Color::Yellow)),
-        Colours::White => col.set_fg(Some(Color::White)),
-        Colours::BBlack => col.set_bold(true).set_fg(Some(Color::Ansi256(8))),
-        Colours::BBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
-        Colours::BGreen => col.set_bold(true).set_fg(Some(Color::Green)),
-        Colours::BRed => col.set_bold(true).set_fg(Some(Color::Red)),
-        Colours::BCyan => col.set_bold(true).set_fg(Some(Color::Cyan)),
-        Colours::BMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
-        Colours::BYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
-        Colours::BWhite => col.set_bold(true).set_fg(Some(Color::White)),
-        Colours::UDefault => col.set_underline(true).set_fg(None),
-        Colours::UBlack => col.set_underline(true).set_fg(Some(Color::Black)),
-        Colours::UBlue => col.set_underline(true).set_fg(Some(Color::Blue)),
-        Colours::UGreen => col.set_underline(true).set_fg(Some(Color::Green)),
-        Colours::URed => col.set_underline(true).set_fg(Some(Color::Red)),
-        Colours::UCyan => col.set_underline(true).set_fg(Some(Color::Cyan)),
-        Colours::UMagenta => col.set_underline(true).set_fg(Some(Color::Magenta)),
-        Colours::UYellow => col.set_underline(true).set_fg(Some(Color::Yellow)),
-        Colours::UWhite => col.set_underline(true).set_fg(Some(Color::White)),
-        Colours::UBBlack => col
+        Colors::Default => col.set_fg(None),
+        Colors::BDefault => col.set_bold(true).set_fg(None),
+        Colors::Black => col.set_fg(Some(Color::Black)),
+        Colors::Blue => col.set_fg(Some(Color::Blue)),
+        Colors::Green => col.set_fg(Some(Color::Green)),
+        Colors::Red => col.set_fg(Some(Color::Red)),
+        Colors::Cyan => col.set_fg(Some(Color::Cyan)),
+        Colors::Magenta => col.set_fg(Some(Color::Magenta)),
+        Colors::Yellow => col.set_fg(Some(Color::Yellow)),
+        Colors::White => col.set_fg(Some(Color::White)),
+        Colors::BBlack => col.set_bold(true).set_fg(Some(Color::Ansi256(8))),
+        Colors::BBlue => col.set_bold(true).set_fg(Some(Color::Blue)),
+        Colors::BGreen => col.set_bold(true).set_fg(Some(Color::Green)),
+        Colors::BRed => col.set_bold(true).set_fg(Some(Color::Red)),
+        Colors::BCyan => col.set_bold(true).set_fg(Some(Color::Cyan)),
+        Colors::BMagenta => col.set_bold(true).set_fg(Some(Color::Magenta)),
+        Colors::BYellow => col.set_bold(true).set_fg(Some(Color::Yellow)),
+        Colors::BWhite => col.set_bold(true).set_fg(Some(Color::White)),
+        Colors::UDefault => col.set_underline(true).set_fg(None),
+        Colors::UBlack => col.set_underline(true).set_fg(Some(Color::Black)),
+        Colors::UBlue => col.set_underline(true).set_fg(Some(Color::Blue)),
+        Colors::UGreen => col.set_underline(true).set_fg(Some(Color::Green)),
+        Colors::URed => col.set_underline(true).set_fg(Some(Color::Red)),
+        Colors::UCyan => col.set_underline(true).set_fg(Some(Color::Cyan)),
+        Colors::UMagenta => col.set_underline(true).set_fg(Some(Color::Magenta)),
+        Colors::UYellow => col.set_underline(true).set_fg(Some(Color::Yellow)),
+        Colors::UWhite => col.set_underline(true).set_fg(Some(Color::White)),
+        Colors::UBBlack => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Black)),
-        Colours::UBBlue => col
+        Colors::UBBlue => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Blue)),
-        Colours::UBGreen => col
+        Colors::UBGreen => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Green)),
-        Colours::UBRed => col
+        Colors::UBRed => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Red)),
-        Colours::UBCyan => col
+        Colors::UBCyan => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Cyan)),
-        Colours::UBMagenta => col
+        Colors::UBMagenta => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Magenta)),
-        Colours::UBYellow => col
+        Colors::UBYellow => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::Yellow)),
-        Colours::UBWhite => col
+        Colors::UBWhite => col
             .set_underline(true)
             .set_bold(true)
             .set_fg(Some(Color::White)),
-        Colours::UBDefault => col.set_underline(true).set_bold(true).set_fg(None),
-        Colours::OnBlack => col.set_bg(Some(Color::Black)),
-        Colours::OnBlue => col.set_bg(Some(Color::Blue)),
-        Colours::OnGreen => col.set_bg(Some(Color::Green)),
-        Colours::OnRed => col.set_bg(Some(Color::Red)),
-        Colours::OnCyan => col.set_bg(Some(Color::Cyan)),
-        Colours::OnMagenta => col.set_bg(Some(Color::Magenta)),
-        Colours::OnYellow => col.set_bg(Some(Color::Yellow)),
-        Colours::OnWhite => col.set_bg(Some(Color::White)),
-        Colours::BlackOnBlack => col.set_bg(Some(Color::Black)).set_fg(Some(Color::Black)),
-        Colours::BlackOnBlue => col.set_bg(Some(Color::Blue)).set_fg(Some(Color::Black)),
-        Colours::BlackOnGreen => col.set_bg(Some(Color::Green)).set_fg(Some(Color::Black)),
-        Colours::BlackOnRed => col.set_bg(Some(Color::Red)).set_fg(Some(Color::Black)),
-        Colours::BlackOnCyan => col.set_bg(Some(Color::Cyan)).set_fg(Some(Color::Black)),
-        Colours::BlackOnMagenta => col.set_bg(Some(Color::Magenta)).set_fg(Some(Color::Black)),
-        Colours::BlackOnYellow => col.set_bg(Some(Color::Yellow)).set_fg(Some(Color::Black)),
-        Colours::BlackOnWhite => col.set_bg(Some(Color::White)).set_fg(Some(Color::Black)),
-        Colours::DDefault => col.set_dimmed(true).set_fg(None),
-        Colours::DBlack => col.set_dimmed(true).set_fg(Some(Color::Black)),
-        Colours::DBlue => col.set_dimmed(true).set_fg(Some(Color::Blue)),
-        Colours::DGreen => col.set_dimmed(true).set_fg(Some(Color::Green)),
-        Colours::DRed => col.set_dimmed(true).set_fg(Some(Color::Red)),
-        Colours::DCyan => col.set_dimmed(true).set_fg(Some(Color::Cyan)),
-        Colours::DMagenta => col.set_dimmed(true).set_fg(Some(Color::Magenta)),
-        Colours::DYellow => col.set_dimmed(true).set_fg(Some(Color::Yellow)),
-        Colours::DWhite => col.set_dimmed(true).set_fg(Some(Color::White)),
+        Colors::UBDefault => col.set_underline(true).set_bold(true).set_fg(None),
+        Colors::OnBlack => col.set_bg(Some(Color::Black)),
+        Colors::OnBlue => col.set_bg(Some(Color::Blue)),
+        Colors::OnGreen => col.set_bg(Some(Color::Green)),
+        Colors::OnRed => col.set_bg(Some(Color::Red)),
+        Colors::OnCyan => col.set_bg(Some(Color::Cyan)),
+        Colors::OnMagenta => col.set_bg(Some(Color::Magenta)),
+        Colors::OnYellow => col.set_bg(Some(Color::Yellow)),
+        Colors::OnWhite => col.set_bg(Some(Color::White)),
+        Colors::BlackOnBlack => col.set_bg(Some(Color::Black)).set_fg(Some(Color::Black)),
+        Colors::BlackOnBlue => col.set_bg(Some(Color::Blue)).set_fg(Some(Color::Black)),
+        Colors::BlackOnGreen => col.set_bg(Some(Color::Green)).set_fg(Some(Color::Black)),
+        Colors::BlackOnRed => col.set_bg(Some(Color::Red)).set_fg(Some(Color::Black)),
+        Colors::BlackOnCyan => col.set_bg(Some(Color::Cyan)).set_fg(Some(Color::Black)),
+        Colors::BlackOnMagenta => col.set_bg(Some(Color::Magenta)).set_fg(Some(Color::Black)),
+        Colors::BlackOnYellow => col.set_bg(Some(Color::Yellow)).set_fg(Some(Color::Black)),
+        Colors::BlackOnWhite => col.set_bg(Some(Color::White)).set_fg(Some(Color::Black)),
+        Colors::DDefault => col.set_dimmed(true).set_fg(None),
+        Colors::DBlack => col.set_dimmed(true).set_fg(Some(Color::Black)),
+        Colors::DBlue => col.set_dimmed(true).set_fg(Some(Color::Blue)),
+        Colors::DGreen => col.set_dimmed(true).set_fg(Some(Color::Green)),
+        Colors::DRed => col.set_dimmed(true).set_fg(Some(Color::Red)),
+        Colors::DCyan => col.set_dimmed(true).set_fg(Some(Color::Cyan)),
+        Colors::DMagenta => col.set_dimmed(true).set_fg(Some(Color::Magenta)),
+        Colors::DYellow => col.set_dimmed(true).set_fg(Some(Color::Yellow)),
+        Colors::DWhite => col.set_dimmed(true).set_fg(Some(Color::White)),
     };
     col
 }
 
 fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<ColorString<'a>> {
-    let mut prev_color = &Colours::Default;
+    let mut prev_color = &Colors::Default;
     for palette in SETTINGS.read().unwrap().palettes.iter() {
         let mut index = 0;
         // Instead of using a for loop, the size of main_string will grow so we have to use while loop
@@ -427,7 +427,7 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
         while index < main_string.len() {
             // println!("i={} main_string.len()={}", index, main_string.len());
 
-            if !main_string[index].color.eq(&Colours::Default) {
+            if !main_string[index].color.eq(&Colors::Default) {
                 index += 1;
                 continue; // Ignore those already been colored
             }
@@ -446,7 +446,7 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
                     let end = captures.get(0).unwrap().start();
                     colored_strings.push(ColorString {
                         text: String::from_str(&str[start..end]).unwrap(),
-                        color: &Colours::Default,
+                        color: &Colors::Default,
                     });
 
                     // captures[0] -> Full match
@@ -456,8 +456,8 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
                     let mut is_full_match = false;
                     for (i, capture) in captures.iter().enumerate() {
                         if i == 0 {
-                            let mut color = palette.colours[0];
-                            if color == &Colours::UnChanged {
+                            let mut color = palette.colors[0];
+                            if color == &Colors::UnChanged {
                                 color = prev_color;
                             }
                             colored_strings.push(ColorString {
@@ -483,8 +483,8 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
                         let start = capture.unwrap().start();
                         let end = capture.unwrap().end();
 
-                        let mut color = palette.colours[0];
-                        if color == &Colours::UnChanged {
+                        let mut color = palette.colors[0];
+                        if color == &Colors::UnChanged {
                             color = prev_color;
                         }
 
@@ -494,9 +494,9 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
                         });
                         prev_color = color;
 
-                        if i < palette.colours.len() {
-                            color = palette.colours[i];
-                            if color == &Colours::UnChanged {
+                        if i < palette.colors.len() {
+                            color = palette.colors[i];
+                            if color == &Colors::UnChanged {
                                 color = prev_color;
                             }
                         }
@@ -516,7 +516,7 @@ fn colored_output<'a>(main_string: &'a mut Vec<ColorString<'a>>) -> &'a Vec<Colo
 
                     colored_strings.push(ColorString {
                         text: String::from_str(&str[last_start..]).unwrap(),
-                        color: &Colours::Default,
+                        color: &Colors::Default,
                     });
 
                     // println!("colored_strings={:?}", colored_strings);
