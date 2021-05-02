@@ -59,6 +59,10 @@ fn build_app() -> App<'static> {
                 .long("time")
                 .short('t')
                 .about("Optional time mode, timing statistics when the subprogram exits"),
+            Arg::new("boost")
+                .long("boost")
+                .short('b')
+                .about("Optional boost mode, make stdout/stderr faster using BufferedStandardStream"),
             Arg::new("nocolor")
                 .long("nocolor")
                 .short('n')

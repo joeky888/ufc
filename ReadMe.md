@@ -6,6 +6,7 @@
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
 * Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
+* Boost mode via `ufc --boost <subcommand>` - Make stdout/stderr faster using `termcolor::BufferedStandardStream`
 * Written in safe rust and `#![forbid(unsafe_code)]` is used (Some dependencies are using `unsafe block` though)
 
 #### 🤔 *In a nutshell, ufc = [grc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)) + shell completion + cross platform.*
@@ -17,20 +18,15 @@
 
 ### ⚡️ Benchmark
 
-* Up to 7.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`, thanks to [buffered printer](https://github.com/BurntSushi/termcolor))
+* Up to 12x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`, thanks to [buffered printer](https://github.com/BurntSushi/termcolor))
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex with [Alacritty](https://github.com/alacritty/alacritty) terminal
 
-| journalctl --no-pager -u NetworkManager           | Time  | Ratio | Colorful |
-| ------------------------------------------------- | ----- | ----- | -------- |
-| `journalctl --no-pager -u NetworkManager`         | 0.87s | 1.0   | No       |
-| `ufc journalctl --no-pager -u NetworkManager`     | 1.94s | 2.23  | Yes      |
-| `grc -es journalctl --no-pager -u NetworkManager` | 9.10s | 10.46 | Yes      |
-
-| journalctl --no-pager           | Time    | Ratio | Colorful |
-| ------------------------------- | ------- | ----- | -------- |
-| `journalctl --no-pager`         | 45.36s  | 1.0   | No       |
-| `ufc journalctl --no-pager`     | 107.76s | 2.375 | Yes      |
-| `grc -es journalctl --no-pager` | 817.57s | 18.02 | Yes      |
+| journalctl --no-pager               | Time    | Ratio | Colorful         |
+| ----------------------------------- | ------- | ----- | ---------------- |
+| `journalctl --no-pager`             | 1m:02s  | 1.0   | No               |
+| `ufc journalctl --no-pager`         | 1m:15s  | 1.21  | Yes              |
+| `ufc --boost journalctl --no-pager` | 1m:07s  | 1.08  | Yes (with boost) |
+| `grc -es journalctl --no-pager`     | 12m:52s | 12.45 | Yes              |
 
 ### 📖 Examples
 
