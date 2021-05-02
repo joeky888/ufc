@@ -62,7 +62,7 @@ fn build_app() -> App<'static> {
             Arg::new("boost")
                 .long("boost")
                 .short('b')
-                .about("Optional boost mode, make stdout/stderr faster using BufferedStandardStream"),
+                .about("Optional boost mode, make mass stdout/stderr print faster using BufferedStandardStream"),
             Arg::new("nocolor")
                 .long("nocolor")
                 .short('n')
