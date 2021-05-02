@@ -106,7 +106,8 @@ Currently supported commands are
 ### TODO
 
 * Github badges
-* Add Crontab mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
+* Add more [ValueHints](https://docs.rs/clap/3.0.0-beta.2/clap/enum.ValueHint.html) for better shell completion generating
+* Add Crontab mode and Daemon mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 * Colorize from stdout E.g. `cat /path/to/file.log | ufc`
 * A benchmark script
 * Use async rust and show statistics of cpu and memory usage
