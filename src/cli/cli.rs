@@ -261,8 +261,6 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
             .unwrap(),
     ));
 
-    // stdout.set_color(ColorSpec::new().set_fg(Some(Color::Green))).unwrap();
-    // writeln!(&mut stdout, "green text!");
     let stdout = BufReader::new(subcommand_proc.write().unwrap().stdout.take().unwrap());
     let stderr = BufReader::new(subcommand_proc.write().unwrap().stderr.take().unwrap());
     let stdout_bufwtr = BufferWriter::stdout(ColorChoice::Always);
@@ -281,7 +279,6 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
                 return;
             }
             if is_boost {
-                // println!("boost!");
                 color_std_boost(&mut stdout_bufwtr_boost, ln);
             } else {
                 color_std(&stdout_bufwtr, ln);
