@@ -6,7 +6,7 @@
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
 * Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
 * Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
-* Boost mode via `ufc --boost <subcommand>` - Make stdout/stderr print faster using `termcolor::BufferedStandardStream`
+* Boost mode via `ufc --boost <subcommand>` - Make mass stdout/stderr print faster using `termcolor::BufferedStandardStream`
 * Written in safe rust and `#![forbid(unsafe_code)]` is used (Some dependencies are using `unsafe block` though)
 
 #### 🤔 *In a nutshell, ufc = [grc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)) + shell completion + cross platform.*
@@ -77,6 +77,8 @@ eval (ufc completion fish)
 ```sh
 ufc completion powershell | Out-String | Invoke-Expression
 ```
+
+![powershell](https://i.imgur.com/38L2ne3.png)
 
 ### 🏆 Milestones
 
