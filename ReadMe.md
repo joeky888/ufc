@@ -1,6 +1,6 @@
-### Features
+### 💡 Features
 
-* Single binary with zero setup
+* Single binary with almost zero setup
 * Command output highlighting via `ufc <subcommand> <args>`
 * Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
 * Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
@@ -8,14 +8,14 @@
 * Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
 * Written in safe rust and `#![forbid(unsafe_code)]` is used (Some dependencies are using `unsafe block` though)
 
-#### *In a nutshell, ufc = [ugc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)).*
+#### 🤔 *In a nutshell, ufc = [ugc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)) + shell completion + cross platform.*
 
-### Platform support
+### 💻 Platform support
 
 * Support Linux (macOS, FreeBSD and Android Termux should also work)
 * Support Cygwin/Msys2 and git-bash for Windows (CMD and Powershell are supported if the subcommand exists)
 
-### Benchmark
+### ⚡️ Benchmark
 
 * Up to 7.5x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`, thanks to [buffered printer](https://github.com/BurntSushi/termcolor))
   * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex with [Alacritty](https://github.com/alacritty/alacritty) terminal
@@ -32,7 +32,7 @@
 | `ufc journalctl --no-pager`     | 107.76s | 2.375 | Yes      |
 | `grc -es journalctl --no-pager` | 817.57s | 18.02 | Yes      |
 
-### Examples
+### 📖 Examples
 
 `ufc df -h`
 
@@ -54,7 +54,7 @@ bash completion: `source <(ufc completion bash)`
 
 ![ping completion](https://i.imgur.com/mlV1zuR.png)
 
-### Shell completion
+### 🍒 Shell completion (Optional)
 
 #### Bash: add this line to `~/.bashrc`
 
@@ -80,7 +80,7 @@ eval (ufc completion fish)
 ufc completion powershell | Out-String | Invoke-Expression
 ```
 
-### Milestones
+### 🏆 Milestones
 
 This porject is still at an early stage of development.
 
@@ -103,7 +103,7 @@ Currently supported commands are
 * ping
 * top
 
-### TODO
+### 📔 TODO
 
 * Github badges
 * Add more [ValueHints](https://docs.rs/clap/3.0.0-beta.2/clap/enum.ValueHint.html) for better shell completion generating
@@ -112,7 +112,7 @@ Currently supported commands are
 * A benchmark script
 * Use async rust and show statistics of cpu and memory usage
 
-### Credits
+### ❤️ Credits
 
 This project is powered and inspired by
 
