@@ -57,7 +57,7 @@ pub struct Opts {
         short = 'w',
         long = "watch",
         parse(try_from_str = parse_watch_duration),
-        default_value = "0.0",
+        default_value = "0",
     )]
     pub watch: f64,
 

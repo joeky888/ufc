@@ -53,8 +53,8 @@ fn build_app() -> App<'static> {
             Arg::new("watch")
                 .long("watch")
                 .short('w')
-                .default_value("0.0")
-                .about(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable."#),
+                .default_value("0")
+                .about(r#"Optional watch mode, Duration of waiting for executing subcommand periodically. Values can be "1.5h", "2m", "5s", "5" or "1.5h2m5s", set to "0" to disable it."#),
             Arg::new("time")
                 .long("time")
                 .short('t')

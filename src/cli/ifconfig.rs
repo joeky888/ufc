@@ -9,6 +9,7 @@ impl Cmd {
         App::new("ifconfig")
             .args(&[
                 Arg::new("interface")
+                    .min_values(0)
                     .about("The name of the interface."),
                 Arg::new("all")
                     .short('a')
