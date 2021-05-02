@@ -50,10 +50,6 @@
 
 ![top](https://i.imgur.com/MKjZyQR.png)
 
-bash completion: `source <(ufc completion bash)`
-
-![ping completion](https://i.imgur.com/mlV1zuR.png)
-
 ### 🍒 Shell completion (Optional)
 
 #### Bash: add this line to `~/.bashrc`
@@ -62,17 +58,23 @@ bash completion: `source <(ufc completion bash)`
 source <(ufc completion bash)
 ```
 
+![bash](https://i.imgur.com/Uxzslae.png)
+
 #### Zsh: add this line to `~/.zshrc`
 
 ```sh
 source <(ufc completion zsh)
 ```
 
+![zsh](https://i.imgur.com/BknF2At.png)
+
 #### Fish: add this line to `config.fish`
 
 ```sh
 eval (ufc completion fish)
 ```
+
+![fish](https://i.imgur.com/1jUj0uH.png)
 
 #### PowerShell: add this line to `profile.ps1`
 
