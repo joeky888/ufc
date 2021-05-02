@@ -328,8 +328,6 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
     for str in main_string.iter() {
         buffer.set_color(&get_color(str.color)).unwrap();
         write!(&mut buffer, "{}", str.text).unwrap();
-
-        buffer.set_color(&get_color(&Colors::Default)).unwrap();
     }
 
     write!(&mut buffer, "\n").unwrap();
