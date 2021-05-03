@@ -48,7 +48,7 @@
 
 ![top](https://i.imgur.com/MKjZyQR.png)
 
-### 🍒 Shell completion (Optional)
+### 🐚 Shell completion (Optional)
 
 #### Bash: add this line to `~/.bashrc`
 
@@ -127,6 +127,6 @@ This project is powered and inspired by
 * [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)
 * [ugc](https://github.com/joeky888/ugc) - My previous work in Golang
 
-### Licence
+### 📜 Licence
 
 Public domain
