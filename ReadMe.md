@@ -112,6 +112,8 @@ Currently supported commands are
 * Add Crontab mode and Daemon mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
 * Colorize from stdout E.g. `cat /path/to/file.log | ufc`
 * A benchmark script
+* A built-in colored [pager](https://en.wikipedia.org/wiki/Terminal_pager)
+* Unit test for the `fn colored_output()`
 * Use async rust and show statistics of cpu and memory usage
 
 ### ❤️ Credits
