@@ -18,8 +18,8 @@
 
 ### ⚡️ Benchmark
 
-* Up to 12x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`, thanks to [buffered printer](https://github.com/BurntSushi/termcolor))
-  * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex with [Alacritty](https://github.com/alacritty/alacritty) terminal
+* Up to 12x faster than [grc](https://github.com/garabik/grc) (compiled with `cargo build --release`)
+  * Bechmarks on Linux with CPU Intel i5-8250U (4C8T) 3.400GHz, same regex on [Alacritty](https://github.com/alacritty/alacritty) terminal
 
 #### Benchmark colorizer
 
@@ -119,6 +119,7 @@ Currently supported commands are
 This project is powered and inspired by
 
 * [grc](https://github.com/garabik/grc) - All syntax files are modified from grc (Regex definitions in Rust and Python are incompatible)
+* [termcolor](https://github.com/BurntSushi/termcolor) - Library for cross-platform terminal color
 * [manpage](https://en.wikipedia.org/wiki/Man_page) - All completions and docs are copied from manpage
 * [cobra](https://github.com/spf13/cobra)/[clap](https://github.com/clap-rs/clap) - Completion generating
 * [fancy-regex](https://github.com/fancy-regex/fancy-regex) - Library for regular expressions
