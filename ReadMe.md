@@ -1,13 +1,12 @@
 ### 💡 Features
 
 * Single binary with almost zero setup
-* Command output highlighting via `ufc <subcommand> <args>`
-* Shell completion generating via `ufc completion` (Bash, Zsh, Fish, Powershell, Elvish)
-* Command alias generating via `ufc alias` or `ufc ualias` (Bash, Zsh, Fish)
-* Built-in time mode via `ufc --time <subcommand>` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
-* Built-in watch mode via `ufc --watch 3s <subcommand>` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s` or `1h2m5s`
-* Boost mode via `ufc --boost <subcommand>` - Make mass stdout/stderr print faster
-* Written in safe rust and `#![forbid(unsafe_code)]` is used
+* Command output highlighting
+* Shell completion generating (Bash, Zsh, Fish, Powershell, Elvish)
+* Built-in time mode via `--time` (like the [time command](https://en.wikipedia.org/wiki/Time_(Unix))) - Timing statistics when the subprogram exits
+* Built-in watch mode via `--watch 3s` (like the [watch command](https://en.wikipedia.org/wiki/Watch_(command))) - Duration of waiting for executing subcommand periodically. Values can be `1.5h`, `2m`, `5s`, `5` or `1.5h2m5s`
+* Boost mode via `--boost` - Make mass stdout/stderr print faster
+* Written in safe rust
 
 #### 🤔 *In a nutshell, ufc = [grc](https://github.com/garabik/grc) + [time](https://en.wikipedia.org/wiki/Time_(Unix)) + [watch](https://en.wikipedia.org/wiki/Watch_(command)) + shell completion + cross platform.*
 
