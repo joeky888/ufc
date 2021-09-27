@@ -275,7 +275,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
         stdout.lines().for_each(|line| {
             let ln = line.unwrap();
             if is_nocolor {
-                print!("{}\n", ln);
+                println!("{}", ln);
                 return;
             }
             if is_boost {
@@ -291,7 +291,7 @@ fn exec(arg_start: usize, subcommand_proc: &mut Arc<RwLock<Child>>) -> i32 {
         stderr.lines().for_each(|line| {
             let ln = line.unwrap();
             if is_nocolor {
-                eprint!("{}\n", ln);
+                eprintln!("{}", ln);
                 return;
             }
             if is_boost {
@@ -330,7 +330,7 @@ fn color_std(bufwtr: &BufferWriter, ln: String) {
         write!(&mut buffer, "{}", str.text).unwrap();
     }
 
-    write!(&mut buffer, "\n").unwrap();
+    writeln!(&mut buffer,).unwrap();
     bufwtr.print(&buffer).unwrap();
 }
 
@@ -345,7 +345,7 @@ fn color_std_boost(bufwtr: &mut BufferedStandardStream, ln: String) {
         bufwtr.set_color(&get_color(str.color)).unwrap();
         write!(bufwtr, "{}", str.text).unwrap();
     }
-    write!(bufwtr, "\n").unwrap();
+    writeln!(bufwtr,).unwrap();
 }
 
 fn get_color(color: &Colors) -> ColorSpec {
