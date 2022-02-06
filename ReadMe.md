@@ -107,6 +107,7 @@ Currently supported commands are
 ### 📔 TODO
 
 * A built-in [timeout](https://linux.die.net/man/1/timeout) command functionality
+* A built-in [gamemode](https://github.com/FeralInteractive/gamemode)
 * Github badges
 * Add more [ValueHints](https://docs.rs/clap/3.0.0-beta.2/clap/enum.ValueHint.html) for better shell completion generating
 * Add Crontab mode and Daemon mode (like the [crontab command](https://en.wikipedia.org/wiki/Cron)) - Runs the subprogram as a scheduling daemon
