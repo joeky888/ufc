@@ -116,7 +116,7 @@ Currently supported commands are
 * A benchmark script
 * A built-in colored [pager](https://en.wikipedia.org/wiki/Terminal_pager)
 * Unit test for the `fn colored_output()`
-* Use async rust and show statistics of cpu and memory usage
+* Use async rust and show statistics of cpu and memory usage (Or a metrics exporter)
 
 ### ❤️ Credits
 
